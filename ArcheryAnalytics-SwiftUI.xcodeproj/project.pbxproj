@@ -8,17 +8,21 @@
 
 /* Begin PBXBuildFile section */
 		FAEC07D72B142AF200841E80 /* ArcheryAnalytics_SwiftUIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEC07D62B142AF200841E80 /* ArcheryAnalytics_SwiftUIApp.swift */; };
-		FAEC07D92B142AF200841E80 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEC07D82B142AF200841E80 /* ContentView.swift */; };
+		FAEC07D92B142AF200841E80 /* RoundsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEC07D82B142AF200841E80 /* RoundsView.swift */; };
 		FAEC07DB2B142AF800841E80 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FAEC07DA2B142AF800841E80 /* Assets.xcassets */; };
 		FAEC07DE2B142AF800841E80 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FAEC07DD2B142AF800841E80 /* Preview Assets.xcassets */; };
+		FAEC07E62B142B0B00841E80 /* StoreModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEC07E52B142B0B00841E80 /* StoreModel.swift */; };
+		FAEC07E92B14398C00841E80 /* RoundEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEC07E82B14398B00841E80 /* RoundEditorView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		FAEC07D32B142AF200841E80 /* ArcheryAnalytics-SwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ArcheryAnalytics-SwiftUI.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAEC07D62B142AF200841E80 /* ArcheryAnalytics_SwiftUIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArcheryAnalytics_SwiftUIApp.swift; sourceTree = "<group>"; };
-		FAEC07D82B142AF200841E80 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		FAEC07D82B142AF200841E80 /* RoundsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundsView.swift; sourceTree = "<group>"; };
 		FAEC07DA2B142AF800841E80 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FAEC07DD2B142AF800841E80 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		FAEC07E52B142B0B00841E80 /* StoreModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreModel.swift; sourceTree = "<group>"; };
+		FAEC07E82B14398B00841E80 /* RoundEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundEditorView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,7 +56,8 @@
 			isa = PBXGroup;
 			children = (
 				FAEC07D62B142AF200841E80 /* ArcheryAnalytics_SwiftUIApp.swift */,
-				FAEC07D82B142AF200841E80 /* ContentView.swift */,
+				FAEC07E42B142B0200841E80 /* Models */,
+				FAEC07E72B142EEC00841E80 /* Views */,
 				FAEC07DA2B142AF800841E80 /* Assets.xcassets */,
 				FAEC07DC2B142AF800841E80 /* Preview Content */,
 			);
@@ -65,6 +70,23 @@
 				FAEC07DD2B142AF800841E80 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		FAEC07E42B142B0200841E80 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				FAEC07E52B142B0B00841E80 /* StoreModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		FAEC07E72B142EEC00841E80 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				FAEC07D82B142AF200841E80 /* RoundsView.swift */,
+				FAEC07E82B14398B00841E80 /* RoundEditorView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -137,8 +159,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FAEC07D92B142AF200841E80 /* ContentView.swift in Sources */,
+				FAEC07D92B142AF200841E80 /* RoundsView.swift in Sources */,
+				FAEC07E92B14398C00841E80 /* RoundEditorView.swift in Sources */,
 				FAEC07D72B142AF200841E80 /* ArcheryAnalytics_SwiftUIApp.swift in Sources */,
+				FAEC07E62B142B0B00841E80 /* StoreModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -9,9 +9,14 @@ import SwiftUI
 
 @main
 struct ArcheryAnalytics_SwiftUIApp: App {
+    
+    @StateObject private var storeModel = StoreModel.mock
+        
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            RoundsView()
+                .environmentObject(storeModel)
         }
     }
+    
 }
