@@ -35,7 +35,7 @@ struct Round: Identifiable, Codable {
     }
     
     static var mockFullRound: Round {
-        Round(id: 0, date: Date(), arrowValues: [9,9,9, 9,9,9, 9,9,9, 8,8,8, 8,8,8,
+        Round(id: 0, date: Date(), arrowValues: [9,9,1, 9,8,8, 7,7,7, 6,5,4, 3,2,0,
                                                  9,9,9, 9,9,9, 9,9,9, 8,8,8, 8,8,8], numberOfEnds: 10, numberOfArrowsPerEnd: 3, tags: [])
     }
 
@@ -43,7 +43,7 @@ struct Round: Identifiable, Codable {
         Round(id: 1, date: Date(), arrowValues: [9,9,9, 9,9,9, 9,9,9, 8,8,8, 8,8,8], numberOfEnds: 5, numberOfArrowsPerEnd: 3, tags: [])
     }
     
-    func end(_ ID: Int) -> [Int] {
+    func end(_ ID: Int) -> End {
         var end: [Int] = []
         let startID = numberOfArrowsPerEnd * ID
         let endID = startID + numberOfArrowsPerEnd
@@ -51,10 +51,20 @@ struct Round: Identifiable, Codable {
         for i in startID..<endID {
             end.append(arrowValues[i])
         }
-        print("\(ID), \(end)")
-        return end
+        return End(id: ID, arrowValues: end)
     }
 
+}
+
+struct End: Identifiable {
+    
+    let id: Int
+    let arrowValues: [Int]
+    
+    var totalScore: Int {
+        return arrowValues.reduce(0, +)
+    }
+    
 }
 
 struct Bow: Identifiable, Codable {

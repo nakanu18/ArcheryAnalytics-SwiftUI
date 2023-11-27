@@ -25,7 +25,7 @@ struct RoundEditorView: View {
 
             Section("Ends") {
                 ForEach(0..<round.numberOfEnds) { index in
-                    EndCell(endID: index, endValues: round.end(index))
+                    EndCell(end: round.end(index))
                 }
             }
         }
@@ -39,22 +39,24 @@ struct RoundEditorView: View {
 }
 
 struct EndCell: View {
-    let endID: Int
-    let endValues: [Int]
+    let end: End
         
     var body: some View {
         HStack {
-            Text("\(endID + 1):")
+            Text("\(end.id + 1)")
+                .frame(width: 30, height: 30)
+                .background(.black)
+                .foregroundColor(.yellow)
+                .cornerRadius(6)
                 .padding(.trailing)
             
-            
-            ForEach(endValues.map(NumberWrapper.init)) { numberWrapper in
-                Text("\(numberWrapper.number)")
+            ForEach(end.arrowValues.map(NumberWrapper.init)) { numberWrapper in
+                ArrowValueView(value: numberWrapper.number)
                     .id(numberWrapper.id)
             }
             
             Spacer()
-            Text("7")
+            Text("\(end.totalScore)")
         }
     }
 }
@@ -62,4 +64,25 @@ struct EndCell: View {
 struct NumberWrapper: Identifiable {
     let id = UUID()
     let number: Int
+}
+
+struct ArrowValueView: View {
+    let value: Int
+    
+    let bgColor: [Color] = [.white, .white, .white, .black, .black, .blue,  .blue,  .red,   .red,  .yellow, .yellow, .yellow]
+    let color: [Color] =   [.black, .black, .black, .white, .white, .white, .white, .white, .white, .black, .black,  .red]
+
+    var body: some View {
+        ZStack {
+            Text("\(value)")
+                .frame(width: 35, height: 35)
+                .background(bgColor[value])
+                .foregroundColor(color[value])
+                .cornerRadius(20)
+                .padding(.all, 3)
+            Circle()
+                .stroke(Color.gray, lineWidth: 2)
+                .frame(width: 35, height: 35)
+        }
+    }
 }
