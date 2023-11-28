@@ -79,10 +79,10 @@ struct ArrowValueView: View {
                 .background(bgColor[value])
                 .foregroundColor(color[value])
                 .cornerRadius(20)
-                .padding(.all, 3)
+                .padding(.horizontal, 3)
             Circle()
                 .stroke(Color.gray, lineWidth: 2)
-                .frame(width: 35, height: 35)
+                .frame(width: 40, height: 40)
         }
     }
 }
