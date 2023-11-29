@@ -17,10 +17,10 @@ struct RoundFaceEditorView: View {
     }
     
     func tap(location: CGPoint) {
-        var pt = CGPointMake(location.x - frameSize / 2, location.y - frameSize / 2)
-        let ring = 10 - Int(sqrt(pt.x*pt.x + pt.y*pt.y) / scale * 2)
+        let pt = CGPointMake(location.x - frameSize / 2, location.y - frameSize / 2)
+        let ring =  max(0, 10 - Int(sqrt(pt.x*pt.x + pt.y*pt.y) / scale * 2))
 
-        print("\(location) -> \(pt), \(ring)")
+        print("\(location.formattedString) -> \(pt.formattedString), \(ring)")
     }
     
     var body: some View {
@@ -71,5 +71,11 @@ struct TargetView: View {
         }
         .background(.gray)
         .padding()
+    }
+}
+
+extension CGPoint {
+    var formattedString: String {
+        String(format: "(%.2f, %.2f)", self.x, self.y)
     }
 }
