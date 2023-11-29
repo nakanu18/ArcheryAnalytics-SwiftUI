@@ -7,63 +7,69 @@
 
 import SwiftUI
 
-struct ContentView: View {
-//    @State private var circleValues: [Int?] = Array(repeating: nil, count: 10)
+struct RoundFaceEditorView: View {
+    var scale: Double
+    var targetWidth = 10.0
+//    var padding: Double
+    
+    var frameSize: Double {
+        scale * targetWidth
+    }
+    
+    func tap(location: CGPoint) {
+        var pt = CGPointMake(location.x - frameSize / 2, location.y - frameSize / 2)
+        let ring = 10 - Int(sqrt(pt.x*pt.x + pt.y*pt.y) / scale * 2)
 
+        print("\(location) -> \(pt), \(ring)")
+    }
+    
+    var body: some View {
+        HStack {
+            ZStack {
+                TargetView(scale: scale, targetWidth: targetWidth)
+                    Color.gray
+                    .frame(width: frameSize, height: frameSize)
+                    .opacity(0.0)
+                    .contentShape(Rectangle())
+                    .onTapGesture(coordinateSpace: .local) { location in
+                        tap(location: location)
+                    }
+            }
+        }
+    }
+}
+
+#Preview {
+    RoundFaceEditorView(scale: 35.0)
+}
+
+struct TargetView: View {
     let bgColor: [Color] = [.white, .white, .black, .black, .blue,  .blue,  .red,   .red,  .yellow, .yellow, .yellow]
     let lineColor = Color(red: 0.3, green: 0.3, blue: 0.3)
+
     let numberOfRings = 10
-    let totalWidth = 10.0
-    let scale = 35.0
+    let scale: Double
+    let targetWidth: Double
     
     func ringWidth(id: Int) -> CGFloat {
-        let ringToRingDist = totalWidth / Double(numberOfRings)
-        let width = totalWidth - ringToRingDist * Double(id)
+        let ringToRingDist = targetWidth / Double(numberOfRings)
+        let width = targetWidth - ringToRingDist * Double(id)
         return CGFloat(scale * width)
     }
-    
-    func normalize(point: CGPoint) -> String {
-//        let width = scale * totalWidth
-        
-        // Incorrect
-        return String(format: "(%.2f, %.2f)", point.x, point.y)
-    }
-    
+
     var body: some View {
         ZStack {
             ForEach(0..<numberOfRings, id: \.self) { index in
                 Circle()
                     .stroke(lineColor, lineWidth: 1)
-                    .background(
-                        Circle()
-                            .fill(bgColor[index])
-                    )
-                    // 400x400, [0,0] at top left
+                    .background(Circle().fill(bgColor[index]))
                     .frame(width: ringWidth(id: index))
-                    .onTapGesture(coordinateSpace: .scrollView) { location in
-                        circleTapped(index, with: location)
+                    .onAppear {
+                        print("\(index + 1): \(ringWidth(id: index))")
                     }
             }
         }
         .background(.gray)
         .padding()
-        .onTapGesture(coordinateSpace: .scrollView) { location in
-            circleTapped(-1, with: location)
-        }
-    }
-
-    func circleTapped(_ index: Int, with location: CGPoint) {
-//        circleValues[index] = index + 1
-        print("\(index + 1): at \(normalize(point: location))")
-    }
-}
-
-#Preview {
-    ContentView()
-}
-
-extension CGPoint {
-    var formattedString: String {
-        return String(format: "(%.2f, %.2f)", self.x, self.y)
     }
 }
