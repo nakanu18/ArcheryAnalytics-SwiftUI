@@ -1,5 +1,5 @@
 //
-//  RoundFaceEditorView.swift
+//  TargetDetectorView.swift
 //  ArcheryAnalytics-SwiftUI
 //
 //  Created by Alex de Vera on 11/27/23.
@@ -7,7 +7,9 @@
 
 import SwiftUI
 
-struct RoundFaceEditorView: View {
+struct TargetDetectorView: View {
+    @Binding var lastArrowHole: ArrowHole
+    
     var scale: Double
     var targetWidth = 10.0
 //    var padding: Double
@@ -17,10 +19,18 @@ struct RoundFaceEditorView: View {
     }
     
     func tap(location: CGPoint) {
+        // Tap relative to the center of the target
         let pt = CGPointMake(location.x - frameSize / 2, location.y - frameSize / 2)
-        let ring =  max(0, 10 - Int(sqrt(pt.x*pt.x + pt.y*pt.y) / scale * 2))
+        
+        // Calculate the distance from center for the ring hit
+        let ring = max(0, 10 - Int(sqrt(pt.x*pt.x + pt.y*pt.y) / scale * 2))
+        
+        // Calculate the scaled down pt. if targetWidth = 10, -5 to 5 in both x and y
+        let downscaledPt = CGPointMake(pt.x / scale, pt.y / scale)
 
-        print("\(location.formattedString) -> \(pt.formattedString), \(ring)")
+        print("TAP: \(location.formattedString) -> \(pt.formattedString) -> \(downscaledPt.formattedString), RING: \(ring)")
+        // BUG: this is not setting correctly in preview
+        self.lastArrowHole = ArrowHole(id: 0, point: downscaledPt, value: ring)
     }
     
     var body: some View {
@@ -40,7 +50,9 @@ struct RoundFaceEditorView: View {
 }
 
 #Preview {
-    RoundFaceEditorView(scale: 35.0)
+    @State var lastArrowHole = ArrowHole(id: 0, point: CGPointZero, value: 0)
+    
+    return TargetDetectorView(lastArrowHole: $lastArrowHole, scale: 35.0)
 }
 
 struct TargetView: View {
@@ -65,7 +77,7 @@ struct TargetView: View {
                     .background(Circle().fill(bgColor[index]))
                     .frame(width: ringWidth(id: index))
                     .onAppear {
-                        print("\(index + 1): \(ringWidth(id: index))")
+//                        print("\(index + 1): \(ringWidth(id: index))")
                     }
             }
         }

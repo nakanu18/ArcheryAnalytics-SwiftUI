@@ -75,6 +75,18 @@ struct Bow: Identifiable, Codable {
     
 }
 
+struct ArrowHole: Identifiable, Codable {
+    
+    let id: Int
+    let point: CGPoint?
+    let value: Int
+    
+    var toString: String {
+        "\(point?.formattedString ?? "Unknown"), \(value)"
+    }
+    
+}
+
 struct Tag: Identifiable, Codable {
     
     let id: Int

@@ -10,6 +10,10 @@ import SwiftUI
 struct RoundsView: View {
     
     @EnvironmentObject private var storeModel: StoreModel
+    @State var test = 0
+    @State var lastArrowHole = ArrowHole(id: 0, point: CGPointZero, value: 0)
+
+    var showTargetDetector = true
     
     var body: some View {
         NavigationView {
@@ -20,11 +24,21 @@ struct RoundsView: View {
 
                 Section("Rounds") {
                     ForEach(storeModel.rounds) { round in
-                        NavigationLink(destination: RoundEditorView(roundID: round.id)) {
-                            HStack {
-                                Text("ID: \(round.id)")
-                                Spacer()
-                                Text("\(round.totalScore)")
+                        if showTargetDetector {
+                            NavigationLink(destination: TargetDetectorView(lastArrowHole: $lastArrowHole, scale: 100.0)) {
+                                HStack {
+                                    Text("ID: \(round.id)")
+                                    Spacer()
+                                    Text("\(round.totalScore)")
+                                }
+                            }
+                        } else {
+                            NavigationLink(destination: RoundEditorView(roundID: round.id)) {
+                                HStack {
+                                    Text("ID: \(round.id)")
+                                    Spacer()
+                                    Text("\(round.totalScore)")
+                                }
                             }
                         }
                     }
