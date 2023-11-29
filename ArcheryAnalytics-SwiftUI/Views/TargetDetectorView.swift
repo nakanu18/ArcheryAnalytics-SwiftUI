@@ -23,12 +23,13 @@ struct TargetDetectorView: View {
         let pt = CGPointMake(location.x - frameSize / 2, location.y - frameSize / 2)
         
         // Calculate the distance from center for the ring hit
-        let ring = max(0, 10 - Int(sqrt(pt.x*pt.x + pt.y*pt.y) / scale * 2))
+        let distToCenter = sqrt(pt.x*pt.x + pt.y*pt.y) / scale
+        let ring = max(0, 10 - Int(distToCenter * 2))
         
         // Calculate the scaled down pt. if targetWidth = 10, -5 to 5 in both x and y
         let downscaledPt = CGPointMake(pt.x / scale, pt.y / scale)
 
-        print("TAP: \(location.formattedString) -> \(pt.formattedString) -> \(downscaledPt.formattedString), RING: \(ring)")
+        print("TAP: \(location.toString) -> \(pt.toString) -> \(downscaledPt.toString), DIST: \(String(format: "%.2f", distToCenter)), RING: \(ring)")
         // BUG: this is not setting correctly in preview
         self.lastArrowHole = ArrowHole(id: 0, point: downscaledPt, value: ring)
     }
@@ -44,13 +45,22 @@ struct TargetDetectorView: View {
                     .onTapGesture(coordinateSpace: .local) { location in
                         tap(location: location)
                     }
+                if let holePoint = lastArrowHole.point {
+                    Circle()
+                        .stroke(.black, lineWidth: 1)
+                        .background(Circle().fill(.green))
+                        .position(holePoint
+                            .scaleBy(scale)
+                            .shiftBy(CGPointMake(5, 5)))
+                        .frame(width: 10, height: 10)
+                }
             }
         }
     }
 }
 
 #Preview {
-    @State var lastArrowHole = ArrowHole(id: 0, point: CGPointZero, value: 0)
+    @State var lastArrowHole = ArrowHole(id: 0, point: nil, value: 0)
     
     return TargetDetectorView(lastArrowHole: $lastArrowHole, scale: 35.0)
 }
@@ -87,7 +97,15 @@ struct TargetView: View {
 }
 
 extension CGPoint {
-    var formattedString: String {
-        String(format: "(%.2f, %.2f)", self.x, self.y)
+    var toString: String {
+        String(format: "%.2f, %.2f", self.x, self.y)
+    }
+    
+    func scaleBy(_ scale: Double) -> CGPoint {
+        return CGPointMake(self.x * scale, self.y * scale)
+    }
+    
+    func shiftBy(_ pt: CGPoint) -> CGPoint {
+        return CGPoint(x: self.x + pt.x, y: self.y + pt.y)
     }
 }

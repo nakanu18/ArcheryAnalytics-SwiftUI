@@ -82,7 +82,7 @@ struct ArrowHole: Identifiable, Codable {
     let value: Int
     
     var toString: String {
-        "\(point?.formattedString ?? "Unknown"), \(value)"
+        "\(point?.toString ?? "Unknown"), \(value)"
     }
     
 }
