@@ -16,17 +16,14 @@ struct ContentView: View {
     let totalWidth = 10.0
     let scale = 35.0
     
-    var ringWidth: Double {
-        totalWidth / Double(numberOfRings)
-    }
-    
     func ringWidth(id: Int) -> CGFloat {
-        let width = totalWidth - ringWidth * Double(id)
+        let ringToRingDist = totalWidth / Double(numberOfRings)
+        let width = totalWidth - ringToRingDist * Double(id)
         return CGFloat(scale * width)
     }
     
     func normalize(point: CGPoint) -> String {
-        let width = scale * totalWidth
+//        let width = scale * totalWidth
         
         // Incorrect
         return String(format: "(%.2f, %.2f)", point.x, point.y)
