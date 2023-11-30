@@ -10,9 +10,8 @@ import SwiftUI
 struct RoundsView: View {
     
     @EnvironmentObject private var storeModel: StoreModel
-    @State var test = 0
-    @State var lastArrowHole = ArrowHole(id: 0, point: nil, value: 0)
-
+    @State var arrowHoles: [ArrowHole] = []
+    
     var showTargetDetector = true
     
     var body: some View {
@@ -25,7 +24,7 @@ struct RoundsView: View {
                 Section("Rounds") {
                     ForEach(storeModel.rounds) { round in
                         if showTargetDetector {
-                            NavigationLink(destination: TargetDetectorView(lastArrowHole: $lastArrowHole, scale: 20.0)) {
+                            NavigationLink(destination: TargetDetectorView(arrowHoles: $arrowHoles, scale: 20.0)) {
                                 HStack {
                                     Text("ID: \(round.id)")
                                     Spacer()

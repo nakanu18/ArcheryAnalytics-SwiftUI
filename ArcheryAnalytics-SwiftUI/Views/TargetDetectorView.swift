@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct TargetDetectorView: View {
-    @Binding var lastArrowHole: ArrowHole
+    @Binding var arrowHoles: [ArrowHole]
     
     var scale: Double
     var targetWidth = 20.0
@@ -39,7 +39,7 @@ struct TargetDetectorView: View {
 
         print("TAP: \(location.toString) -> \(downscaledPt.toString), DIST: \(String(format: "%.2f", downscaledDist)), RING: \(ring)")
         // BUG: this is not setting correctly in preview
-        self.lastArrowHole = ArrowHole(id: 0, point: downscaledPt, value: ring)
+        arrowHoles.append(ArrowHole(id: $arrowHoles.count, point: downscaledPt, value: ring))
     }
     
     var body: some View {
@@ -53,14 +53,16 @@ struct TargetDetectorView: View {
                     .onTapGesture(coordinateSpace: .local) { location in
                         tap(location: location)
                     }
-                if let holePoint = lastArrowHole.point {
-                    Circle()
-                        .stroke(.black, lineWidth: 1)
-                        .background(Circle().fill(.green))
-                        .position(holePoint
-                            .scaleBy(scale)
-                            .shiftBy(CGPointMake(arrowHoleDiameter / 2, arrowHoleDiameter / 2)))
-                        .frame(width: arrowHoleDiameter, height: arrowHoleDiameter)
+                ForEach(arrowHoles) { hole in
+                    if let holePoint = hole.point {
+                        Circle()
+                            .stroke(.black, lineWidth: 1)
+                            .background(Circle().fill(.gray))
+                            .position(holePoint
+                                .scaleBy(scale)
+                                .shiftBy(CGPointMake(arrowHoleDiameter / 2, arrowHoleDiameter / 2)))
+                            .frame(width: arrowHoleDiameter, height: arrowHoleDiameter)
+                    }
                 }
             }
         }
@@ -68,9 +70,9 @@ struct TargetDetectorView: View {
 }
 
 #Preview {
-    @State var lastArrowHole = ArrowHole(id: 0, point: nil, value: 0)
+    @State var arrowHoles: [ArrowHole] = []
     
-    return TargetDetectorView(lastArrowHole: $lastArrowHole, scale: 20.0)
+    return TargetDetectorView(arrowHoles: $arrowHoles, scale: 20.0)
 }
 
 struct TargetView: View {
