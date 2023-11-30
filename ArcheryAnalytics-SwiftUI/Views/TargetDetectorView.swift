@@ -11,8 +11,13 @@ struct TargetDetectorView: View {
     @Binding var lastArrowHole: ArrowHole
     
     var scale: Double
-    var targetWidth = 10.0
+    var targetWidth = 20.0
 //    var padding: Double
+    
+    var arrowHoleRadius = 0.25
+    var arrowHoleDiameter: Double {
+        scale * arrowHoleRadius * 2
+    }
     
     var frameSize: Double {
         scale * targetWidth
@@ -23,13 +28,16 @@ struct TargetDetectorView: View {
         let pt = CGPointMake(location.x - frameSize / 2, location.y - frameSize / 2)
         
         // Calculate the distance from center for the ring hit
-        let distToCenter = sqrt(pt.x*pt.x + pt.y*pt.y) / scale
-        let ring = max(0, 10 - Int(distToCenter * 2))
+        let dist = sqrt(pt.x*pt.x + pt.y*pt.y)
         
         // Calculate the scaled down pt. if targetWidth = 10, -5 to 5 in both x and y
         let downscaledPt = CGPointMake(pt.x / scale, pt.y / scale)
+        let downscaledDist = dist / scale
 
-        print("TAP: \(location.toString) -> \(pt.toString) -> \(downscaledPt.toString), DIST: \(String(format: "%.2f", distToCenter)), RING: \(ring)")
+        // Calculate which ring was hit
+        let ring = max(0, 10 - Int(downscaledDist - arrowHoleRadius))
+
+        print("TAP: \(location.toString) -> \(downscaledPt.toString), DIST: \(String(format: "%.2f", downscaledDist)), RING: \(ring)")
         // BUG: this is not setting correctly in preview
         self.lastArrowHole = ArrowHole(id: 0, point: downscaledPt, value: ring)
     }
@@ -51,8 +59,8 @@ struct TargetDetectorView: View {
                         .background(Circle().fill(.green))
                         .position(holePoint
                             .scaleBy(scale)
-                            .shiftBy(CGPointMake(5, 5)))
-                        .frame(width: 10, height: 10)
+                            .shiftBy(CGPointMake(arrowHoleDiameter / 2, arrowHoleDiameter / 2)))
+                        .frame(width: arrowHoleDiameter, height: arrowHoleDiameter)
                 }
             }
         }
@@ -62,7 +70,7 @@ struct TargetDetectorView: View {
 #Preview {
     @State var lastArrowHole = ArrowHole(id: 0, point: nil, value: 0)
     
-    return TargetDetectorView(lastArrowHole: $lastArrowHole, scale: 35.0)
+    return TargetDetectorView(lastArrowHole: $lastArrowHole, scale: 20.0)
 }
 
 struct TargetView: View {

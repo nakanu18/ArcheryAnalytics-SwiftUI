@@ -25,7 +25,7 @@ struct RoundsView: View {
                 Section("Rounds") {
                     ForEach(storeModel.rounds) { round in
                         if showTargetDetector {
-                            NavigationLink(destination: TargetDetectorView(lastArrowHole: $lastArrowHole, scale: 35.0)) {
+                            NavigationLink(destination: TargetDetectorView(lastArrowHole: $lastArrowHole, scale: 20.0)) {
                                 HStack {
                                     Text("ID: \(round.id)")
                                     Spacer()
