@@ -10,6 +10,8 @@ import SwiftUI
 struct RoundEditorView: View {
     
     @EnvironmentObject private var storeModel: StoreModel
+    @State var arrowHoles: [ArrowHole] = []
+
     var roundID: Int
     
     var round: Round {
@@ -18,16 +20,20 @@ struct RoundEditorView: View {
     }
     
     var body: some View {
-        List {
-            Section("Info") {
-                Text("Round Stuff")
-            }
+        VStack {
+            List {
+                Section("Info") {
+                    Text("Round Stuff")
+                }
 
-            Section("Ends") {
-                ForEach(0..<round.numberOfEnds) { index in
-                    EndCell(end: round.end(index))
+                Section("Ends") {
+                    ForEach(0..<round.numberOfEnds) { index in
+                        EndCell(end: round.end(index))
+                    }
                 }
             }
+            
+            TargetDetectorView(arrowHoles: $arrowHoles, scale: 18.0)
         }
     }
     

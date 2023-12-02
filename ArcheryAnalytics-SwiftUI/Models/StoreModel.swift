@@ -19,6 +19,14 @@ class StoreModel: ObservableObject {
         StoreModel(rounds: [Round.mockFullRound, Round.mockHalfRound])
     }
     
+    func createNewRound() -> Int {
+        let newRound = Round(id: rounds.count, date: Date(), arrowValues: [], numberOfEnds: 10, numberOfArrowsPerEnd: 3, tags: [])
+    
+        print("StoreModel: creating new round \(newRound.id)")
+        self.rounds.append(newRound)
+        return newRound.id
+    }
+    
 }
 
 struct Round: Identifiable, Codable {

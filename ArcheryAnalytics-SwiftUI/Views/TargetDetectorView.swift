@@ -53,17 +53,7 @@ struct TargetDetectorView: View {
                     .onTapGesture(coordinateSpace: .local) { location in
                         tap(location: location)
                     }
-                ForEach(arrowHoles) { hole in
-                    if let holePoint = hole.point {
-                        Circle()
-                            .stroke(.black, lineWidth: 1)
-                            .background(Circle().fill(.gray))
-                            .position(holePoint
-                                .scaleBy(scale)
-                                .shiftBy(CGPointMake(arrowHoleDiameter / 2, arrowHoleDiameter / 2)))
-                            .frame(width: arrowHoleDiameter, height: arrowHoleDiameter)
-                    }
-                }
+                ArrowPlotView(arrowHoles: $arrowHoles, scale: scale, arrowHoleRadius: arrowHoleRadius)
             }
         }
     }
@@ -102,20 +92,29 @@ struct TargetView: View {
             }
         }
         .background(.gray)
-        .padding()
     }
 }
 
-extension CGPoint {
-    var toString: String {
-        String(format: "%.2f, %.2f", self.x, self.y)
+struct ArrowPlotView: View {
+    @Binding var arrowHoles: [ArrowHole]
+
+    var scale: Double
+    var arrowHoleRadius: Double
+    var arrowHoleDiameter: Double {
+        scale * arrowHoleRadius * 2
     }
-    
-    func scaleBy(_ scale: Double) -> CGPoint {
-        return CGPointMake(self.x * scale, self.y * scale)
-    }
-    
-    func shiftBy(_ pt: CGPoint) -> CGPoint {
-        return CGPoint(x: self.x + pt.x, y: self.y + pt.y)
+
+    var body: some View {
+        ForEach(arrowHoles) { hole in
+            if let holePoint = hole.point {
+                Circle()
+                    .stroke(.black, lineWidth: 1)
+                    .background(Circle().fill(.gray))
+                    .position(holePoint
+                        .scaleBy(scale)
+                        .shiftBy(CGPointMake(arrowHoleDiameter / 2, arrowHoleDiameter / 2)))
+                    .frame(width: arrowHoleDiameter, height: arrowHoleDiameter)
+            }
+        }
     }
 }
