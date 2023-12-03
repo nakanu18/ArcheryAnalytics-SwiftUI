@@ -13,7 +13,6 @@ class StoreModel: ObservableObject {
     @Published var selectedRoundID: Int = -1
     
     var selectedRound: Round {
-        print("Selected Round ID: \(selectedRoundID)")
         return rounds.first(where: { $0.id == selectedRoundID })!
     }
     
@@ -64,7 +63,12 @@ struct Round: Identifiable, Codable {
     }
     
     var totalScore: Int {
-        arrowValues.reduce(0, +)
+        arrowValues.reduce(0) { partialResult, val in
+            if val >= 0 {
+                return partialResult + val
+            }
+            return partialResult
+        }
     }
     
     static var mockFullRound: Round {
@@ -96,7 +100,12 @@ struct End: Identifiable {
     let arrowValues: [Int]
     
     var totalScore: Int {
-        return arrowValues.reduce(0, +)
+        arrowValues.reduce(0) { partialResult, val in
+            if val >= 0 {
+                return partialResult + val
+            }
+            return partialResult
+        }
     }
     
 }
