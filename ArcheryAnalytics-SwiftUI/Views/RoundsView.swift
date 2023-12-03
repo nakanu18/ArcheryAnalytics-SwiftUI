@@ -10,9 +10,11 @@ import SwiftUI
 struct RoundsView: View {
     
     @EnvironmentObject private var storeModel: StoreModel
+    @State private var showNewRoundSheet = false
+    @State private var showNewRound = false
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             List {
                 Section("Info") {
                     Text("Total Rounds: \(storeModel.rounds.count)")
@@ -20,11 +22,14 @@ struct RoundsView: View {
 
                 Section("Rounds") {
                     ForEach(storeModel.rounds) { round in
-                        NavigationLink(destination: RoundEditorView(roundID: round.id)) {
+                        NavigationLink(destination: RoundEditorView()) {
                             HStack {
                                 Text("ID: \(round.id)")
                                 Spacer()
                                 Text("\(round.totalScore)")
+                            }
+                            .onTapGesture {
+                                storeModel.selectedRoundID = round.id
                             }
                         }
                     }
@@ -33,11 +38,21 @@ struct RoundsView: View {
             .navigationTitle("Rounds")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink(destination: RoundEditorView(roundID: 0)) {
-                        Text("New Round")
+                    Button("New Round") {
+                        showNewRoundSheet = true
                     }
                 }
             }
+            .sheet(isPresented: $showNewRoundSheet, content: {
+                Button("WA 18m Round") {
+                    storeModel.createNewRound()
+                    showNewRoundSheet = false
+                    showNewRound = true
+                }
+            })
+            .navigationDestination(isPresented: $showNewRound, destination: {
+                RoundEditorView()
+            })
         }
     }
     

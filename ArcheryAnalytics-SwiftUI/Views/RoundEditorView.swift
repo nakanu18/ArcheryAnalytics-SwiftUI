@@ -12,13 +12,6 @@ struct RoundEditorView: View {
     @EnvironmentObject private var storeModel: StoreModel
     @State var arrowHoles: [ArrowHole] = []
 
-    var roundID: Int
-    
-    var round: Round {
-        // TODO should use findIndex
-        storeModel.rounds[roundID]
-    }
-    
     var body: some View {
         VStack {
             List {
@@ -27,8 +20,8 @@ struct RoundEditorView: View {
                 }
 
                 Section("Ends") {
-                    ForEach(0..<round.numberOfEnds) { index in
-                        EndCell(end: round.end(index))
+                    ForEach(0..<storeModel.selectedRound.numberOfEnds) { index in
+                        EndCell(end: storeModel.selectedRound.end(index))
                     }
                 }
             }
@@ -40,7 +33,7 @@ struct RoundEditorView: View {
 }
 
 #Preview {
-    RoundEditorView(roundID: 0)
+    RoundEditorView()
         .environmentObject(StoreModel.mock)
 }
 
@@ -57,8 +50,10 @@ struct EndCell: View {
                 .padding(.trailing)
             
             ForEach(end.arrowValues.map(NumberWrapper.init)) { numberWrapper in
-                ArrowValueView(value: numberWrapper.number)
-                    .id(numberWrapper.id)
+                if (numberWrapper.number >= 0) {
+                    ArrowValueView(value: numberWrapper.number)
+                        .id(numberWrapper.id)
+                }
             }
             
             Spacer()

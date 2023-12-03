@@ -10,21 +10,28 @@ import Foundation
 class StoreModel: ObservableObject {
     
     @Published var rounds: [Round] = []
+    @Published var selectedRoundID: Int = -1
     
-    init(rounds: [Round]) {
+    var selectedRound: Round {
+        print("Selected Round ID: \(selectedRoundID)")
+        return rounds.first(where: { $0.id == selectedRoundID })!
+    }
+    
+    // TODO: unsure why I don't get a default memberwise initializer
+    init(rounds: [Round], selectedRoundID: Int) {
         self.rounds = rounds
+        self.selectedRoundID = selectedRoundID
     }
     
     static var mock: StoreModel {
-        StoreModel(rounds: [Round.mockFullRound, Round.mockHalfRound])
+        StoreModel(rounds: [Round.mockFullRound], selectedRoundID: 0)
     }
     
-    func createNewRound() -> Int {
-        let newRound = Round(id: rounds.count, date: Date(), arrowValues: [], numberOfEnds: 10, numberOfArrowsPerEnd: 3, tags: [])
+    func createNewRound() {
+        let newRound = Round(id: rounds.count, date: Date(), numberOfEnds: 10, numberOfArrowsPerEnd: 3, tags: [])
     
-        print("StoreModel: creating new round \(newRound.id)")
-        self.rounds.append(newRound)
-        return newRound.id
+        self.rounds.insert(newRound, at: 0)
+        self.selectedRoundID = newRound.id
     }
     
 }
@@ -33,22 +40,41 @@ struct Round: Identifiable, Codable {
     
     let id: Int
     let date: Date
-    let arrowValues: [Int]
     let numberOfEnds: Int
     let numberOfArrowsPerEnd: Int
+    let arrowValues: [Int]
     let tags: [Tag]
+
+    init(id: Int, date: Date, numberOfEnds: Int, numberOfArrowsPerEnd: Int, arrowValues: [Int], tags: [Tag]) {
+        self.id = id
+        self.date = date
+        self.numberOfEnds = numberOfEnds
+        self.numberOfArrowsPerEnd = numberOfArrowsPerEnd
+        self.arrowValues = arrowValues
+        self.tags = tags
+    }
+
+    init(id: Int, date: Date, numberOfEnds: Int, numberOfArrowsPerEnd: Int, tags: [Tag]) {
+        self.id = id
+        self.date = date
+        self.numberOfEnds = numberOfEnds
+        self.numberOfArrowsPerEnd = numberOfArrowsPerEnd
+        self.arrowValues = Array(repeating: -1, count: numberOfEnds * numberOfArrowsPerEnd)
+        self.tags = tags
+    }
     
     var totalScore: Int {
         arrowValues.reduce(0, +)
     }
     
     static var mockFullRound: Round {
-        Round(id: 0, date: Date(), arrowValues: [9,9,1, 9,8,8, 7,7,7, 6,5,4, 3,2,0,
-                                                 9,9,9, 9,9,9, 9,9,9, 8,8,8, 8,8,8], numberOfEnds: 10, numberOfArrowsPerEnd: 3, tags: [])
-    }
-
-    static var mockHalfRound: Round {
-        Round(id: 1, date: Date(), arrowValues: [9,9,9, 9,9,9, 9,9,9, 8,8,8, 8,8,8], numberOfEnds: 5, numberOfArrowsPerEnd: 3, tags: [])
+        Round(id: 0, 
+              date: Date(),
+              numberOfEnds: 10,
+              numberOfArrowsPerEnd: 3,
+              arrowValues: [9,9,1, 9,8,8, 7,7,7, 6,5,4, 3,2,0,
+                            9,9,9, 9,9,9, 9,9,9, 8,8,8, 8,8,8],
+              tags: [])
     }
     
     func end(_ ID: Int) -> End {
