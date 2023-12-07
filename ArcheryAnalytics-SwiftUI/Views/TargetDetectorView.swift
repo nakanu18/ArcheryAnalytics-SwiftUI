@@ -39,7 +39,7 @@ struct TargetDetectorView: View {
 
         print("TAP: \(location.toString) -> \(downscaledPt.toString), DIST: \(String(format: "%.2f", downscaledDist)), RING: \(ring)")
         // BUG: this is not setting correctly in preview
-        arrowHoles.append(ArrowHole(id: $arrowHoles.count, point: downscaledPt, value: ring))
+        arrowHoles.append(ArrowHole(point: downscaledPt, value: ring))
     }
     
     var body: some View {

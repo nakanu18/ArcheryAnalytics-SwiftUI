@@ -11,7 +11,7 @@ struct RoundsView: View {
     
     @EnvironmentObject private var storeModel: StoreModel
     @State private var showNewRoundSheet = false
-    @State private var showNewRound = false
+    @State private var showRound = false
     
     var body: some View {
         NavigationStack {
@@ -19,18 +19,19 @@ struct RoundsView: View {
                 Section("Info") {
                     Text("Total Rounds: \(storeModel.rounds.count)")
                 }
-
+                
                 Section("Rounds") {
                     ForEach(storeModel.rounds) { round in
-                        NavigationLink(destination: RoundEditorView()) {
-                            HStack {
-                                Text("ID: \(round.id)")
-                                Spacer()
-                                Text("\(round.totalScore)")
-                            }
-                            .onTapGesture {
-                                storeModel.selectedRoundID = round.id
-                            }
+                        HStack {
+                            Text("ID: \(round.id)")
+                            Spacer()
+                            Text("\(round.totalScore)")
+                            Image(systemName: "chevron.right")
+                                .foregroundColor(.blue)
+                        }
+                        .onTapGesture {
+                            showRound = true
+                            storeModel.selectedRoundID = round.id
                         }
                     }
                 }
@@ -47,10 +48,10 @@ struct RoundsView: View {
                 Button("WA 18m Round") {
                     storeModel.createNewRound()
                     showNewRoundSheet = false
-                    showNewRound = true
+                    showRound = true
                 }
             })
-            .navigationDestination(isPresented: $showNewRound, destination: {
+            .navigationDestination(isPresented: $showRound, destination: {
                 RoundEditorView()
             })
         }

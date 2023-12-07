@@ -20,8 +20,8 @@ struct RoundEditorView: View {
                 }
 
                 Section("Ends") {
-                    ForEach(0..<storeModel.selectedRound.numberOfEnds) { index in
-                        EndCell(end: storeModel.selectedRound.end(index))
+                    ForEach(0..<storeModel.selectedRound.ends.count) { index in
+                        EndCell(i: index, end: storeModel.selectedRound.ends[index])
                     }
                 }
             }
@@ -38,11 +38,12 @@ struct RoundEditorView: View {
 }
 
 struct EndCell: View {
+    let i: Int
     let end: End
         
     var body: some View {
         HStack {
-            Text("\(end.id + 1)")
+            Text("\(i + 1)")
                 .frame(width: 30, height: 30)
                 .background(.black)
                 .foregroundColor(.yellow)
