@@ -11,7 +11,12 @@ struct RoundEditorView: View {
     
     @EnvironmentObject private var storeModel: StoreModel
     @State var arrowHoles: [ArrowHole] = []
-
+    @State var selectedEndID = -1
+    
+    var selectedRound: Round {
+        storeModel.selectedRound
+    }
+    
     var body: some View {
         VStack {
             List {
@@ -20,13 +25,21 @@ struct RoundEditorView: View {
                 }
 
                 Section("Ends") {
-                    ForEach(0..<storeModel.selectedRound.ends.count) { index in
-                        EndCell(i: index, end: storeModel.selectedRound.ends[index])
+                    ForEach(0..<selectedRound.ends.count) { index in
+                        EndCell(i: index, end: selectedRound.ends[index], isSelected: selectedEndID == index)
+                            .onTapGesture {
+                                selectedEndID = index
+                            }
                     }
                 }
             }
             
             TargetDetectorView(arrowHoles: $arrowHoles, scale: 18.0)
+        }
+        .onAppear {
+            if (!selectedRound.isFinished) {
+                selectedEndID = selectedRound.unfinishedEndID
+            }
         }
     }
     
@@ -40,15 +53,16 @@ struct RoundEditorView: View {
 struct EndCell: View {
     let i: Int
     let end: End
+    var isSelected: Bool
         
     var body: some View {
         HStack {
             Text("\(i + 1)")
                 .frame(width: 30, height: 30)
                 .background(.black)
-                .foregroundColor(.yellow)
+                .foregroundColor(.white)
                 .cornerRadius(6)
-                .padding(.trailing)
+                .padding(.trailing, 8)
             
             ForEach(end.arrowValues.map(NumberWrapper.init)) { numberWrapper in
                 if (numberWrapper.number >= 0) {
@@ -60,6 +74,9 @@ struct EndCell: View {
             Spacer()
             Text("\(end.totalScore)")
         }
+        .padding(4)
+        .background(isSelected ? Color(red: 0.0, green: 1.0, blue: 0.0) : .white)
+        .cornerRadius(6)
     }
 }
 
@@ -77,14 +94,14 @@ struct ArrowValueView: View {
     var body: some View {
         ZStack {
             Text("\(value)")
-                .frame(width: 35, height: 35)
+                .frame(width: 24, height: 24)
                 .background(bgColor[value])
                 .foregroundColor(color[value])
                 .cornerRadius(20)
                 .padding(.horizontal, 3)
             Circle()
                 .stroke(Color.gray, lineWidth: 2)
-                .frame(width: 40, height: 40)
+                .frame(width: 28, height: 28)
         }
     }
 }

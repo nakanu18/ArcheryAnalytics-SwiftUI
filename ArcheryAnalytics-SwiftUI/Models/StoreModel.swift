@@ -56,6 +56,14 @@ struct Round: Identifiable, Codable {
         }
     }
     
+    var isFinished: Bool {
+        ends.firstIndex { !$0.isFinished } == nil
+    }
+    
+    var unfinishedEndID: Int {
+        ends.firstIndex { !$0.isFinished } ?? -1
+    }
+    
     static var mockFullRound: Round {
         var round = Round(date: Date(),
                           numberOfEnds: 10,
@@ -65,12 +73,12 @@ struct Round: Identifiable, Codable {
         round.ends[1].arrowValues = [10, 10, 9]
         round.ends[2].arrowValues = [10, 9, 9]
         round.ends[3].arrowValues = [9, 9, 9]
-        round.ends[4].arrowValues = [8, 8, 8]
-        round.ends[5].arrowValues = [8, 8, 8]
-        round.ends[6].arrowValues = [8, 8, 8]
-        round.ends[7].arrowValues = [8, 8, 8]
-        round.ends[8].arrowValues = [8, 8, 8]
-        round.ends[9].arrowValues = [8, 8, 8]
+        round.ends[4].arrowValues = [8, 8, 6]
+        round.ends[5].arrowValues = [8, 8, 5]
+        round.ends[6].arrowValues = [8, 8, 4]
+        round.ends[7].arrowValues = [8, 8, 3]
+        round.ends[8].arrowValues = [8, 8, 2]
+        round.ends[9].arrowValues = [8, 8, 1]
 
         return round
     }
@@ -93,6 +101,10 @@ struct End: Identifiable, Codable {
             }
             return partialResult
         }
+    }
+    
+    var isFinished: Bool {
+        arrowValues.firstIndex { $0 == -1 } == nil
     }
     
 }
