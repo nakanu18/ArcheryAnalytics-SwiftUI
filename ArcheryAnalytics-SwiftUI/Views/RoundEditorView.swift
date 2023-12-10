@@ -34,7 +34,7 @@ struct RoundEditorView: View {
                 }
             }
             
-            TargetDetectorView(arrowHoles: $arrowHoles, scale: 18.0)
+            TargetDetectorView(arrowHoles: $arrowHoles, scale: 9.0)
         }
         .onAppear {
             if (!selectedRound.isFinished) {

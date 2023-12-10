@@ -11,13 +11,10 @@ struct TargetDetectorView: View {
     @Binding var arrowHoles: [ArrowHole]
     
     var scale: Double
-    var targetWidth = 20.0
+    var targetWidth = 40.0
 //    var padding: Double
     
-    var arrowHoleRadius = 0.25
-    var arrowHoleDiameter: Double {
-        scale * arrowHoleRadius * 2
-    }
+    var arrowHoleRadius = 0.5
     
     var frameSize: Double {
         scale * targetWidth
@@ -33,9 +30,9 @@ struct TargetDetectorView: View {
         // Calculate the scaled down pt. if targetWidth = 10, -5 to 5 in both x and y
         let downscaledPt = CGPointMake(pt.x / scale, pt.y / scale)
         let downscaledDist = dist / scale
-
+        
         // Calculate which ring was hit
-        let ring = max(0, 10 - Int(downscaledDist - arrowHoleRadius))
+        let ring = max(0, 10 - Int((downscaledDist - arrowHoleRadius) / 2))
 
         print("TAP: \(location.toString) -> \(downscaledPt.toString), DIST: \(String(format: "%.2f", downscaledDist)), RING: \(ring)")
         // BUG: this is not setting correctly in preview
@@ -46,9 +43,9 @@ struct TargetDetectorView: View {
         HStack {
             ZStack {
                 TargetView(scale: scale, targetWidth: targetWidth)
-                    Color.gray
+//                Color.clear
                     .frame(width: frameSize, height: frameSize)
-                    .opacity(0.0)
+//                    .opacity(0.0)
                     .contentShape(Rectangle())
                     .onTapGesture(coordinateSpace: .local) { location in
                         tap(location: location)
@@ -62,7 +59,7 @@ struct TargetDetectorView: View {
 #Preview {
     @State var arrowHoles: [ArrowHole] = []
     
-    return TargetDetectorView(arrowHoles: $arrowHoles, scale: 20.0)
+    return TargetDetectorView(arrowHoles: $arrowHoles, scale: 9.0)
 }
 
 struct TargetView: View {

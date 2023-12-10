@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 
 extension CGPoint {
+    
     var toString: String {
         String(format: "%.2f, %.2f", self.x, self.y)
     }
@@ -20,4 +21,5 @@ extension CGPoint {
     func shiftBy(_ pt: CGPoint) -> CGPoint {
         return CGPoint(x: self.x + pt.x, y: self.y + pt.y)
     }
+    
 }
