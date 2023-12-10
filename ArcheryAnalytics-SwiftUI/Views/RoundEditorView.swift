@@ -35,6 +35,16 @@ struct RoundEditorView: View {
             }
             
             TargetDetectorView(arrowHoles: $arrowHoles, scale: 9.0)
+            HStack {
+                Button("Delete Last Arrow") {
+                    
+                }
+                    .padding(.horizontal, 20)
+                Button("Next End") {
+                    
+                }
+                    .padding(.horizontal, 20)
+            }
         }
         .onAppear {
             if (!selectedRound.isFinished) {

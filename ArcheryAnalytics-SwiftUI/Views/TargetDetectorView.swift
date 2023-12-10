@@ -44,7 +44,7 @@ struct TargetDetectorView: View {
             ZStack {
                 TargetView(scale: scale, targetWidth: targetWidth)
                     .frame(width: frameSize + padding*2, height: frameSize + padding*2)
-                    .background(.gray)
+                    .background(Color(red: 0.75, green: 0.75, blue: 0.75))
                     .onTapGesture(coordinateSpace: .local) { location in
                         tap(location: location)
                     }
@@ -102,8 +102,8 @@ struct ArrowPlotView: View {
         ForEach(arrowHoles) { hole in
             if let holePoint = hole.point {
                 Circle()
-                    .stroke(.black, lineWidth: 1)
-                    .background(Circle().fill(.gray))
+                    .stroke(.white, lineWidth: 1)
+                    .background(Circle().fill(.black))
                     .position(holePoint
                         .scaleBy(scale)
                         .shiftBy(CGPointMake(arrowHoleDiameter / 2, arrowHoleDiameter / 2)))
