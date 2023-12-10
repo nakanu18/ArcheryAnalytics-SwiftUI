@@ -12,7 +12,7 @@ struct TargetDetectorView: View {
     
     var scale: Double
     var targetWidth = 40.0
-//    var padding: Double
+    var padding = 15.0
     
     var arrowHoleRadius = 0.5
     
@@ -22,7 +22,7 @@ struct TargetDetectorView: View {
     
     func tap(location: CGPoint) {
         // Tap relative to the center of the target
-        let pt = CGPointMake(location.x - frameSize / 2, location.y - frameSize / 2)
+        let pt = CGPointMake(location.x - padding - frameSize / 2, location.y - padding - frameSize / 2)
         
         // Calculate the distance from center for the ring hit
         let dist = sqrt(pt.x*pt.x + pt.y*pt.y)
@@ -43,10 +43,8 @@ struct TargetDetectorView: View {
         HStack {
             ZStack {
                 TargetView(scale: scale, targetWidth: targetWidth)
-//                Color.clear
-                    .frame(width: frameSize, height: frameSize)
-//                    .opacity(0.0)
-                    .contentShape(Rectangle())
+                    .frame(width: frameSize + padding*2, height: frameSize + padding*2)
+                    .background(.gray)
                     .onTapGesture(coordinateSpace: .local) { location in
                         tap(location: location)
                     }
@@ -88,7 +86,6 @@ struct TargetView: View {
                     }
             }
         }
-        .background(.gray)
     }
 }
 
