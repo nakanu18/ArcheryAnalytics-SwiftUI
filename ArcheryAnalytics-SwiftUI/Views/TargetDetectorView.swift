@@ -20,7 +20,7 @@ struct TargetDetectorView: View {
         scale * targetWidth
     }
     
-    func tap(location: CGPoint) {
+    func addArrowHole(location: CGPoint) {
         // Tap relative to the center of the target
         let pt = CGPointMake(location.x - padding - frameSize / 2, location.y - padding - frameSize / 2)
         
@@ -46,7 +46,7 @@ struct TargetDetectorView: View {
                     .frame(width: frameSize + padding*2, height: frameSize + padding*2)
                     .background(Color(red: 0.75, green: 0.75, blue: 0.75))
                     .onTapGesture(coordinateSpace: .local) { location in
-                        tap(location: location)
+                        addArrowHole(location: location)
                     }
                 ArrowPlotView(arrowHoles: $arrowHoles, scale: scale, arrowHoleRadius: arrowHoleRadius)
             }

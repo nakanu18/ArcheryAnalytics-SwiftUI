@@ -13,8 +13,25 @@ struct RoundEditorView: View {
     @State var arrowHoles: [ArrowHole] = []
     @State var selectedEndID = -1
     
-    var selectedRound: Round {
+    private var selectedRound: Round {
         storeModel.selectedRound
+    }
+    
+    private var selectedEnd: End? {
+        storeModel.selectedRound.ends[selectedEndID]
+    }
+    
+    private func onArrowHoleScored() {
+        
+    }
+    
+    private func onRemoveLastArrow() {
+        if !arrowHoles.isEmpty {
+            arrowHoles.removeLast()
+        }
+    }
+    
+    private func onNextEnd() {
     }
     
     var body: some View {
@@ -33,16 +50,11 @@ struct RoundEditorView: View {
                     }
                 }
             }
-            
             TargetDetectorView(arrowHoles: $arrowHoles, scale: 9.0)
             HStack {
-                Button("Delete Last Arrow") {
-                    
-                }
+                Button("Delete Last Arrow", action: onRemoveLastArrow)
                     .padding(.horizontal, 20)
-                Button("Next End") {
-                    
-                }
+                Button("Next End", action: onNextEnd)
                     .padding(.horizontal, 20)
             }
         }
@@ -57,7 +69,7 @@ struct RoundEditorView: View {
 
 #Preview {
     RoundEditorView()
-        .environmentObject(StoreModel.mock)
+        .environmentObject(StoreModel.mockEmpty)
 }
 
 struct EndCell: View {
@@ -76,7 +88,7 @@ struct EndCell: View {
             
             ForEach(end.arrowValues.map(NumberWrapper.init)) { numberWrapper in
                 if (numberWrapper.number >= 0) {
-                    ArrowValueView(value: numberWrapper.number)
+                    ArrowHoleView(value: numberWrapper.number)
                         .id(numberWrapper.id)
                 }
             }
@@ -95,7 +107,7 @@ struct NumberWrapper: Identifiable {
     let number: Int
 }
 
-struct ArrowValueView: View {
+struct ArrowHoleView: View {
     let value: Int
     
     let bgColor: [Color] = [.white, .white, .white, .black, .black, .blue,  .blue,  .red,   .red,  .yellow, .yellow, .yellow]

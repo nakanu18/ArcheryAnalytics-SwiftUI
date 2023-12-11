@@ -26,7 +26,12 @@ class StoreModel: ObservableObject {
         let mockRound = Round.mockFullRound
         return StoreModel(rounds: [mockRound], selectedRoundID: mockRound.id)
     }
-    
+
+    static var mockEmpty: StoreModel {
+        let mockRound = Round.mockEmptyRound
+        return StoreModel(rounds: [mockRound], selectedRoundID: mockRound.id)
+    }
+
     func createNewRound() {
         let newRound = Round(date: Date(), numberOfEnds: 10, numberOfArrowsPerEnd: 3, tags: [])
     
@@ -69,16 +74,54 @@ struct Round: Identifiable, Codable {
                           numberOfEnds: 10,
                           numberOfArrowsPerEnd: 3,
                           tags: [])
-        round.ends[0].arrowValues = [10, 10, 10]
-        round.ends[1].arrowValues = [10, 10, 9]
-        round.ends[2].arrowValues = [10, 9, 9]
-        round.ends[3].arrowValues = [9, 9, 9]
-        round.ends[4].arrowValues = [8, 8, 6]
-        round.ends[5].arrowValues = [8, 8, 5]
-        round.ends[6].arrowValues = [8, 8, 4]
-        round.ends[7].arrowValues = [8, 8, 3]
-        round.ends[8].arrowValues = [8, 8, 2]
-        round.ends[9].arrowValues = [8, 8, 1]
+        round.ends[0].arrowHoles[0].value = 10
+        round.ends[0].arrowHoles[1].value = 10
+        round.ends[0].arrowHoles[2].value = 10
+
+        round.ends[1].arrowHoles[0].value = 9
+        round.ends[1].arrowHoles[1].value = 9
+        round.ends[1].arrowHoles[2].value = 9
+
+        round.ends[2].arrowHoles[0].value = 8
+        round.ends[2].arrowHoles[1].value = 8
+        round.ends[2].arrowHoles[2].value = 8
+
+        round.ends[3].arrowHoles[0].value = 7
+        round.ends[3].arrowHoles[1].value = 7
+        round.ends[3].arrowHoles[2].value = 7
+
+        round.ends[4].arrowHoles[0].value = 6
+        round.ends[4].arrowHoles[1].value = 6
+        round.ends[4].arrowHoles[2].value = 6
+
+        round.ends[5].arrowHoles[0].value = 10
+        round.ends[5].arrowHoles[1].value = 10
+        round.ends[5].arrowHoles[2].value = 10
+
+        round.ends[6].arrowHoles[0].value = 9
+        round.ends[6].arrowHoles[1].value = 9
+        round.ends[6].arrowHoles[2].value = 9
+
+        round.ends[7].arrowHoles[0].value = 8
+        round.ends[7].arrowHoles[1].value = 8
+        round.ends[7].arrowHoles[2].value = 8
+
+        round.ends[8].arrowHoles[0].value = 7
+        round.ends[8].arrowHoles[1].value = 7
+        round.ends[8].arrowHoles[2].value = 7
+
+        round.ends[9].arrowHoles[0].value = 6
+        round.ends[9].arrowHoles[1].value = 6
+        round.ends[9].arrowHoles[2].value = 6
+
+        return round
+    }
+
+    static var mockEmptyRound: Round {
+        var round = Round(date: Date(),
+                          numberOfEnds: 10,
+                          numberOfArrowsPerEnd: 3,
+                          tags: [])
 
         return round
     }
@@ -88,23 +131,39 @@ struct Round: Identifiable, Codable {
 struct End: Identifiable, Codable {
     
     var id = UUID()
-    var arrowValues: [Int]
+    var arrowHoles: [ArrowHole]
     
     init(numberOfArrowsPerEnd: Int) {
-        self.arrowValues = Array.init(repeating: -1, count: numberOfArrowsPerEnd)
+        self.arrowHoles = Array.init(repeating: ArrowHole(), count: numberOfArrowsPerEnd)
     }
     
     var totalScore: Int {
-        arrowValues.reduce(0) { partialResult, val in
-            if val >= 0 {
-                return partialResult + val
+        arrowHoles.reduce(0) { partialResult, hole in
+            if hole.value >= 0 {
+                return partialResult + hole.value
             }
             return partialResult
         }
     }
     
+    var arrowValues: [Int] {
+        arrowHoles.map { $0.value }
+    }
+    
     var isFinished: Bool {
-        arrowValues.firstIndex { $0 == -1 } == nil
+        arrowHoles.firstIndex { $0.value == -1 } == nil
+    }
+    
+}
+
+struct ArrowHole: Identifiable, Codable {
+    
+    var id = UUID()
+    var point: CGPoint? = nil
+    var value: Int = -1
+    
+    var toString: String {
+        "\(point?.toString ?? "Unknown"), \(value)"
     }
     
 }
@@ -114,18 +173,6 @@ struct Bow: Identifiable, Codable {
     var id = UUID()
     let name: String
     let tags: [Tag]
-    
-}
-
-struct ArrowHole: Identifiable, Codable {
-    
-    var id = UUID()
-    let point: CGPoint?
-    let value: Int
-    
-    var toString: String {
-        "\(point?.toString ?? "Unknown"), \(value)"
-    }
     
 }
 
