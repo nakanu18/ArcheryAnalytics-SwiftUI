@@ -10,7 +10,7 @@ import SwiftUI
 @main
 struct ArcheryAnalytics_SwiftUIApp: App {
     
-    @StateObject private var storeModel = StoreModel.mock
+    @StateObject private var storeModel = StoreModel.mockEmpty
         
     var body: some Scene {
         WindowGroup {

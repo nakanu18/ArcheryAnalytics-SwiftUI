@@ -52,7 +52,8 @@ struct RoundsView: View {
                 }
             })
             .navigationDestination(isPresented: $showRound, destination: {
-                RoundEditorView()
+                // TODO: choose which round to select
+                RoundEditorView(selectedRound: $storeModel.selectedRound)
             })
         }
     }
@@ -61,5 +62,5 @@ struct RoundsView: View {
 
 #Preview {
     RoundsView()
-        .environmentObject(StoreModel.mock)
+        .environmentObject(StoreModel.mockEmpty)
 }

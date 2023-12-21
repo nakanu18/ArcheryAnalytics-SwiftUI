@@ -9,29 +9,33 @@ import SwiftUI
 
 struct RoundEditorView: View {
     
-    @EnvironmentObject private var storeModel: StoreModel
-    @State var arrowHoles: [ArrowHole] = []
-    @State var selectedEndID = -1
-    
-    private var selectedRound: Round {
-        storeModel.selectedRound
-    }
+    @Binding var selectedRound: Round
+//    @State var arrowHoles: [ArrowHole] = []
+    @State var selectedEndID = 0
     
     private var selectedEnd: End? {
-        storeModel.selectedRound.ends[selectedEndID]
+        if selectedEndID != -1 {
+            return selectedRound.ends[selectedEndID]
+        }
+        return nil
     }
     
-    private func onArrowHoleScored() {
-        
+    private func onEndSelect(index: Int) {
+        selectedEndID = index
+    }
+    
+    private func onArrowHoleScored(arrowHole: ArrowHole) {
+        selectedRound.ends[selectedEndID].updateFirstUnmarkedArrowHole(arrowHole: arrowHole)
     }
     
     private func onRemoveLastArrow() {
-        if !arrowHoles.isEmpty {
-            arrowHoles.removeLast()
-        }
+        selectedRound.ends[selectedEndID].clearLastMarkedArrowHole()
     }
     
     private func onNextEnd() {
+        if selectedEndID < selectedRound.ends.count - 1 {
+            selectedEndID += 1
+        }
     }
     
     var body: some View {
@@ -40,17 +44,16 @@ struct RoundEditorView: View {
                 Section("Info") {
                     Text("Round Stuff")
                 }
-
                 Section("Ends") {
                     ForEach(0..<selectedRound.ends.count) { index in
                         EndCell(i: index, end: selectedRound.ends[index], isSelected: selectedEndID == index)
                             .onTapGesture {
-                                selectedEndID = index
+                                onEndSelect(index: index)
                             }
                     }
                 }
             }
-            TargetDetectorView(arrowHoles: $arrowHoles, scale: 9.0)
+            TargetDetectorView(arrowHoles: $selectedRound.ends[selectedEndID].arrowHoles, scale: 9.0, onTargetTap: onArrowHoleScored)
             HStack {
                 Button("Delete Last Arrow", action: onRemoveLastArrow)
                     .padding(.horizontal, 20)
@@ -68,8 +71,9 @@ struct RoundEditorView: View {
 }
 
 #Preview {
-    RoundEditorView()
-        .environmentObject(StoreModel.mockEmpty)
+    @State var selectedRound = Round.mockEmptyRound
+    
+    return RoundEditorView(selectedRound: $selectedRound)
 }
 
 struct EndCell: View {

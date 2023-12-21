@@ -16,6 +16,8 @@ struct TargetDetectorView: View {
     
     var arrowHoleRadius = 0.5
     
+    var onTargetTap: ((ArrowHole) -> Void)?
+    
     var frameSize: Double {
         scale * targetWidth
     }
@@ -35,8 +37,14 @@ struct TargetDetectorView: View {
         let ring = max(0, 10 - Int((downscaledDist - arrowHoleRadius) / 2))
 
         print("TAP: \(location.toString) -> \(downscaledPt.toString), DIST: \(String(format: "%.2f", downscaledDist)), RING: \(ring)")
+
         // BUG: this is not setting correctly in preview
-        arrowHoles.append(ArrowHole(point: downscaledPt, value: ring))
+//        arrowHoles.append(ArrowHole(point: downscaledPt, value: ring))
+
+        var arrowHole = ArrowHole()
+        arrowHole.point = downscaledPt
+        arrowHole.value = ring
+        onTargetTap?(arrowHole)
     }
     
     var body: some View {
@@ -57,7 +65,8 @@ struct TargetDetectorView: View {
 #Preview {
     @State var arrowHoles: [ArrowHole] = []
     
-    return TargetDetectorView(arrowHoles: $arrowHoles, scale: 9.0)
+    return TargetDetectorView(arrowHoles: $arrowHoles, scale: 9.0) { _ in
+    }
 }
 
 struct TargetView: View {

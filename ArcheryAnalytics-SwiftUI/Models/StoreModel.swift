@@ -13,18 +13,21 @@ class StoreModel: ObservableObject {
     @Published var selectedRoundID: UUID
     
     var selectedRound: Round {
-        return rounds.first(where: { $0.id == selectedRoundID })!
+        get {
+            return rounds.first(where: { $0.id == selectedRoundID })!
+        }
+        set {
+            // Implement the logic to update selectedRoundID when the selectedRound changes
+            if let index = rounds.firstIndex(where: { $0.id == selectedRoundID }) {
+                rounds[index] = newValue
+                selectedRoundID = newValue.id
+            }
+        }
     }
     
-    // TODO: unsure why I don't get a default memberwise initializer
     init(rounds: [Round], selectedRoundID: UUID) {
         self.rounds = rounds
         self.selectedRoundID = selectedRoundID
-    }
-    
-    static var mock: StoreModel {
-        let mockRound = Round.mockFullRound
-        return StoreModel(rounds: [mockRound], selectedRoundID: mockRound.id)
     }
 
     static var mockEmpty: StoreModel {
@@ -68,57 +71,9 @@ struct Round: Identifiable, Codable {
     var unfinishedEndID: Int {
         ends.firstIndex { !$0.isFinished } ?? -1
     }
-    
-    static var mockFullRound: Round {
-        var round = Round(date: Date(),
-                          numberOfEnds: 10,
-                          numberOfArrowsPerEnd: 3,
-                          tags: [])
-        round.ends[0].arrowHoles[0].value = 10
-        round.ends[0].arrowHoles[1].value = 10
-        round.ends[0].arrowHoles[2].value = 10
-
-        round.ends[1].arrowHoles[0].value = 9
-        round.ends[1].arrowHoles[1].value = 9
-        round.ends[1].arrowHoles[2].value = 9
-
-        round.ends[2].arrowHoles[0].value = 8
-        round.ends[2].arrowHoles[1].value = 8
-        round.ends[2].arrowHoles[2].value = 8
-
-        round.ends[3].arrowHoles[0].value = 7
-        round.ends[3].arrowHoles[1].value = 7
-        round.ends[3].arrowHoles[2].value = 7
-
-        round.ends[4].arrowHoles[0].value = 6
-        round.ends[4].arrowHoles[1].value = 6
-        round.ends[4].arrowHoles[2].value = 6
-
-        round.ends[5].arrowHoles[0].value = 10
-        round.ends[5].arrowHoles[1].value = 10
-        round.ends[5].arrowHoles[2].value = 10
-
-        round.ends[6].arrowHoles[0].value = 9
-        round.ends[6].arrowHoles[1].value = 9
-        round.ends[6].arrowHoles[2].value = 9
-
-        round.ends[7].arrowHoles[0].value = 8
-        round.ends[7].arrowHoles[1].value = 8
-        round.ends[7].arrowHoles[2].value = 8
-
-        round.ends[8].arrowHoles[0].value = 7
-        round.ends[8].arrowHoles[1].value = 7
-        round.ends[8].arrowHoles[2].value = 7
-
-        round.ends[9].arrowHoles[0].value = 6
-        round.ends[9].arrowHoles[1].value = 6
-        round.ends[9].arrowHoles[2].value = 6
-
-        return round
-    }
 
     static var mockEmptyRound: Round {
-        var round = Round(date: Date(),
+        let round = Round(date: Date(),
                           numberOfEnds: 10,
                           numberOfArrowsPerEnd: 3,
                           tags: [])
@@ -131,11 +86,13 @@ struct Round: Identifiable, Codable {
 struct End: Identifiable, Codable {
     
     var id = UUID()
-    var arrowHoles: [ArrowHole]
+    var arrowHoles: [ArrowHole] = []
+    var numberOfArrowsPerEnd: Int
     
-    init(numberOfArrowsPerEnd: Int) {
-        self.arrowHoles = Array.init(repeating: ArrowHole(), count: numberOfArrowsPerEnd)
-    }
+//    init(numberOfArrowsPerEnd: Int) {
+//        self.arrowHoles = Array.init(repeating: ArrowHole(), count: numberOfArrowsPerEnd)
+//        self.arrowHoles = []
+//    }
     
     var totalScore: Int {
         arrowHoles.reduce(0) { partialResult, hole in
@@ -152,6 +109,30 @@ struct End: Identifiable, Codable {
     
     var isFinished: Bool {
         arrowHoles.firstIndex { $0.value == -1 } == nil
+    }
+    
+    mutating func updateFirstUnmarkedArrowHole(arrowHole: ArrowHole) {
+        if arrowHoles.count < numberOfArrowsPerEnd {
+            arrowHoles.append(arrowHole)
+        }
+//        let index = arrowHoles.firstIndex { $0.value == -1 }
+//        
+//        if let index = index {
+//            arrowHoles[index].point = arrowHole.point
+//            arrowHoles[index].value = arrowHole.value
+//        }
+    }
+    
+    mutating func clearLastMarkedArrowHole() {
+        if arrowHoles.count > 0 {
+            arrowHoles.removeLast()
+        }
+//        let index = arrowHoles.firstIndex { $0.value == -1 }
+//
+//        if let index = index, index - 1 > 0 {
+//            arrowHoles[index].point = nil
+//            arrowHoles[index].value = -1
+//        }
     }
     
 }
