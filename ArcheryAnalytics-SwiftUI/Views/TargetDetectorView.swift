@@ -38,9 +38,6 @@ struct TargetDetectorView: View {
 
         print("TAP: \(location.toString) -> \(downscaledPt.toString), DIST: \(String(format: "%.2f", downscaledDist)), RING: \(ring)")
 
-        // BUG: this is not setting correctly in preview
-//        arrowHoles.append(ArrowHole(point: downscaledPt, value: ring))
-
         var arrowHole = ArrowHole()
         arrowHole.point = downscaledPt
         arrowHole.value = ring
@@ -63,9 +60,11 @@ struct TargetDetectorView: View {
 }
 
 #Preview {
+    // BUG: arrow holes not showing in preview
     @State var arrowHoles: [ArrowHole] = []
     
-    return TargetDetectorView(arrowHoles: $arrowHoles, scale: 9.0) { _ in
+    return TargetDetectorView(arrowHoles: $arrowHoles, scale: 9.0) { arrowHole in
+        arrowHoles.append(arrowHole)
     }
 }
 

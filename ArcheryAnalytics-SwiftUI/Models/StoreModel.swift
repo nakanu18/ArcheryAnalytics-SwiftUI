@@ -89,11 +89,6 @@ struct End: Identifiable, Codable {
     var arrowHoles: [ArrowHole] = []
     var numberOfArrowsPerEnd: Int
     
-//    init(numberOfArrowsPerEnd: Int) {
-//        self.arrowHoles = Array.init(repeating: ArrowHole(), count: numberOfArrowsPerEnd)
-//        self.arrowHoles = []
-//    }
-    
     var totalScore: Int {
         arrowHoles.reduce(0) { partialResult, hole in
             if hole.value >= 0 {
@@ -115,24 +110,12 @@ struct End: Identifiable, Codable {
         if arrowHoles.count < numberOfArrowsPerEnd {
             arrowHoles.append(arrowHole)
         }
-//        let index = arrowHoles.firstIndex { $0.value == -1 }
-//        
-//        if let index = index {
-//            arrowHoles[index].point = arrowHole.point
-//            arrowHoles[index].value = arrowHole.value
-//        }
     }
     
     mutating func clearLastMarkedArrowHole() {
         if arrowHoles.count > 0 {
             arrowHoles.removeLast()
         }
-//        let index = arrowHoles.firstIndex { $0.value == -1 }
-//
-//        if let index = index, index - 1 > 0 {
-//            arrowHoles[index].point = nil
-//            arrowHoles[index].value = -1
-//        }
     }
     
 }

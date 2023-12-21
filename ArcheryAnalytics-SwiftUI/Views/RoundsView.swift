@@ -21,9 +21,11 @@ struct RoundsView: View {
                 }
                 
                 Section("Rounds") {
-                    ForEach(storeModel.rounds) { round in
+                    ForEach(Array(storeModel.rounds.enumerated()), id: \.element.id) { offset, element in
+                        let round = element
+                                                
                         HStack {
-                            Text("ID: \(round.id)")
+                            Text("I: \(offset)")
                             Spacer()
                             Text("\(round.totalScore)")
                             Image(systemName: "chevron.right")
@@ -52,7 +54,6 @@ struct RoundsView: View {
                 }
             })
             .navigationDestination(isPresented: $showRound, destination: {
-                // TODO: choose which round to select
                 RoundEditorView(selectedRound: $storeModel.selectedRound)
             })
         }

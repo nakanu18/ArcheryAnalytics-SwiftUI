@@ -10,7 +10,6 @@ import SwiftUI
 struct RoundEditorView: View {
     
     @Binding var selectedRound: Round
-//    @State var arrowHoles: [ArrowHole] = []
     @State var selectedEndID = 0
     
     private var selectedEnd: End? {
@@ -71,6 +70,7 @@ struct RoundEditorView: View {
 }
 
 #Preview {
+    // BUG: can't see arrow holes in preview
     @State var selectedRound = Round.mockEmptyRound
     
     return RoundEditorView(selectedRound: $selectedRound)
