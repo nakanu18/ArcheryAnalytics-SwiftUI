@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct RoundsView: View {
+struct RoundsScreen: View {
     
     @EnvironmentObject private var storeModel: StoreModel
     @State private var showNewRoundSheet = false
@@ -54,7 +54,7 @@ struct RoundsView: View {
                 }
             })
             .navigationDestination(isPresented: $showRound, destination: {
-                RoundEditorView(selectedRound: $storeModel.selectedRound)
+                RoundEditorScreen(selectedRound: $storeModel.selectedRound)
             })
         }
     }
@@ -62,6 +62,6 @@ struct RoundsView: View {
 }
 
 #Preview {
-    RoundsView()
+    RoundsScreen()
         .environmentObject(StoreModel.mockEmpty)
 }

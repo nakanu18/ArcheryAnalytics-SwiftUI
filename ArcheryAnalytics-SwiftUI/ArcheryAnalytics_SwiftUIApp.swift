@@ -14,7 +14,7 @@ struct ArcheryAnalytics_SwiftUIApp: App {
         
     var body: some Scene {
         WindowGroup {
-            RoundsView()
+            RoundsScreen()
                 .environmentObject(storeModel)
         }
     }
