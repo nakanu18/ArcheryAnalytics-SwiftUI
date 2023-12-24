@@ -7,11 +7,27 @@
 
 import Foundation
 
-class StoreModel: ObservableObject {
-    
+/*
+TODO Items
+ 
+ Save data
+ Load data
+ Should StoreModel save the selectedRoundID?
+ */
+class StoreModel: ObservableObject, Codable {
+        
+    enum CodingKeys: String, CodingKey {
+        case rounds, selectedRoundID
+    }
+
     @Published var rounds: [Round] = []
     @Published var selectedRoundID: UUID
     
+    static var mockEmpty: StoreModel {
+        let mockRound = Round.mockEmptyRound
+        return StoreModel(rounds: [mockRound], selectedRoundID: mockRound.id)
+    }
+
     var selectedRound: Round {
         get {
             return rounds.first(where: { $0.id == selectedRoundID })!
@@ -30,11 +46,18 @@ class StoreModel: ObservableObject {
         self.selectedRoundID = selectedRoundID
     }
 
-    static var mockEmpty: StoreModel {
-        let mockRound = Round.mockEmptyRound
-        return StoreModel(rounds: [mockRound], selectedRoundID: mockRound.id)
+    required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        rounds = try container.decode([Round].self, forKey: .rounds)
+        selectedRoundID = try container.decode(UUID.self, forKey: .selectedRoundID)
     }
 
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(rounds, forKey: .rounds)
+        try container.encode(selectedRoundID, forKey: .selectedRoundID)
+    }
+    
     func createNewRound() {
         let newRound = Round(date: Date(), numberOfEnds: 10, numberOfArrowsPerEnd: 3, tags: [])
     

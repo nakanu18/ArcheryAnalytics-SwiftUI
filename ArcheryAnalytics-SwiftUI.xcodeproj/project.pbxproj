@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FAA521B12B369C6B00B52E95 /* MenuScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA521B02B369C6B00B52E95 /* MenuScreen.swift */; };
 		FAEC07D72B142AF200841E80 /* ArcheryAnalytics_SwiftUIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEC07D62B142AF200841E80 /* ArcheryAnalytics_SwiftUIApp.swift */; };
 		FAEC07D92B142AF200841E80 /* RoundsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEC07D82B142AF200841E80 /* RoundsScreen.swift */; };
 		FAEC07DB2B142AF800841E80 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FAEC07DA2B142AF800841E80 /* Assets.xcassets */; };
@@ -18,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		FAA521B02B369C6B00B52E95 /* MenuScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScreen.swift; sourceTree = "<group>"; };
 		FAEC07D32B142AF200841E80 /* ArcheryAnalytics-SwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ArcheryAnalytics-SwiftUI.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAEC07D62B142AF200841E80 /* ArcheryAnalytics_SwiftUIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArcheryAnalytics_SwiftUIApp.swift; sourceTree = "<group>"; };
 		FAEC07D82B142AF200841E80 /* RoundsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundsScreen.swift; sourceTree = "<group>"; };
@@ -45,6 +47,7 @@
 			children = (
 				FAEC07D82B142AF200841E80 /* RoundsScreen.swift */,
 				FAEC07E82B14398B00841E80 /* RoundEditorScreen.swift */,
+				FAA521B02B369C6B00B52E95 /* MenuScreen.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -182,6 +185,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FAEC07D92B142AF200841E80 /* RoundsScreen.swift in Sources */,
+				FAA521B12B369C6B00B52E95 /* MenuScreen.swift in Sources */,
 				FAEC07E92B14398C00841E80 /* RoundEditorScreen.swift in Sources */,
 				FAFF4FAD2B1AE8E000FB1D33 /* CGPoint+Extension.swift in Sources */,
 				FAEC07D72B142AF200841E80 /* ArcheryAnalytics_SwiftUIApp.swift in Sources */,
