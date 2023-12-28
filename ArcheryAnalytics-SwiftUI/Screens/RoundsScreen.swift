@@ -43,6 +43,9 @@ struct RoundsScreen: View {
                         storeModel.selectedRoundID = round.id
                     }
                 }
+                .onDelete { offsets in
+                    storeModel.rounds.remove(atOffsets: offsets)
+                }
             }
         }
         .navigationTitle("Rounds")
@@ -61,10 +64,11 @@ struct RoundsScreen: View {
             }
         })
         .navigationDestination(isPresented: $showRound, destination: {
-            RoundEditorScreen(selectedRound: $storeModel.selectedRound)
+            if storeModel.isSelectedRoundValid {
+                RoundEditorScreen(selectedRound: $storeModel.selectedRound)
+            }
         })
     }
-    
 }
 
 #Preview {

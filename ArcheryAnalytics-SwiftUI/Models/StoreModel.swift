@@ -28,6 +28,10 @@ class StoreModel: ObservableObject, Codable {
         return StoreModel(rounds: [mockRound], selectedRoundID: mockRound.id)
     }
 
+    var isSelectedRoundValid: Bool {
+        return rounds.first(where: { $0.id == selectedRoundID }) != nil
+    }
+    
     var selectedRound: Round {
         get {
             return rounds.first(where: { $0.id == selectedRoundID })!
