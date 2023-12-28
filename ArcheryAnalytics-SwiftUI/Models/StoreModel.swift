@@ -59,7 +59,7 @@ class StoreModel: ObservableObject, Codable {
     }
     
     func createNewRound() {
-        let newRound = Round(date: Date(), numberOfEnds: 10, numberOfArrowsPerEnd: 3, tags: [])
+        let newRound = Round(date: Date(), name: "Vegas 300", numberOfEnds: 10, numberOfArrowsPerEnd: 3, tags: [])
     
         self.rounds.insert(newRound, at: 0)
         self.selectedRoundID = newRound.id
@@ -70,12 +70,14 @@ class StoreModel: ObservableObject, Codable {
 struct Round: Identifiable, Codable {
     
     var id = UUID()
+    let name: String
     let date: Date
     var ends: [End]
     let tags: [Tag]
 
-    init(date: Date, numberOfEnds: Int, numberOfArrowsPerEnd: Int, tags: [Tag]) {
+    init(date: Date, name: String, numberOfEnds: Int, numberOfArrowsPerEnd: Int, tags: [Tag]) {
         self.date = date
+        self.name = name
         self.ends = Array.init(repeating: End(numberOfArrowsPerEnd: numberOfArrowsPerEnd), count: numberOfEnds)
         self.tags = tags
     }
@@ -97,6 +99,7 @@ struct Round: Identifiable, Codable {
 
     static var mockEmptyRound: Round {
         let round = Round(date: Date(),
+                          name: "Vegas 300",
                           numberOfEnds: 10,
                           numberOfArrowsPerEnd: 3,
                           tags: [])

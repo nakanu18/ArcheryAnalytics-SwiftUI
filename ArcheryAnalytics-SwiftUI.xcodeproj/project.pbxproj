@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		FAA521B12B369C6B00B52E95 /* MenuScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA521B02B369C6B00B52E95 /* MenuScreen.swift */; };
+		FACB2AD42B3D178F0085B1FF /* DateFormatter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FACB2AD32B3D178F0085B1FF /* DateFormatter+Extension.swift */; };
 		FAEC07D72B142AF200841E80 /* ArcheryAnalytics_SwiftUIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEC07D62B142AF200841E80 /* ArcheryAnalytics_SwiftUIApp.swift */; };
 		FAEC07D92B142AF200841E80 /* RoundsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEC07D82B142AF200841E80 /* RoundsScreen.swift */; };
 		FAEC07DB2B142AF800841E80 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FAEC07DA2B142AF800841E80 /* Assets.xcassets */; };
@@ -20,6 +21,7 @@
 
 /* Begin PBXFileReference section */
 		FAA521B02B369C6B00B52E95 /* MenuScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScreen.swift; sourceTree = "<group>"; };
+		FACB2AD32B3D178F0085B1FF /* DateFormatter+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extension.swift"; sourceTree = "<group>"; };
 		FAEC07D32B142AF200841E80 /* ArcheryAnalytics-SwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ArcheryAnalytics-SwiftUI.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAEC07D62B142AF200841E80 /* ArcheryAnalytics_SwiftUIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArcheryAnalytics_SwiftUIApp.swift; sourceTree = "<group>"; };
 		FAEC07D82B142AF200841E80 /* RoundsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundsScreen.swift; sourceTree = "<group>"; };
@@ -110,6 +112,7 @@
 			isa = PBXGroup;
 			children = (
 				FAFF4FAC2B1AE8E000FB1D33 /* CGPoint+Extension.swift */,
+				FACB2AD32B3D178F0085B1FF /* DateFormatter+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -190,6 +193,7 @@
 				FAFF4FAD2B1AE8E000FB1D33 /* CGPoint+Extension.swift in Sources */,
 				FAEC07D72B142AF200841E80 /* ArcheryAnalytics_SwiftUIApp.swift in Sources */,
 				FAEC07E62B142B0B00841E80 /* StoreModel.swift in Sources */,
+				FACB2AD42B3D178F0085B1FF /* DateFormatter+Extension.swift in Sources */,
 				FAFF4FA92B146D8D00FB1D33 /* TargetDetectorView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

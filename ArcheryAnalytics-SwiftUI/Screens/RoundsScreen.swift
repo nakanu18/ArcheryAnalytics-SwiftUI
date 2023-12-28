@@ -12,7 +12,7 @@ struct RoundsScreen: View {
     @EnvironmentObject private var storeModel: StoreModel
     @State private var showNewRoundSheet = false
     @State private var showRound = false
-    
+
     var body: some View {
         List {
             Section("Info") {
@@ -22,14 +22,22 @@ struct RoundsScreen: View {
             Section("Rounds") {
                 ForEach(Array(storeModel.rounds.enumerated()), id: \.element.id) { offset, element in
                     let round = element
-                                            
+
                     HStack {
-                        Text("I: \(offset)")
+                        Text("\(offset)")
+                        VStack {
+                            Text("\(round.name)")
+                                .foregroundColor(.orange)
+                                .fontWeight(.bold)
+                            Text(round.date, formatter: DateFormatter.shortFormatter)
+                                .font(.caption)
+                        }
                         Spacer()
                         Text("\(round.totalScore)")
                         Image(systemName: "chevron.right")
                             .foregroundColor(.blue)
                     }
+                    .contentShape(Rectangle()) // Make the entire HStack tappable
                     .onTapGesture {
                         showRound = true
                         storeModel.selectedRoundID = round.id
