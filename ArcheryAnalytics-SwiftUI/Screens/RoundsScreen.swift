@@ -23,25 +23,11 @@ struct RoundsScreen: View {
                 ForEach(Array(storeModel.rounds.enumerated()), id: \.element.id) { offset, element in
                     let round = element
 
-                    HStack {
-                        Text("\(offset)")
-                        VStack {
-                            Text("\(round.name)")
-                                .foregroundColor(.orange)
-                                .fontWeight(.bold)
-                            Text(round.date, formatter: DateFormatter.shortFormatter)
-                                .font(.caption)
+                    RoundCell(round: round)
+                        .onTapGesture {
+                            showRound = true
+                            storeModel.selectedRoundID = round.id
                         }
-                        Spacer()
-                        Text("\(round.totalScore)")
-                        Image(systemName: "chevron.right")
-                            .foregroundColor(.blue)
-                    }
-                    .contentShape(Rectangle()) // Make the entire HStack tappable
-                    .onTapGesture {
-                        showRound = true
-                        storeModel.selectedRoundID = round.id
-                    }
                 }
                 .onDelete { offsets in
                     storeModel.rounds.remove(atOffsets: offsets)
@@ -75,5 +61,26 @@ struct RoundsScreen: View {
     NavigationStack {
         RoundsScreen()
             .environmentObject(StoreModel.mockEmpty)
+    }
+}
+
+struct RoundCell: View {
+    var round: Round
+    
+    var body: some View {
+        HStack {
+            VStack {
+                Text("\(round.name)")
+                    .foregroundColor(.orange)
+                    .fontWeight(.bold)
+                Text(round.date, formatter: DateFormatter.shortFormatter)
+                    .font(.caption)
+            }
+            Spacer()
+            Text("\(round.totalScore)")
+            Image(systemName: "chevron.right")
+                .foregroundColor(.blue)
+        }
+        .contentShape(Rectangle()) // Make the entire HStack tappable
     }
 }
