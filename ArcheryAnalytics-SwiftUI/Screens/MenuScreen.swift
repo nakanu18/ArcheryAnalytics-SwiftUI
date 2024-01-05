@@ -17,9 +17,12 @@ struct MenuScreen: View {
             do {
                 let data = try Data(contentsOf: url)
                 let decoder = JSONDecoder()
-                let rounds = try decoder.decode([Round].self, from: data)
-                storeModel.rounds = rounds
-                storeModel.selectedRoundID = rounds.first!.id
+                let decodedStoreModel = try decoder.decode(StoreModel.self, from: data)
+                
+                // Update the properties of the existing storeModel
+                storeModel.rounds = decodedStoreModel.rounds
+                storeModel.selectedRoundID = decodedStoreModel.selectedRoundID
+                                
                 print("Loading JSON: \(jsonFileName)")
             }
             catch {
