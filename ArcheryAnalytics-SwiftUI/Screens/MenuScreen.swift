@@ -12,25 +12,13 @@ struct MenuScreen: View {
     @EnvironmentObject private var storeModel: StoreModel
     @State private var isPreNavDone = false
     
-    private func loadJSON(jsonFileName: String) {
-        if let url = Bundle.main.url(forResource: jsonFileName, withExtension: "json") {
-            do {
-                let data = try Data(contentsOf: url)
-                let decoder = JSONDecoder()
-                let decodedStoreModel = try decoder.decode(StoreModel.self, from: data)
-                
-                // Update the properties of the existing storeModel
-                storeModel.rounds = decodedStoreModel.rounds
-                storeModel.selectedRoundID = decodedStoreModel.selectedRoundID
-                                
-                print("Loading JSON: \(jsonFileName)")
-            }
-            catch {
-                print("Error loading JSON file: \(error)")
-            }
-        } else {
-            print("Can not load JSON: \(jsonFileName)")
-        }
+    private func newData() {
+        storeModel.resetData()
+        isPreNavDone = true
+    }
+    
+    private func loadData(jsonFileName: String, fromBundle: Bool) {
+        storeModel.loadData(jsonFileName: jsonFileName, fromBundle: fromBundle)
         isPreNavDone = true
     }
 
@@ -40,11 +28,15 @@ struct MenuScreen: View {
                 Section("Data Files") {
                     FileCell(title: "New File")
                         .onTapGesture {
-                            isPreNavDone = true
+                            newData()
                         }
-                    FileCell(title: "Sample.json")
+                    FileCell(title: "Default")
                         .onTapGesture {
-                            loadJSON(jsonFileName: "Sample")
+                            loadData(jsonFileName: "Default", fromBundle: false)
+                        }
+                    FileCell(title: "Sample")
+                        .onTapGesture {
+                            loadData(jsonFileName: "Sample", fromBundle: true)
                         }
                 }
             }

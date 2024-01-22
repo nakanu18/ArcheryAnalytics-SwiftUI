@@ -16,6 +16,10 @@ struct ArcheryAnalytics_SwiftUIApp: App {
         WindowGroup {
             MenuScreen()
                 .environmentObject(storeModel)
+                .onReceive(NotificationCenter.default.publisher(for: UIApplication.didEnterBackgroundNotification)) { _ in
+                    print("didEnterBackgroundNotification")
+                    storeModel.saveData()
+                }
         }
     }
     
