@@ -23,7 +23,6 @@ struct MenuScreen: View {
     }
 
     var body: some View {
-        NavigationStack {
             List {
                 Section("Data Files") {
                     FileCell(title: "New File")
@@ -45,13 +44,15 @@ struct MenuScreen: View {
                 RoundsScreen()
                     .environmentObject(storeModel)
             })
-        }
     }
 }
 
 #Preview {
-    MenuScreen()
-        .environmentObject(StoreModel.mockEmpty)
+    NavigationStack {
+        MenuScreen()
+            .environmentObject(StoreModel.mockEmpty)
+            .navigationBarTitleDisplayMode(.inline) // TODO: temp fix for big space on RoundEditorScreen
+    }
 }
 
 struct FileCell: View {

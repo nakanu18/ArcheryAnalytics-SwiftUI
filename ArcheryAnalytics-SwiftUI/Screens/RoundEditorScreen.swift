@@ -73,7 +73,10 @@ struct RoundEditorScreen: View {
     // BUG: can't see arrow holes in preview
     @State var selectedRound = Round.mockEmptyRound
     
-    return RoundEditorScreen(selectedRound: $selectedRound)
+    return NavigationStack {
+        RoundEditorScreen(selectedRound: $selectedRound)
+            .navigationBarTitleDisplayMode(.inline) // TODO: temp fix for big space on RoundEditorScreen
+    }
 }
 
 struct EndCell: View {

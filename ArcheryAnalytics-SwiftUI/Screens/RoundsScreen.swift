@@ -61,6 +61,7 @@ struct RoundsScreen: View {
     NavigationStack {
         RoundsScreen()
             .environmentObject(StoreModel.mockEmpty)
+            .navigationBarTitleDisplayMode(.inline) // TODO: temp fix for big space on RoundEditorScreen
     }
 }
 
