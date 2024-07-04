@@ -21,7 +21,6 @@ struct Round: Identifiable, Codable {
         self.ends = Array.init(repeating: End(numberOfArrowsPerEnd: numberOfArrowsPerEnd), count: numberOfEnds)
         self.tags = tags
     }
-
     
     var totalScore: Int {
         ends.reduce(0) { partialResult, end in
