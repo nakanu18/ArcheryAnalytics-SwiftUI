@@ -139,6 +139,7 @@ class StoreModel: ObservableObject, Codable {
     func resetData() {
         rounds = []
         selectedRoundID = UUID()
+        print("*** resetData")
     }
     
     func createNewRound() {
@@ -146,6 +147,7 @@ class StoreModel: ObservableObject, Codable {
     
         self.rounds.insert(newRound, at: 0)
         self.selectedRoundID = newRound.id
+        print("*** createNewRound: \(newRound.name)")
     }
     
     func updateRound(round: Round) {
@@ -153,8 +155,26 @@ class StoreModel: ObservableObject, Codable {
             return
         }
         
-        print("*** Updating round: [\(round.id)] - \(round.name)")
+        print("*** updateRound: [\(round.id)] - \(round.name)")
         rounds[index] = round
+    }
+    
+    func updateArrowHole(roundID: UUID, endID: Int, arrowHole: ArrowHole) {
+        guard let index = rounds.firstIndex(where: { $0.id == roundID }) else {
+            return
+        }
+
+        print("*** updateArrowHole: [\(roundID)] - end[\(endID)] - arrowHole[\(arrowHole.value)]")
+        rounds[index].ends[endID].updateFirstUnmarkedArrowHole(arrowHole: arrowHole)
+    }
+    
+    func clearLastMarkedArrowHole(roundID: UUID, endID: Int) {
+        guard let index = rounds.firstIndex(where: { $0.id == roundID }) else {
+            return
+        }
+
+        print("*** clearLastMarkedArrowHole: [\(roundID)] - end[\(endID)]")
+        rounds[index].ends[endID].clearLastMarkedArrowHole()
     }
     
 }

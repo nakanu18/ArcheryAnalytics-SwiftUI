@@ -11,9 +11,14 @@ struct RoundEditorScreen: View {
     
     @EnvironmentObject private var storeModel: StoreModel
     @State private var selectedEndID = 0
-    @State private var round = Round(date: Date(), name: "", numberOfEnds: 1, numberOfArrowsPerEnd: 1, tags: [])
-    @State private var forceUpdateId = UUID()
     var roundID: UUID
+    
+    private var round: Round {
+        guard let foundRound = storeModel.rounds.first(where: { $0.id == roundID }) else {
+            fatalError("Round not found")
+        }
+        return foundRound
+    }
     
     private var selectedEnd: End? {
         if selectedEndID != -1 {
@@ -27,11 +32,11 @@ struct RoundEditorScreen: View {
     }
     
     private func onArrowHoleScored(arrowHole: ArrowHole) {
-        round.ends[selectedEndID].updateFirstUnmarkedArrowHole(arrowHole: arrowHole)
+        storeModel.updateArrowHole(roundID: roundID, endID: selectedEndID, arrowHole: arrowHole)
     }
     
     private func onRemoveLastArrow() {
-        round.ends[selectedEndID].clearLastMarkedArrowHole()
+        storeModel.clearLastMarkedArrowHole(roundID: roundID, endID: selectedEndID)
     }
     
     private func onNextEnd() {
@@ -65,14 +70,7 @@ struct RoundEditorScreen: View {
                     .padding(.horizontal, 20)
             }
         }
-        .id(round.id)  // HACK: Force update the entire view
         .onAppear {
-            guard let foundRound = storeModel.rounds.first(where: { $0.id == roundID }) else {
-                fatalError("Round not found")
-            }
-
-            round = foundRound
-
             if (!round.isFinished) {
                 selectedEndID = round.unfinishedEndID
             }
@@ -104,21 +102,23 @@ struct EndCell: View {
             Text("\(i + 1)")
                 .frame(width: 30, height: 30)
                 .background(.black)
-                .foregroundColor(.white)
+                .foregroundColor(.gray)
                 .cornerRadius(6)
                 .padding(.trailing, 8)
             
             ForEach(end.arrowValues.map(NumberWrapper.init)) { numberWrapper in
                 if (numberWrapper.number >= 0) {
                     ArrowHoleView(value: numberWrapper.number)
-                        .id(numberWrapper.id)
+//                        .id(numberWrapper.id) // TODO: is this needed?
                 }
             }
             
             Spacer()
             Text("\(end.totalScore)")
+                .foregroundColor(.black)
+                .padding(.trailing, 4)
         }
-        .padding(4)
+        .padding(1)
         .background(isSelected ? Color(red: 0.0, green: 1.0, blue: 0.0) : .white)
         .cornerRadius(6)
     }

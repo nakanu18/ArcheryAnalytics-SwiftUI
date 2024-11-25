@@ -68,7 +68,7 @@ struct End: Identifiable, Codable {
     }
     
     var isFinished: Bool {
-        arrowHoles.firstIndex { $0.value == -1 } == nil
+        arrowHoles.count >= numberOfArrowsPerEnd
     }
     
     mutating func updateFirstUnmarkedArrowHole(arrowHole: ArrowHole) {
