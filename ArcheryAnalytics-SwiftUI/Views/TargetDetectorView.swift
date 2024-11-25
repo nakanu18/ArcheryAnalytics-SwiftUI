@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct TargetDetectorView: View {
-    @Binding var arrowHoles: [ArrowHole]
+    var arrowHoles: [ArrowHole]
     
     var scale: Double
     var targetWidth = 40.0
@@ -53,7 +53,7 @@ struct TargetDetectorView: View {
                     .onTapGesture(coordinateSpace: .local) { location in
                         addArrowHole(location: location)
                     }
-                ArrowPlotView(arrowHoles: $arrowHoles, scale: scale, arrowHoleRadius: arrowHoleRadius)
+                ArrowPlotView(arrowHoles: arrowHoles, scale: scale, arrowHoleRadius: arrowHoleRadius)
             }
         }
     }
@@ -63,7 +63,7 @@ struct TargetDetectorView: View {
     // BUG: arrow holes not showing in preview
     @State var arrowHoles: [ArrowHole] = []
     
-    return TargetDetectorView(arrowHoles: $arrowHoles, scale: 9.0) { arrowHole in
+    return TargetDetectorView(arrowHoles: arrowHoles, scale: 9.0) { arrowHole in
         arrowHoles.append(arrowHole)
     }
 }
@@ -98,7 +98,7 @@ struct TargetView: View {
 }
 
 struct ArrowPlotView: View {
-    @Binding var arrowHoles: [ArrowHole]
+    var arrowHoles: [ArrowHole]
 
     var scale: Double
     var arrowHoleRadius: Double

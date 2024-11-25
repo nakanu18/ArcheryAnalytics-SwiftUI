@@ -34,19 +34,6 @@ class StoreModel: ObservableObject, Codable {
         return rounds.first(where: { $0.id == selectedRoundID }) != nil
     }
     
-    var selectedRound: Round {
-        get {
-            return rounds.first(where: { $0.id == selectedRoundID })!
-        }
-        set {
-            // Implement the logic to update selectedRoundID when the selectedRound changes
-            if let index = rounds.firstIndex(where: { $0.id == selectedRoundID }) {
-                rounds[index] = newValue
-                selectedRoundID = newValue.id
-            }
-        }
-    }
-    
     private static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
@@ -72,6 +59,10 @@ class StoreModel: ObservableObject, Codable {
         rounds = try container.decode([Round].self, forKey: .rounds)
         selectedRoundID = try container.decode(UUID.self, forKey: .selectedRoundID)
     }
+    
+    //
+    // Loading / Saving
+    //
 
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
@@ -140,7 +131,11 @@ class StoreModel: ObservableObject, Codable {
             print("StoreModel: ERROR saving JSON file - \(error)")
         }
     }
-
+    
+    //
+    // Actions
+    //
+    
     func resetData() {
         rounds = []
         selectedRoundID = UUID()
@@ -151,6 +146,15 @@ class StoreModel: ObservableObject, Codable {
     
         self.rounds.insert(newRound, at: 0)
         self.selectedRoundID = newRound.id
+    }
+    
+    func updateRound(round: Round) {
+        guard let index = rounds.firstIndex(where: { $0.id == round.id }) else {
+            return
+        }
+        
+        print("*** Updating round: [\(round.id)] - \(round.name)")
+        rounds[index] = round
     }
     
 }

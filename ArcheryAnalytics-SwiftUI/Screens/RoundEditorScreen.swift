@@ -9,12 +9,15 @@ import SwiftUI
 
 struct RoundEditorScreen: View {
     
-    @Binding var selectedRound: Round
-    @State var selectedEndID = 0
+    @EnvironmentObject private var storeModel: StoreModel
+    @State private var selectedEndID = 0
+    @State private var round = Round(date: Date(), name: "", numberOfEnds: 1, numberOfArrowsPerEnd: 1, tags: [])
+    @State private var forceUpdateId = UUID()
+    var roundID: UUID
     
     private var selectedEnd: End? {
         if selectedEndID != -1 {
-            return selectedRound.ends[selectedEndID]
+            return round.ends[selectedEndID]
         }
         return nil
     }
@@ -24,15 +27,15 @@ struct RoundEditorScreen: View {
     }
     
     private func onArrowHoleScored(arrowHole: ArrowHole) {
-        selectedRound.ends[selectedEndID].updateFirstUnmarkedArrowHole(arrowHole: arrowHole)
+        round.ends[selectedEndID].updateFirstUnmarkedArrowHole(arrowHole: arrowHole)
     }
     
     private func onRemoveLastArrow() {
-        selectedRound.ends[selectedEndID].clearLastMarkedArrowHole()
+        round.ends[selectedEndID].clearLastMarkedArrowHole()
     }
     
     private func onNextEnd() {
-        if selectedEndID < selectedRound.ends.count - 1 {
+        if selectedEndID < round.ends.count - 1 {
             selectedEndID += 1
         }
     }
@@ -44,15 +47,17 @@ struct RoundEditorScreen: View {
                     Text("Round Stuff")
                 }
                 Section("Ends") {
-                    ForEach(0..<selectedRound.ends.count) { index in
-                        EndCell(i: index, end: selectedRound.ends[index], isSelected: selectedEndID == index)
+                    ForEach(0..<round.ends.count) { index in
+                        EndCell(i: index, end: round.ends[index], isSelected: selectedEndID == index)
                             .onTapGesture {
                                 onEndSelect(index: index)
                             }
                     }
                 }
             }
-            TargetDetectorView(arrowHoles: $selectedRound.ends[selectedEndID].arrowHoles, scale: 9.0, onTargetTap: onArrowHoleScored)
+            TargetDetectorView(arrowHoles: round.ends[selectedEndID].arrowHoles,
+                               scale: 9.0,
+                               onTargetTap: onArrowHoleScored)
             HStack {
                 Button("Delete Last Arrow", action: onRemoveLastArrow)
                     .padding(.horizontal, 20)
@@ -60,9 +65,16 @@ struct RoundEditorScreen: View {
                     .padding(.horizontal, 20)
             }
         }
+        .id(round.id)  // HACK: Force update the entire view
         .onAppear {
-            if (!selectedRound.isFinished) {
-                selectedEndID = selectedRound.unfinishedEndID
+            guard let foundRound = storeModel.rounds.first(where: { $0.id == roundID }) else {
+                fatalError("Round not found")
+            }
+
+            round = foundRound
+
+            if (!round.isFinished) {
+                selectedEndID = round.unfinishedEndID
             }
         }
     }
@@ -70,13 +82,16 @@ struct RoundEditorScreen: View {
 }
 
 #Preview {
-    // BUG: can't see arrow holes in preview
-    @State var selectedRound = Round.mockEmptyRound
-    
-    return NavigationStack {
-        RoundEditorScreen(selectedRound: $selectedRound)
+    let storeModel = StoreModel.mockEmpty
+    var roundID = storeModel.rounds[0].id
+    @ObservedObject var navManager = NavManager()
+
+    return NavigationStack(path: $navManager.path) {
+        RoundEditorScreen(roundID: roundID)
             .navigationBarTitleDisplayMode(.inline) // TODO: temp fix for big space on RoundEditorScreen
-    }
+    }.preferredColorScheme(.dark)
+        .environmentObject(storeModel)
+        .environmentObject(navManager)
 }
 
 struct EndCell: View {

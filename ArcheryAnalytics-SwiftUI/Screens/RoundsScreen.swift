@@ -10,6 +10,7 @@ import SwiftUI
 struct RoundsScreen: View {
     
     @EnvironmentObject private var storeModel: StoreModel
+    @EnvironmentObject private var navManager: NavManager
     @State private var showNewRoundSheet = false
 
     var body: some View {
@@ -20,9 +21,8 @@ struct RoundsScreen: View {
             
             Section("Rounds") {
                 ForEach(storeModel.rounds) { round in
-                    let selectedRound = $storeModel.rounds[$storeModel.rounds.firstIndex(where: { $0.id == round.id })!]
-                    NavigationLink(destination: RoundEditorScreen(selectedRound: selectedRound)) {
-                        RoundCell(round: round)
+                    RoundCell(round: round) {
+                        navManager.push(route: .roundEditor(roundID: round.id))
                     }
                 }.onDelete { offsets in
                     storeModel.rounds.remove(atOffsets: offsets)
@@ -46,30 +46,38 @@ struct RoundsScreen: View {
 }
 
 #Preview {
-    NavigationStack {
+    let storeModel = StoreModel.mockEmpty
+    @ObservedObject var navManager = NavManager()
+
+    return NavigationStack(path: $navManager.path) {
         RoundsScreen()
-            .environmentObject(StoreModel.mockEmpty)
             .navigationBarTitleDisplayMode(.inline) // TODO: temp fix for big space on RoundEditorScreen
-    }
+    }.preferredColorScheme(.dark)
+        .environmentObject(storeModel)
+        .environmentObject(navManager)
 }
 
 struct RoundCell: View {
     var round: Round
-    
+    var onRowTap: (() -> Void)?
+
     var body: some View {
-        HStack {
-            VStack {
-                Text("\(round.name)")
-                    .foregroundColor(.orange)
-                    .fontWeight(.bold)
-                Text(round.date, formatter: DateFormatter.shortFormatter)
-                    .font(.caption)
+        Button {
+            onRowTap?()
+        } label: {
+            HStack {
+                VStack {
+                    Text("\(round.name)")
+                        .foregroundColor(.orange)
+                        .fontWeight(.bold)
+                    Text(round.date, formatter: DateFormatter.shortFormatter)
+                        .font(.caption)
+                }
+                Spacer()
+                Text("\(round.totalScore)")
+                Image(systemName: "chevron.right")
+                    .foregroundColor(.blue)
             }
-            Spacer()
-            Text("\(round.totalScore)")
-            Image(systemName: "chevron.right")
-                .foregroundColor(.blue)
-        }
-        .contentShape(Rectangle()) // Make the entire HStack tappable
+        }.foregroundColor(.white)
     }
 }

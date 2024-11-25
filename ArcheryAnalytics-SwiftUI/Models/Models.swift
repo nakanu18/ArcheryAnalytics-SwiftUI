@@ -45,7 +45,7 @@ struct Round: Identifiable, Codable {
 
         return round
     }
-
+    
 }
 
 struct End: Identifiable, Codable {
@@ -82,7 +82,7 @@ struct End: Identifiable, Codable {
             arrowHoles.removeLast()
         }
     }
-    
+        
 }
 
 struct ArrowHole: Identifiable, Codable {
@@ -94,7 +94,7 @@ struct ArrowHole: Identifiable, Codable {
     var toString: String {
         "\(point?.toString ?? "Unknown"), \(value)"
     }
-    
+        
 }
 
 struct Bow: Identifiable, Codable {

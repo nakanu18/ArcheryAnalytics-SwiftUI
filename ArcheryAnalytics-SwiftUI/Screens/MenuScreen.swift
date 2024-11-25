@@ -10,16 +10,16 @@ import SwiftUI
 struct MenuScreen: View {
     
     @EnvironmentObject private var storeModel: StoreModel
-    @State private var isPreNavDone = false
+    @EnvironmentObject private var navManager: NavManager
     
     private func newData() {
         storeModel.resetData()
-        isPreNavDone = true
+        navManager.push(route: .rounds)
     }
     
     private func loadData(jsonFileName: String, fromBundle: Bool) {
         storeModel.loadData(jsonFileName: jsonFileName, fromBundle: fromBundle)
-        isPreNavDone = true
+        navManager.push(route: .rounds)
     }
 
     var body: some View {
@@ -29,30 +29,25 @@ struct MenuScreen: View {
                         .onTapGesture {
                             newData()
                         }
-                    FileCell(title: "Default")
-                        .onTapGesture {
-                            loadData(jsonFileName: "Default", fromBundle: false)
-                        }
                     FileCell(title: "Sample")
                         .onTapGesture {
                             loadData(jsonFileName: "Sample", fromBundle: true)
                         }
                 }
-            }
-            .navigationTitle("Menu")
-            .navigationDestination(isPresented: $isPreNavDone, destination: {
-                RoundsScreen()
-                    .environmentObject(storeModel)
-            })
+            }.navigationTitle("Menu")
     }
 }
 
 #Preview {
-    NavigationStack {
+    let storeModel = StoreModel.mockEmpty
+    @ObservedObject var navManager = NavManager()
+
+    return NavigationStack(path: $navManager.path) {
         MenuScreen()
-            .environmentObject(StoreModel.mockEmpty)
             .navigationBarTitleDisplayMode(.inline) // TODO: temp fix for big space on RoundEditorScreen
-    }
+    }.preferredColorScheme(.dark)
+        .environmentObject(storeModel)
+        .environmentObject(navManager)
 }
 
 struct FileCell: View {

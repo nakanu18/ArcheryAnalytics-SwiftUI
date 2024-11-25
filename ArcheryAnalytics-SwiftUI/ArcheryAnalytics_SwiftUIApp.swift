@@ -10,19 +10,29 @@ import SwiftUI
 @main
 struct ArcheryAnalytics_SwiftUIApp: App {
     
-    @StateObject private var storeModel = StoreModel.mockEmpty
+    private var storeModel = StoreModel.mockEmpty
+    @ObservedObject private var navManager = NavManager()
         
     var body: some Scene {
         WindowGroup {
-            NavigationStack {
+            NavigationStack(path: $navManager.path) {
                 MenuScreen()
-                    .environmentObject(storeModel)
+                    .navigationBarTitleDisplayMode(.inline)
+                    .navigationDestination(for: Route.self) { route in
+                        switch route {
+                        case .rounds:
+                            RoundsScreen()
+                        case .roundEditor(let roundID):
+                            RoundEditorScreen(roundID: roundID)
+                        }
+                    }
                     .onReceive(NotificationCenter.default.publisher(for: UIApplication.didEnterBackgroundNotification)) { _ in
                         print("didEnterBackgroundNotification")
                         storeModel.saveData()
                     }
-                    .navigationBarTitleDisplayMode(.inline) // TODO: temp fix for big space on RoundEditorScreen
-            }
+            }.preferredColorScheme(.dark)
+                .environmentObject(storeModel)
+                .environmentObject(navManager)
         }
     }
     
