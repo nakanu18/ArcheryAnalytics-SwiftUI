@@ -66,7 +66,7 @@ struct RoundCell: View {
             onRowTap?()
         } label: {
             HStack {
-                VStack {
+                VStack(alignment: .leading) {
                     Text("\(round.name)")
                         .foregroundColor(.orange)
                         .fontWeight(.bold)
@@ -74,9 +74,11 @@ struct RoundCell: View {
                         .font(.caption)
                 }
                 Spacer()
-                Text("\(round.totalScore)")
-                Image(systemName: "chevron.right")
-                    .foregroundColor(.blue)
+                HStack {
+                    Text("\(round.totalScore)")
+                    Image(systemName: "chevron.right")
+                        .foregroundColor(.blue)
+                }
             }
         }.foregroundColor(.white)
     }
