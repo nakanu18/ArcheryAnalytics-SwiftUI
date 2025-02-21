@@ -12,28 +12,99 @@ struct Round: Identifiable, Codable {
     var id = UUID()
     let name: String
     let date: Date
-    var ends: [End]
+    let numberOfEnds: Int
+    let numberOfArrowsPerEnd: Int
+    var arrowHoles: [ArrowHole]
     let tags: [Tag]
-
+    
     init(date: Date, name: String, numberOfEnds: Int, numberOfArrowsPerEnd: Int, tags: [Tag]) {
         self.date = date
         self.name = name
-        self.ends = Array.init(repeating: End(numberOfArrowsPerEnd: numberOfArrowsPerEnd), count: numberOfEnds)
+        self.numberOfEnds = numberOfEnds
+        self.numberOfArrowsPerEnd = numberOfArrowsPerEnd
+        self.arrowHoles = (0..<numberOfEnds * numberOfArrowsPerEnd).map { _ in ArrowHole() }
         self.tags = tags
     }
     
+    func arrowIDs(endID: Int) -> (start: Int, end: Int) {
+        guard endID >= 0, endID < numberOfEnds else {
+            return (0, numberOfArrowsPerEnd)
+        }
+
+        let start = endID * numberOfArrowsPerEnd
+        let end = start + numberOfArrowsPerEnd
+        
+        return (start, end)
+    }
+
+    var isFinished: Bool {
+        return arrowHoles.allSatisfy { $0.value >= 0 }
+    }
+    
+    var firstUnfinishedEndID: Int {
+        for endID in 0..<numberOfEnds {
+            let IDs = arrowIDs(endID: endID)
+
+            if arrowHoles[IDs.start..<IDs.end].contains(where: { $0.value == -1 }) {
+                return endID
+            }
+        }
+        return -1 // Return -1 if all ends are finished
+    }
+    
+    func arrowHoles(endID: Int) -> [ArrowHole] {
+        let IDs = arrowIDs(endID: endID)
+        
+        guard IDs.start >= 0, IDs.end <= arrowHoles.count else {
+            return []
+        }
+        
+        return Array(arrowHoles[IDs.start..<IDs.end])
+    }
+    
+    func arrowValues(endID: Int) -> [Int] {
+        let IDs = arrowIDs(endID: endID)
+
+        guard IDs.start >= 0, IDs.end <= arrowHoles.count else {
+            return []
+        }
+        return arrowHoles[IDs.start..<IDs.end].map { $0.value }
+    }
+    
+    var allArrowValues: [Int] {
+        return arrowHoles.map { $0.value }
+    }
+
+    func score(endID: Int) -> Int {
+        return arrowValues(endID: endID).filter { $0 >= 0 }.reduce(0, +)
+    }
+    
     var totalScore: Int {
-        ends.reduce(0) { partialResult, end in
-            return partialResult + end.totalScore
+        return allArrowValues.filter { $0 >= 0 }.reduce(0, +)
+    }
+    
+    mutating func updateFirstUnmarkedArrowHole(endID: Int, arrowHole: ArrowHole) {
+        let IDs = arrowIDs(endID: endID)
+
+        guard IDs.start >= 0, IDs.end <= arrowHoles.count else {
+            return
+        }
+        
+        if let index = arrowHoles[IDs.start..<IDs.end].firstIndex(where: { $0.value == -1 }) {
+            arrowHoles[index] = arrowHole
         }
     }
-    
-    var isFinished: Bool {
-        ends.firstIndex { !$0.isFinished } == nil
-    }
-    
-    var unfinishedEndID: Int {
-        ends.firstIndex { !$0.isFinished } ?? -1
+
+    mutating func clearLastMarkedArrowHole(endID: Int) {
+        let IDs = arrowIDs(endID: endID)
+
+        guard IDs.start >= 0, IDs.end <= arrowHoles.count else {
+            return
+        }
+        
+        if let index = arrowHoles[IDs.start..<IDs.end].lastIndex(where: { $0.value != -1 }) {
+            arrowHoles[index].clear()
+        }
     }
 
     static var mockEmptyRound: Round {
@@ -48,43 +119,6 @@ struct Round: Identifiable, Codable {
     
 }
 
-struct End: Identifiable, Codable {
-    
-    var id = UUID()
-    var arrowHoles: [ArrowHole] = []
-    var numberOfArrowsPerEnd: Int
-    
-    var totalScore: Int {
-        arrowHoles.reduce(0) { partialResult, hole in
-            if hole.value >= 0 {
-                return partialResult + hole.value
-            }
-            return partialResult
-        }
-    }
-    
-    var arrowValues: [Int] {
-        arrowHoles.map { $0.value }
-    }
-    
-    var isFinished: Bool {
-        arrowHoles.count >= numberOfArrowsPerEnd
-    }
-    
-    mutating func updateFirstUnmarkedArrowHole(arrowHole: ArrowHole) {
-        if arrowHoles.count < numberOfArrowsPerEnd {
-            arrowHoles.append(arrowHole)
-        }
-    }
-    
-    mutating func clearLastMarkedArrowHole() {
-        if arrowHoles.count > 0 {
-            arrowHoles.removeLast()
-        }
-    }
-        
-}
-
 struct ArrowHole: Identifiable, Codable {
     
     var id = UUID()
@@ -93,6 +127,11 @@ struct ArrowHole: Identifiable, Codable {
     
     var toString: String {
         "\(point?.toString ?? "Unknown"), \(value)"
+    }
+    
+    mutating func clear() {
+        point = nil
+        value = -1
     }
         
 }

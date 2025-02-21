@@ -165,7 +165,7 @@ class StoreModel: ObservableObject, Codable {
         }
 
         print("*** updateArrowHole: [\(roundID)] - end[\(endID)] - arrowHole[\(arrowHole.value)]")
-        rounds[index].ends[endID].updateFirstUnmarkedArrowHole(arrowHole: arrowHole)
+        rounds[index].updateFirstUnmarkedArrowHole(endID: endID, arrowHole: arrowHole)
     }
     
     func clearLastMarkedArrowHole(roundID: UUID, endID: Int) {
@@ -174,7 +174,7 @@ class StoreModel: ObservableObject, Codable {
         }
 
         print("*** clearLastMarkedArrowHole: [\(roundID)] - end[\(endID)]")
-        rounds[index].ends[endID].clearLastMarkedArrowHole()
+        rounds[index].clearLastMarkedArrowHole(endID: endID)
     }
     
 }

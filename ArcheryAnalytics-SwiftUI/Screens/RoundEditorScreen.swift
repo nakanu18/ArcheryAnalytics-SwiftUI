@@ -20,13 +20,6 @@ struct RoundEditorScreen: View {
         return foundRound
     }
     
-    private var selectedEnd: End? {
-        if selectedEndID != -1 {
-            return round.ends[selectedEndID]
-        }
-        return nil
-    }
-    
     private func onEndSelect(index: Int) {
         selectedEndID = index
     }
@@ -40,9 +33,7 @@ struct RoundEditorScreen: View {
     }
     
     private func onNextEnd() {
-        if selectedEndID < round.ends.count - 1 {
-            selectedEndID += 1
-        }
+        selectedEndID = min(selectedEndID + 1, round.numberOfEnds - 1)
     }
     
     var body: some View {
@@ -52,15 +43,15 @@ struct RoundEditorScreen: View {
                     Text("Round Stuff")
                 }
                 Section("Ends") {
-                    ForEach(0..<round.ends.count) { index in
-                        EndCell(i: index, end: round.ends[index], isSelected: selectedEndID == index)
+                    ForEach(0..<round.numberOfEnds, id: \.self) { index in
+                        EndCell(round: round, endID: index, isSelected: selectedEndID == index)
                             .onTapGesture {
                                 onEndSelect(index: index)
                             }
                     }
                 }
             }
-            TargetDetectorView(arrowHoles: round.ends[selectedEndID].arrowHoles,
+            TargetDetectorView(arrowHoles: round.arrowHoles(endID:selectedEndID),
                                scale: 9.0,
                                onTargetTap: onArrowHoleScored)
             HStack {
@@ -72,7 +63,7 @@ struct RoundEditorScreen: View {
         }
         .onAppear {
             if (!round.isFinished) {
-                selectedEndID = round.unfinishedEndID
+                selectedEndID = round.firstUnfinishedEndID
             }
         }
     }
@@ -93,28 +84,32 @@ struct RoundEditorScreen: View {
 }
 
 struct EndCell: View {
-    let i: Int
-    let end: End
+    let round: Round
+    let endID: Int
     var isSelected: Bool
+    
+    var arrowIDs: (Int, Int) {
+        round.arrowIDs(endID: endID)
+    }
         
     var body: some View {
         HStack {
-            Text("\(i + 1)")
+            Text("\(endID + 1)")
                 .frame(width: 30, height: 30)
                 .background(.black)
                 .foregroundColor(.gray)
                 .cornerRadius(6)
                 .padding(.trailing, 8)
             
-            ForEach(end.arrowValues.map(NumberWrapper.init)) { numberWrapper in
-                if (numberWrapper.number >= 0) {
-                    ArrowHoleView(value: numberWrapper.number)
+            ForEach(round.arrowHoles[arrowIDs.0..<arrowIDs.1]) { arrowHole in
+                if (arrowHole.value >= 0) {
+                    ArrowHoleView(value: arrowHole.value)
 //                        .id(numberWrapper.id) // TODO: is this needed?
                 }
             }
             
             Spacer()
-            Text("\(end.totalScore)")
+            Text("\(round.score(endID: endID))")
                 .foregroundColor(.black)
                 .padding(.trailing, 4)
         }
@@ -122,11 +117,6 @@ struct EndCell: View {
         .background(isSelected ? Color(red: 0.0, green: 1.0, blue: 0.0) : .white)
         .cornerRadius(6)
     }
-}
-
-struct NumberWrapper: Identifiable {
-    let id = UUID()
-    let number: Int
 }
 
 struct ArrowHoleView: View {
