@@ -1,0 +1,9 @@
+# Enable trailing commas in multiline collections
+--commas always
+
+# Use 4 spaces for indentation
+--indent 4
+
+# No semicolons
+--nospaceoperators
+

@@ -9,10 +9,9 @@ import SwiftUI
 
 @main
 struct ArcheryAnalytics_SwiftUIApp: App {
-    
     private var storeModel = StoreModel.mockEmpty
     @ObservedObject private var navManager = NavManager()
-        
+
     var body: some Scene {
         WindowGroup {
             NavigationStack(path: $navManager.path) {
@@ -22,11 +21,14 @@ struct ArcheryAnalytics_SwiftUIApp: App {
                         switch route {
                         case .rounds:
                             RoundsScreen()
-                        case .roundEditor(let roundID):
+                        case let .roundEditor(roundID):
                             RoundEditorScreen(roundID: roundID)
                         }
                     }
-                    .onReceive(NotificationCenter.default.publisher(for: UIApplication.didEnterBackgroundNotification)) { _ in
+                    .onReceive(
+                        NotificationCenter.default.publisher(
+                            for: UIApplication.didEnterBackgroundNotification)
+                    ) { _ in
                         print("didEnterBackgroundNotification")
                         storeModel.saveData()
                     }
@@ -35,5 +37,4 @@ struct ArcheryAnalytics_SwiftUIApp: App {
                 .environmentObject(navManager)
         }
     }
-    
 }

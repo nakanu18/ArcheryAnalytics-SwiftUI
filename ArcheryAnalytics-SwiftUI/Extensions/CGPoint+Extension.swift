@@ -9,17 +9,15 @@ import Foundation
 import SwiftUI
 
 extension CGPoint {
-    
     var toString: String {
-        String(format: "%.2f, %.2f", self.x, self.y)
+        String(format: "%.2f, %.2f", x, y)
     }
-    
+
     func scaleBy(_ scale: Double) -> CGPoint {
-        return CGPointMake(self.x * scale, self.y * scale)
+        return CGPointMake(x * scale, y * scale)
     }
-    
+
     func shiftBy(_ pt: CGPoint) -> CGPoint {
-        return CGPoint(x: self.x + pt.x, y: self.y + pt.y)
+        return CGPoint(x: x + pt.x, y: y + pt.y)
     }
-    
 }

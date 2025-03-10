@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  RoundsScreen.swift
 //  ArcheryAnalytics-SwiftUI
 //
 //  Created by Alex de Vera on 11/26/23.
@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct RoundsScreen: View {
-    
     @EnvironmentObject private var storeModel: StoreModel
     @EnvironmentObject private var navManager: NavManager
     @State private var showNewRoundSheet = false
@@ -18,7 +17,7 @@ struct RoundsScreen: View {
             Section("Info") {
                 Text("Total Rounds: \(storeModel.rounds.count)")
             }
-            
+
             Section("Rounds") {
                 ForEach(storeModel.rounds) { round in
                     RoundCell(round: round) {
