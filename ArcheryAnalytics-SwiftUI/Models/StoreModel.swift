@@ -103,8 +103,15 @@ class StoreModel: ObservableObject, Codable {
             selectedRoundID = decodedStoreModel.selectedRoundID
         } catch {
             print("StoreModel: ERROR loading JSON from \(loadingSource) - \(jsonFileName), \(error)")
-            resetData()
+            resetData(jsonFileName: jsonFileName)
         }
+    }
+    
+    func doesFileExist(fileName: String) -> Bool {
+        let fileManager = FileManager.default
+        let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let url = documentsDirectory.appendingPathComponent("\(fileName).json")
+        return fileManager.fileExists(atPath: url.path)
     }
 
     func saveData() {
@@ -134,7 +141,8 @@ class StoreModel: ObservableObject, Codable {
     // Actions
     //
 
-    func resetData() {
+    func resetData(jsonFileName: String) {
+        fileName = jsonFileName
         rounds = []
         selectedRoundID = UUID()
         print("*** resetData")

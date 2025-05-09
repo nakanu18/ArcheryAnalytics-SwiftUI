@@ -11,8 +11,8 @@ struct MenuScreen: View {
     @EnvironmentObject private var storeModel: StoreModel
     @EnvironmentObject private var navManager: NavManager
 
-    private func newData() {
-        storeModel.resetData()
+    private func newData(jsonFileName: String) {
+        storeModel.resetData(jsonFileName: jsonFileName)
         navManager.push(route: .rounds)
     }
 
@@ -24,10 +24,17 @@ struct MenuScreen: View {
     var body: some View {
         List {
             Section("Data") {
-                FileCell(title: "New File")
-                    .onTapGesture {
-                        newData()
-                    }
+                if storeModel.doesFileExist(fileName: "Default") {
+                    FileCell(title: "Saved Data")
+                        .onTapGesture {
+                            loadData(jsonFileName: "Default", fromBundle: false)
+                        }
+                } else {
+                    FileCell(title: "New Data")
+                        .onTapGesture {
+                            newData(jsonFileName: "Default")
+                        }
+                }
             }
 
             Section("Debug") {

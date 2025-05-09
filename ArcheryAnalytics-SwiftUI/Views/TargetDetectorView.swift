@@ -14,7 +14,10 @@ struct TargetDetectorView: View {
     var targetWidth = 40.0
     var padding = 15.0
 
-    var arrowHoleRadius = 0.5
+    // 0.540cm -> 0.214" - VAP
+    // 0.675cm -> 0.266" - 17/64
+    // 0.912cm -> 0.359" - 23/64
+    var arrowHoleRadius = 0.54
 
     var onTargetTap: ((ArrowHole) -> Void)?
 

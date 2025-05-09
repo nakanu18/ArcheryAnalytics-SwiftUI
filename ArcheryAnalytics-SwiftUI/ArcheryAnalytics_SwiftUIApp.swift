@@ -9,7 +9,7 @@ import SwiftUI
 
 @main
 struct ArcheryAnalytics_SwiftUIApp: App {
-    private var storeModel = StoreModel.mockEmpty
+    @ObservedObject private var storeModel = StoreModel.mockEmpty
     @ObservedObject private var navManager = NavManager()
 
     var body: some Scene {
@@ -25,10 +25,7 @@ struct ArcheryAnalytics_SwiftUIApp: App {
                             RoundEditorScreen(roundID: roundID)
                         }
                     }
-                    .onReceive(
-                        NotificationCenter.default.publisher(
-                            for: UIApplication.didEnterBackgroundNotification)
-                    ) { _ in
+                    .onReceive(NotificationCenter.default.publisher(for: UIApplication.didEnterBackgroundNotification)) { _ in
                         print("didEnterBackgroundNotification")
                         storeModel.saveData()
                     }
