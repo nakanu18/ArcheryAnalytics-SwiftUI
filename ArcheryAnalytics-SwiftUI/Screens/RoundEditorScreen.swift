@@ -12,6 +12,10 @@ struct RoundEditorScreen: View {
     @State private var selectedEndID = 0
     var roundID: UUID
 
+    @State private var scale: CGFloat = 1.0
+    @State private var offset: CGSize = .zero
+    @State private var currentDragOffset: CGSize = .zero
+
     private var round: Round {
         guard let foundRound = storeModel.rounds.first(where: { $0.id == roundID }) else {
             fatalError("Round not found")
@@ -30,11 +34,16 @@ struct RoundEditorScreen: View {
     private func onRemoveLastArrow() {
         storeModel.clearLastMarkedArrowHole(roundID: roundID, endID: selectedEndID)
     }
+    
+    private func onRecenter() {
+        scale = 1.0
+        offset = .zero
+    }
 
     private func onNextEnd() {
         selectedEndID = min(selectedEndID + 1, round.numberOfEnds - 1)
     }
-
+    
     var body: some View {
         VStack {
             List {
@@ -50,15 +59,51 @@ struct RoundEditorScreen: View {
                     }
                 }
             }
-            TargetDetectorView(arrowHoles: round.arrowHoles(endID: selectedEndID),
-                               scale: 9.0,
-                               onTargetTap: onArrowHoleScored)
-            HStack {
-                Button("Delete Last Arrow", action: onRemoveLastArrow)
-                    .padding(.horizontal, 20)
-                Button("Next End", action: onNextEnd)
-                    .padding(.horizontal, 20)
+
+            GeometryReader { proxy in
+                TargetDetectorView(
+                    arrowHoles: round.arrowHoles(endID: selectedEndID),
+                    scale: 9.0,
+                    onTargetTap: onArrowHoleScored
+                )
+                .scaleEffect(scale)
+                .offset(
+                    x: offset.width + currentDragOffset.width,
+                    y: offset.height + currentDragOffset.height
+                )
+                .gesture(
+                    DragGesture()
+                        .onChanged { value in
+                            currentDragOffset = value.translation
+                        }
+                        .onEnded { value in
+                            offset.width += value.translation.width
+                            offset.height += value.translation.height
+                            currentDragOffset = .zero
+                        }
+                )
+                .simultaneousGesture(
+                    MagnificationGesture()
+                        .onChanged { value in
+                            scale = value
+                        }
+                        .onEnded { value in
+                            scale *= value
+                        }
+                )
+                .frame(width: proxy.size.width, height: proxy.size.height)
+                .clipped()
+                .contentShape(Rectangle())
             }
+
+            HStack {
+                Button("Re-center", action: onRecenter)
+                Spacer()
+                Button("Delete Last", action: onRemoveLastArrow)
+                Spacer()
+                Button("Next End", action: onNextEnd)
+            }
+            .padding(.horizontal)
         }
         .onAppear {
             if !round.isFinished {
@@ -108,7 +153,7 @@ struct EndCell: View {
 
             Spacer()
             Text("\(round.score(endID: endID))")
-                .foregroundColor(.black)
+                .foregroundColor(isSelected ? .black : .white)
                 .padding(.trailing, 4)
         }
         .padding(1)
