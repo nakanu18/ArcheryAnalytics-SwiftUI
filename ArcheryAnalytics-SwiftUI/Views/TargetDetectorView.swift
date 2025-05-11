@@ -64,7 +64,7 @@ struct TargetDetectorView: View {
 
 #Preview {
     // BUG: arrow holes not showing in preview
-    @State var arrowHoles: [ArrowHole] = []
+    @Previewable @State var arrowHoles: [ArrowHole] = []
 
     return TargetDetectorView(arrowHoles: arrowHoles, scale: 9.0) { arrowHole in
         arrowHoles.append(arrowHole)

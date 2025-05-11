@@ -126,14 +126,13 @@ struct ArrowHoleView: View {
     var body: some View {
         ZStack {
             Text("\(value)")
-                .frame(width: 28, height: 28)
+                .frame(width: 26, height: 26)
                 .background(bgColor[value])
                 .foregroundColor(color[value])
                 .cornerRadius(20)
-                .padding(.horizontal, 3)
             Circle()
                 .stroke(Color.gray, lineWidth: 2)
-                .frame(width: 28, height: 28)
+                .frame(width: 26, height: 26)
         }
     }
 }

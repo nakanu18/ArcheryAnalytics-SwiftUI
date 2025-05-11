@@ -37,7 +37,11 @@ struct RoundsScreen: View {
             }
             .sheet(isPresented: $showNewRoundSheet, content: {
                 Button("WA 18m Round") {
-                    storeModel.createNewRound()
+                    storeModel.createNewRound(indoor: true)
+                    showNewRoundSheet = false
+                }
+                Button("WA 50m Round") {
+                    storeModel.createNewRound(indoor: false)
                     showNewRoundSheet = false
                 }
             })
@@ -65,6 +69,13 @@ struct RoundCell: View {
             onRowTap?()
         } label: {
             HStack {
+                if !round.isFinished {
+                    Rectangle()
+                        .fill(Color.green)
+                        .frame(width: 4)
+                        .padding(.leading, -18)
+                }
+                
                 VStack(alignment: .leading) {
                     Text("\(round.name)")
                         .foregroundColor(.orange)
