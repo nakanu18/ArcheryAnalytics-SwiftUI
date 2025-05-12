@@ -12,10 +12,12 @@ struct RoundEditorScreen: View {
     @State private var selectedEndID = 0
     var roundID: UUID
 
+    // Used for panning and zooming
     @State private var scale: CGFloat = 1.0
     @State private var offset: CGSize = .zero
-    @State private var currentDragOffset: CGSize = .zero
-
+    @GestureState private var gestureOffset: CGSize = .zero
+    @GestureState private var gestureScale: CGFloat = 1.0
+    
     private var round: Round {
         guard let foundRound = storeModel.rounds.first(where: { $0.id == roundID }) else {
             fatalError("Round not found")
@@ -66,34 +68,33 @@ struct RoundEditorScreen: View {
                     scale: 9.0,
                     onTargetTap: onArrowHoleScored
                 )
-                .scaleEffect(scale)
+                .scaleEffect(scale * gestureScale)
                 .offset(
-                    x: offset.width + currentDragOffset.width,
-                    y: offset.height + currentDragOffset.height
+                    x: offset.width + gestureOffset.width,
+                    y: offset.height + gestureOffset.height
                 )
                 .gesture(
-                    DragGesture()
-                        .onChanged { value in
-                            currentDragOffset = value.translation
-                        }
-                        .onEnded { value in
-                            offset.width += value.translation.width
-                            offset.height += value.translation.height
-                            currentDragOffset = .zero
-                        }
-                )
-                .simultaneousGesture(
-                    MagnificationGesture()
-                        .onChanged { value in
-                            scale = value
-                        }
-                        .onEnded { value in
-                            scale *= value
-                        }
+                    SimultaneousGesture(
+                        MagnificationGesture()
+                            .updating($gestureScale) { val, state, _ in
+                                state = val
+                            }
+                            .onEnded { val in
+                                scale *= val
+                            },
+                        DragGesture()
+                            .updating($gestureOffset) { val, state, _ in
+                                state = val.translation
+                            }
+                            .onEnded { val in
+                                offset.width += val.translation.width
+                                offset.height += val.translation.height
+                            }
+                    )
                 )
                 .frame(width: proxy.size.width, height: proxy.size.height)
-                .clipped()
-                .contentShape(Rectangle())
+                .clipped() // ⬅️ prevents overflowing outside of the frame
+                .contentShape(Rectangle()) // makes gestures work properly
             }
 
             HStack {
