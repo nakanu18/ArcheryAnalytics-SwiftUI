@@ -43,7 +43,7 @@ struct RoundEditorScreen: View {
     }
 
     private func onNextEnd() {
-        selectedEndID = min(selectedEndID + 1, round.numberOfEnds - 1)
+        selectedEndID = min(selectedEndID + 1, round.currentTargetGroup.numberOfEnds - 1)
     }
     
     var body: some View {
@@ -53,7 +53,7 @@ struct RoundEditorScreen: View {
                     Text("Round Stuff")
                 }
                 Section("Ends") {
-                    ForEach(0 ..< round.numberOfEnds, id: \.self) { index in
+                    ForEach(0 ..< round.currentTargetGroup.numberOfEnds, id: \.self) { index in
                         EndCell(round: round, endID: index, isSelected: selectedEndID == index)
                             .onTapGesture {
                                 onEndSelect(index: index)
@@ -64,7 +64,7 @@ struct RoundEditorScreen: View {
 
             GeometryReader { proxy in
                 TargetDetectorView(
-                    arrowHoles: round.arrowHoles(endID: selectedEndID),
+                    arrowHoles: round.currentTargetGroup.arrowHoles(endID: selectedEndID),
                     scale: 9.0,
                     onTargetTap: onArrowHoleScored
                 )
@@ -108,7 +108,7 @@ struct RoundEditorScreen: View {
         }
         .onAppear {
             if !round.isFinished {
-                selectedEndID = round.firstUnfinishedEndID
+                selectedEndID = round.currentTargetGroup.firstUnfinishedEndID
             }
         }
     }
@@ -116,7 +116,7 @@ struct RoundEditorScreen: View {
 
 #Preview {
     let storeModel = StoreModel.mockEmpty
-    var roundID = storeModel.rounds[0].id
+    let roundID = storeModel.rounds[0].id
     @ObservedObject var navManager = NavManager()
 
     return NavigationStack(path: $navManager.path) {
@@ -133,7 +133,7 @@ struct EndCell: View {
     var isSelected: Bool
 
     var arrowIDs: (start: Int, end: Int) {
-        round.arrowIDs(endID: endID)
+        round.currentTargetGroup.arrowIDs(endID: endID)
     }
 
     var body: some View {
@@ -145,7 +145,7 @@ struct EndCell: View {
                 .cornerRadius(6)
                 .padding(.trailing, 8)
 
-            ForEach(round.arrowHoles[arrowIDs.start ..< arrowIDs.end]) { arrowHole in
+            ForEach(round.currentTargetGroup.arrowHoles[arrowIDs.start ..< arrowIDs.end]) { arrowHole in
                 if arrowHole.value >= 0 {
                     ArrowHoleView(value: arrowHole.value)
 //                        .id(numberWrapper.id) // TODO: is this needed?
@@ -153,7 +153,7 @@ struct EndCell: View {
             }
 
             Spacer()
-            Text("\(round.score(endID: endID))")
+            Text("\(round.currentTargetGroup.score(endID: endID))")
                 .foregroundColor(isSelected ? .black : .white)
                 .padding(.trailing, 4)
         }

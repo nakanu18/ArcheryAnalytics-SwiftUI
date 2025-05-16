@@ -11,18 +11,68 @@ struct Round: Identifiable, Codable {
     var id = UUID()
     let name: String
     let date: Date
-    let numberOfEnds: Int
-    let numberOfArrowsPerEnd: Int
-    var arrowHoles: [ArrowHole]
+    var targetGroups: [TargetGroup]
     let tags: [Tag]
+    
+    var currentTargetGroupID = 0
 
     init(date: Date, name: String, numberOfEnds: Int, numberOfArrowsPerEnd: Int, tags: [Tag]) {
         self.date = date
         self.name = name
+        self.targetGroups = [(TargetGroup(targetSize: 40,
+                                          arrowSize: 0.54,
+                                          distance: 50,
+                                          numberOfEnds: numberOfEnds,
+                                          numberOfArrowsPerEnd: numberOfArrowsPerEnd))]
+        self.tags = tags
+    }
+    
+    var currentTargetGroup: TargetGroup {
+        return targetGroups[currentTargetGroupID]
+    }
+
+    var isFinished: Bool {
+        return targetGroups.filter(\.isFinished).count == targetGroups.count
+    }
+    
+    var totalScore: Int {
+        return targetGroups.reduce(0) { result, targetGroup in
+            result + targetGroup.totalScore
+        }
+    }
+
+    static var mockEmptyRound: Round {
+        let round = Round(date: Date(),
+                          name: "Vegas 300",
+                          numberOfEnds: 10,
+                          numberOfArrowsPerEnd: 3,
+                          tags: [])
+
+        return round
+    }
+}
+
+// 0.540cm -> 0.214" - VAP
+// 0.675cm -> 0.266" - 17/64
+// 0.912cm -> 0.359" - 23/64
+struct TargetGroup: Identifiable, Codable {
+    var id = UUID()
+    var targetSize: Float // cm
+    var arrowSize: Float // cm
+    var distance: Int // m
+    
+    let numberOfEnds: Int
+    let numberOfArrowsPerEnd: Int
+    var arrowHoles: [ArrowHole] = []
+
+    init(targetSize: Float, arrowSize: Float, distance: Int, numberOfEnds: Int, numberOfArrowsPerEnd: Int) {
+        self.targetSize = targetSize
+        self.arrowSize = arrowSize
+        self.distance = distance
         self.numberOfEnds = numberOfEnds
         self.numberOfArrowsPerEnd = numberOfArrowsPerEnd
-        arrowHoles = (0 ..< numberOfEnds * numberOfArrowsPerEnd).map { _ in ArrowHole() }
-        self.tags = tags
+        // Build ArrowHoles with unique ids
+        self.arrowHoles = (0 ..< numberOfEnds * numberOfArrowsPerEnd).map { _ in ArrowHole() }
     }
 
     func arrowIDs(endID: Int) -> (start: Int, end: Int) {
@@ -35,11 +85,11 @@ struct Round: Identifiable, Codable {
 
         return (start, end)
     }
-
+    
     var isFinished: Bool {
         return arrowHoles.allSatisfy { $0.value >= 0 }
     }
-
+    
     var firstUnfinishedEndID: Int {
         for endID in 0 ..< numberOfEnds {
             let IDs = arrowIDs(endID: endID)
@@ -60,7 +110,7 @@ struct Round: Identifiable, Codable {
 
         return Array(arrowHoles[IDs.start ..< IDs.end])
     }
-
+    
     func arrowValues(endID: Int) -> [Int] {
         let IDs = arrowIDs(endID: endID)
 
@@ -104,16 +154,6 @@ struct Round: Identifiable, Codable {
         if let index = arrowHoles[IDs.start ..< IDs.end].lastIndex(where: { $0.value != -1 }) {
             arrowHoles[index].clear()
         }
-    }
-
-    static var mockEmptyRound: Round {
-        let round = Round(date: Date(),
-                          name: "Vegas 300",
-                          numberOfEnds: 10,
-                          numberOfArrowsPerEnd: 3,
-                          tags: [])
-
-        return round
     }
 }
 

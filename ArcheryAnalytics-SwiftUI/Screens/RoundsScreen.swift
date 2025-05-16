@@ -70,10 +70,10 @@ struct RoundCell: View {
         } label: {
             HStack {
                 if !round.isFinished {
-                    Rectangle()
+                    Circle()
                         .fill(Color.green)
-                        .frame(width: 4)
-                        .padding(.leading, -18)
+                        .frame(width: 10, height: 10)
+                        .padding(.leading, -12)
                 }
                 
                 VStack(alignment: .leading) {
