@@ -23,6 +23,7 @@ class StoreModel: ObservableObject, Codable {
     @Published var fileName = "Default"
     @Published var rounds: [Round] = []
     @Published var selectedRoundID: UUID
+    @Published var toastMessage: String? = nil
 
     static var mockEmpty: StoreModel {
         let mockRound = Round.mockEmptyRound
@@ -122,6 +123,7 @@ class StoreModel: ObservableObject, Codable {
 
         do {
             print("StoreModel: Saving JSON - \(fileName)")
+            toastMessage = "Saving ..."
 
             let data = try encoder.encode(self)
 
@@ -134,6 +136,7 @@ class StoreModel: ObservableObject, Codable {
             try data.write(to: url)
         } catch {
             print("StoreModel: ERROR saving JSON file - \(error)")
+            toastMessage = "Saving Failed ..."
         }
     }
 

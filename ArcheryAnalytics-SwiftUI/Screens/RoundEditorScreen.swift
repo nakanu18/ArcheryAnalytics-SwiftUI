@@ -111,6 +111,9 @@ struct RoundEditorScreen: View {
                 selectedEndID = round.currentTargetGroup.firstUnfinishedEndID
             }
         }
+        .onDisappear {
+            storeModel.saveData()
+        }
     }
 }
 

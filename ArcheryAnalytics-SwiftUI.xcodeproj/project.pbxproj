@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B64CCDB02DD9BBED00C71919 /* ToastModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = B64CCDAF2DD9BBED00C71919 /* ToastModifier.swift */; };
 		FA2A81822CE7DA2E008A4C08 /* NavManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2A81812CE7DA2E008A4C08 /* NavManager.swift */; };
 		FA78F25E2C361D5300A4ABA5 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA78F25D2C361D5300A4ABA5 /* Models.swift */; };
 		FAA521B12B369C6B00B52E95 /* MenuScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA521B02B369C6B00B52E95 /* MenuScreen.swift */; };
@@ -23,6 +24,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B64CCDAF2DD9BBED00C71919 /* ToastModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastModifier.swift; sourceTree = "<group>"; };
 		FA2A81812CE7DA2E008A4C08 /* NavManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavManager.swift; sourceTree = "<group>"; };
 		FA78F25D2C361D5300A4ABA5 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		FAA521B02B369C6B00B52E95 /* MenuScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScreen.swift; sourceTree = "<group>"; };
@@ -50,6 +52,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B64CCDAE2DD9BBC800C71919 /* Modifiers */ = {
+			isa = PBXGroup;
+			children = (
+				B64CCDAF2DD9BBED00C71919 /* ToastModifier.swift */,
+			);
+			path = Modifiers;
+			sourceTree = "<group>";
+		};
 		FA2A81802CE7DA08008A4C08 /* Services */ = {
 			isa = PBXGroup;
 			children = (
@@ -90,6 +100,7 @@
 				FAEC07D62B142AF200841E80 /* ArcheryAnalytics_SwiftUIApp.swift */,
 				FAFDBE422B43C3610037389B /* JSONS */,
 				FAFF4FAB2B1AE8A400FB1D33 /* Extensions */,
+				B64CCDAE2DD9BBC800C71919 /* Modifiers */,
 				FAEC07E42B142B0200841E80 /* Models */,
 				FAA521AF2B36997000B52E95 /* Screens */,
 				FA2A81802CE7DA08008A4C08 /* Services */,
@@ -217,6 +228,7 @@
 				FAA521B12B369C6B00B52E95 /* MenuScreen.swift in Sources */,
 				FAEC07E92B14398C00841E80 /* RoundEditorScreen.swift in Sources */,
 				FAFF4FAD2B1AE8E000FB1D33 /* CGPoint+Extension.swift in Sources */,
+				B64CCDB02DD9BBED00C71919 /* ToastModifier.swift in Sources */,
 				FAEC07D72B142AF200841E80 /* ArcheryAnalytics_SwiftUIApp.swift in Sources */,
 				FA2A81822CE7DA2E008A4C08 /* NavManager.swift in Sources */,
 				FAEC07E62B142B0B00841E80 /* StoreModel.swift in Sources */,

@@ -20,28 +20,26 @@ struct MenuScreen: View {
         storeModel.loadData(jsonFileName: jsonFileName, fromBundle: fromBundle)
         navManager.push(route: .rounds)
     }
+    
+    private var doesDefaultFileExist: Bool {
+        storeModel.doesFileExist(fileName: "Default")
+    }
 
     var body: some View {
         List {
             Section("Data") {
-                if storeModel.doesFileExist(fileName: "Default") {
-                    FileCell(title: "Saved Data")
-                        .onTapGesture {
-                            loadData(jsonFileName: "Default", fromBundle: false)
-                        }
-                } else {
-                    FileCell(title: "New Data")
-                        .onTapGesture {
-                            newData(jsonFileName: "Default")
-                        }
+                FileCell(title: "New Data", disabled: !doesDefaultFileExist) {
+                    newData(jsonFileName: "Default")
+                }
+                FileCell(title: "Saved Data", disabled: doesDefaultFileExist) {
+                    loadData(jsonFileName: "Default", fromBundle: false)
                 }
             }
 
             Section("Debug") {
-                FileCell(title: "Sample")
-                    .onTapGesture {
-                        loadData(jsonFileName: "Sample", fromBundle: true)
-                    }
+                FileCell(title: "Sample", disabled: false) {
+                    loadData(jsonFileName: "Sample", fromBundle: true)
+                }
             }
         }.navigationTitle("Menu")
     }
@@ -60,15 +58,24 @@ struct MenuScreen: View {
 }
 
 struct FileCell: View {
-    var title: String
+    let title: String
+    let disabled: Bool
+    let onTap: () -> Void
 
     var body: some View {
         HStack {
             Text("\(title)")
+                .foregroundColor(disabled ? .gray : .primary)
             Spacer()
             Image(systemName: "chevron.right")
-                .foregroundColor(.blue)
+                .foregroundColor(disabled ? .gray : .blue)
         }
         .contentShape(Rectangle()) // Make the entire HStack tappable
+        .opacity(disabled ? 0.5 : 1)
+        .onTapGesture {
+            if !disabled {
+                onTap()
+            }
+        }
     }
 }

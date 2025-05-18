@@ -29,9 +29,11 @@ struct ArcheryAnalytics_SwiftUIApp: App {
                         print("didEnterBackgroundNotification")
                         storeModel.saveData()
                     }
-            }.preferredColorScheme(.dark)
+            }
+                .preferredColorScheme(.dark)
                 .environmentObject(storeModel)
                 .environmentObject(navManager)
+                .toast(message: $storeModel.toastMessage)
         }
     }
 }
