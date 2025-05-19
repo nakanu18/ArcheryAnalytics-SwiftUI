@@ -11,6 +11,8 @@ struct MenuScreen: View {
     @EnvironmentObject private var storeModel: StoreModel
     @EnvironmentObject private var navManager: NavManager
 
+    @State private var dummyRefresh: Bool = false
+
     private func newData(jsonFileName: String) {
         storeModel.resetData(jsonFileName: jsonFileName)
         navManager.push(route: .rounds)
@@ -20,28 +22,28 @@ struct MenuScreen: View {
         storeModel.loadData(jsonFileName: jsonFileName, fromBundle: fromBundle)
         navManager.push(route: .rounds)
     }
-    
-    private var doesDefaultFileExist: Bool {
-        storeModel.doesFileExist(fileName: "Default")
-    }
-
+        
     var body: some View {
         List {
             Section("Data") {
-                FileCell(title: "New Data", disabled: !doesDefaultFileExist) {
+                FileCell(title: "New Data", enabled: !storeModel.doesFileExist(fileName: "Default")) {
                     newData(jsonFileName: "Default")
                 }
-                FileCell(title: "Saved Data", disabled: doesDefaultFileExist) {
+                FileCell(title: "Saved Data", enabled: storeModel.doesFileExist(fileName: "Default")) {
                     loadData(jsonFileName: "Default", fromBundle: false)
                 }
             }
 
             Section("Debug") {
-                FileCell(title: "Sample", disabled: false) {
+                FileCell(title: "Sample", enabled: true) {
                     loadData(jsonFileName: "Sample", fromBundle: true)
                 }
             }
-        }.navigationTitle("Menu")
+        }
+        .navigationTitle("Menu")
+        .onAppear {
+            dummyRefresh.toggle()
+        }
     }
 }
 
@@ -59,21 +61,21 @@ struct MenuScreen: View {
 
 struct FileCell: View {
     let title: String
-    let disabled: Bool
+    let enabled: Bool
     let onTap: () -> Void
 
     var body: some View {
         HStack {
             Text("\(title)")
-                .foregroundColor(disabled ? .gray : .primary)
+                .foregroundColor(enabled ? .primary : .gray)
             Spacer()
             Image(systemName: "chevron.right")
-                .foregroundColor(disabled ? .gray : .blue)
+                .foregroundColor(enabled ? .blue: .gray)
         }
         .contentShape(Rectangle()) // Make the entire HStack tappable
-        .opacity(disabled ? 0.5 : 1)
+        .opacity(enabled ? 1 : 0.5)
         .onTapGesture {
-            if !disabled {
+            if enabled {
                 onTap()
             }
         }

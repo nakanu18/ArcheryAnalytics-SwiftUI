@@ -109,10 +109,9 @@ class StoreModel: ObservableObject, Codable {
     }
     
     func doesFileExist(fileName: String) -> Bool {
-        let fileManager = FileManager.default
-        let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         let url = documentsDirectory.appendingPathComponent("\(fileName).json")
-        return fileManager.fileExists(atPath: url.path)
+        return FileManager.default.fileExists(atPath: url.path)
     }
 
     func saveData() {
