@@ -50,21 +50,27 @@ struct RoundEditorScreen: View {
         VStack {
             List {
                 Section("Info") {
-                    Text("Round Stuff")
+                    KeyValueCell(key: "Name", value: round.name)
                 }
-                Section("Ends") {
+                Section("\(round.currentTargetGroup.distance)m --- \(Int(round.currentTargetGroup.targetSize))cm") {
                     ForEach(0 ..< round.currentTargetGroup.numberOfEnds, id: \.self) { index in
                         EndCell(round: round, endID: index, isSelected: selectedEndID == index)
                             .onTapGesture {
                                 onEndSelect(index: index)
                             }
                     }
+                    TotalCell(round: round, isSelected: selectedEndID == round.currentTargetGroup.numberOfEnds)
+                        .onTapGesture {
+                            onEndSelect(index: round.currentTargetGroup.numberOfEnds)
+                        }
                 }
             }
 
             GeometryReader { proxy in
                 TargetDetectorView(
-                    arrowHoles: round.currentTargetGroup.arrowHoles(endID: selectedEndID),
+                    arrowHoles: selectedEndID == round.currentTargetGroup.numberOfEnds ?
+                        round.currentTargetGroup.arrowHoles :
+                        round.currentTargetGroup.arrowHoles(endID: selectedEndID),
                     scale: 9.0,
                     onTargetTap: onArrowHoleScored
                 )
@@ -109,6 +115,8 @@ struct RoundEditorScreen: View {
         .onAppear {
             if !round.isFinished {
                 selectedEndID = round.currentTargetGroup.firstUnfinishedEndID
+            } else {
+                selectedEndID = round.currentTargetGroup.numberOfEnds
             }
         }
         .onDisappear {
@@ -130,10 +138,23 @@ struct RoundEditorScreen: View {
         .environmentObject(navManager)
 }
 
+struct KeyValueCell: View {
+    let key: String
+    let value: String
+    
+    var body: some View {
+        HStack {
+            Text(key)
+            Spacer()
+            Text(value)
+        }
+    }
+}
+
 struct EndCell: View {
     let round: Round
     let endID: Int
-    var isSelected: Bool
+    let isSelected: Bool
 
     var arrowIDs: (start: Int, end: Int) {
         round.currentTargetGroup.arrowIDs(endID: endID)
@@ -183,5 +204,28 @@ struct ArrowHoleView: View {
                 .stroke(Color.gray, lineWidth: 2)
                 .frame(width: 26, height: 26)
         }
+    }
+}
+
+struct TotalCell: View {
+    let round: Round
+    let isSelected: Bool
+    
+    var body: some View {
+        HStack {
+            Text("Total")
+                .padding(.horizontal, 4)
+                .frame(height: 30)
+                .background(.black)
+                .foregroundColor(.gray)
+                .cornerRadius(6)
+            Spacer()
+            Text("\(round.currentTargetGroup.totalScore)")
+                .foregroundColor(isSelected ? .black : .white)
+                .padding(.trailing, 4)
+        }
+        .padding(1)
+        .background(isSelected ? .green : .black)
+        .cornerRadius(6)
     }
 }

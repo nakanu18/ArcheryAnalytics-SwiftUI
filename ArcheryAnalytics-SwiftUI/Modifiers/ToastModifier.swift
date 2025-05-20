@@ -20,7 +20,7 @@ struct ToastModifier: ViewModifier {
                     Spacer()
                     Text(message)
                         .padding()
-                        .background(Color.white.opacity(0.2))
+                        .background(Color.white.opacity(0.5))
                         .foregroundColor(.white)
                         .cornerRadius(10)
                         .shadow(radius: 10)
@@ -33,7 +33,7 @@ struct ToastModifier: ViewModifier {
                     withAnimation {
                         isVisible = true
                     }
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                         withAnimation {
                             isVisible = false
                         }
