@@ -16,9 +16,10 @@ import Foundation
  */
 class StoreModel: ObservableObject, Codable {
     enum CodingKeys: String, CodingKey {
-        case saveDate, fileName, rounds, selectedRoundID
+        case version, saveDate, fileName, rounds, selectedRoundID
     }
 
+    @Published var version = 1
     @Published var saveDate = Date()
     @Published var fileName = "Default"
     @Published var rounds: [Round] = []
@@ -27,6 +28,11 @@ class StoreModel: ObservableObject, Codable {
 
     static var mockEmpty: StoreModel {
         let mockRound = Round.mockEmptyRound
+        return StoreModel(rounds: [mockRound], selectedRoundID: mockRound.id)
+    }
+
+    static var mockFull: StoreModel {
+        let mockRound = Round.mockFullRound
         return StoreModel(rounds: [mockRound], selectedRoundID: mockRound.id)
     }
 
@@ -45,10 +51,16 @@ class StoreModel: ObservableObject, Codable {
         self.selectedRoundID = selectedRoundID
     }
 
+    //
+    // Decoding / Encoding
+    //
+    
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let dateString = try container.decode(String.self, forKey: .saveDate)
 
+        version = try container.decodeIfPresent(Int.self, forKey: .version) ?? 1
+        
         if let date = StoreModel.dateFormatter.date(from: dateString) {
             saveDate = date
         } else {
@@ -60,19 +72,20 @@ class StoreModel: ObservableObject, Codable {
         selectedRoundID = try container.decode(UUID.self, forKey: .selectedRoundID)
     }
 
-    //
-    // Loading / Saving
-    //
-
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
+        try container.encode(version, forKey: .version)
         let dateString = StoreModel.dateFormatter.string(from: saveDate)
         try container.encode(dateString, forKey: .saveDate)
         try container.encode(fileName, forKey: .fileName)
         try container.encode(rounds, forKey: .rounds)
         try container.encode(selectedRoundID, forKey: .selectedRoundID)
     }
+
+    //
+    // Loading / Saving
+    //
 
     func loadData(jsonFileName: String, fromBundle: Bool) {
         let decoder = JSONDecoder()
@@ -97,11 +110,14 @@ class StoreModel: ObservableObject, Codable {
             }
 
             let data = try Data(contentsOf: url)
-            let decodedStoreModel = try decoder.decode(StoreModel.self, from: data)
+            let decodedStoreModel = try decoder.decode(StoreModel.self, from: data).migrateToLatestVersion()
 
+            version = decodedStoreModel.version
             saveDate = decodedStoreModel.saveDate
+            fileName = decodedStoreModel.fileName
             rounds = decodedStoreModel.rounds
             selectedRoundID = decodedStoreModel.selectedRoundID
+            toastMessage = decodedStoreModel.toastMessage
         } catch {
             print("StoreModel: ERROR loading JSON from \(loadingSource) - \(jsonFileName), \(error)")
             resetData(jsonFileName: jsonFileName)
@@ -122,7 +138,7 @@ class StoreModel: ObservableObject, Codable {
 
         do {
             print("StoreModel: Saving JSON - \(fileName)")
-            toastMessage = "Saving ..."
+            toastMessage = "Saving to \(fileName).json"
 
             let data = try encoder.encode(self)
 

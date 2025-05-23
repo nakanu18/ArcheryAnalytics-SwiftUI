@@ -9,13 +9,13 @@ import Foundation
 
 struct Round: Identifiable, Codable {
     var id = UUID()
-    let name: String
-    let date: Date
-    var targetGroups: [TargetGroup]
-    let tags: [Tag]
+    var name = ""
+    var date = Date()
+    var targetGroups: [TargetGroup] = []
+    var tags: [Tag] = []
     
     var currentTargetGroupID = 0
-
+    
     init(date: Date, name: String, numberOfEnds: Int, numberOfArrowsPerEnd: Int, tags: [Tag]) {
         self.date = date
         self.name = name
@@ -44,8 +44,16 @@ struct Round: Identifiable, Codable {
     func refCode() -> String {
         return targetGroups.map { $0.refCode() }.joined(separator: "_")
     }
-
+    
     static var mockEmptyRound: Round {
+        return Round(date: Date(),
+                     name: "WA 50m",
+                     numberOfEnds: 6,
+                     numberOfArrowsPerEnd: 6,
+                     tags: [])
+    }
+
+    static var mockFullRound: Round {
         var round = Round(date: Date(),
                           name: "WA 50m",
                           numberOfEnds: 6,
@@ -103,12 +111,12 @@ struct Round: Identifiable, Codable {
 // 0.912cm -> 0.359" - 23/64
 struct TargetGroup: Identifiable, Codable {
     var id = UUID()
-    var targetSize: Int // cm
-    var arrowSize: Float // cm
-    var distance: Int // m
+    var targetSize: Int = 40 // cm
+    var arrowSize: Float = 0.54 // cm
+    var distance: Int = 20 // m
     
-    let numberOfEnds: Int
-    let numberOfArrowsPerEnd: Int
+    var numberOfEnds: Int = 10
+    var numberOfArrowsPerEnd: Int = 3
     var arrowHoles: [ArrowHole] = []
 
     init(targetSize: Int, arrowSize: Float, distance: Int, numberOfEnds: Int, numberOfArrowsPerEnd: Int) {

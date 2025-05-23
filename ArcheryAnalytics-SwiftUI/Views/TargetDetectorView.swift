@@ -11,10 +11,13 @@ struct TargetDetectorView: View {
     var arrowHoles: [ArrowHole]
 
     var scale: Double
-    var targetWidth = 40.0
-    var padding = 15.0
+    let targetWidth = 20.0
+    let padding = 20.0
 
-    var arrowHoleRadius = 0.54
+    // 0.540cm -> 0.214" - VAP
+    // 0.675cm -> 0.266" - 17/64
+    // 0.912cm -> 0.359" - 23/64
+    let arrowHoleRadius = 0.540 / 2 // Divide by half because 20cm is half as big as a 40cm
 
     var onTargetTap: ((ArrowHole) -> Void)?
 
@@ -34,7 +37,7 @@ struct TargetDetectorView: View {
         let downscaledDist = dist / scale
 
         // Calculate which ring was hit
-        let ring = max(0, 10 - Int((downscaledDist - arrowHoleRadius) / 2))
+        let ring = max(0, 10 - Int((downscaledDist - arrowHoleRadius)))
 
         print("TAP: \(location.toString) -> \(downscaledPt.toString), DIST: \(String(format: "%.2f", downscaledDist)), RING: \(ring)")
 
@@ -43,7 +46,7 @@ struct TargetDetectorView: View {
         arrowHole.value = ring
         onTargetTap?(arrowHole)
     }
-
+    
     var body: some View {
         HStack {
             ZStack {
@@ -63,7 +66,7 @@ struct TargetDetectorView: View {
     // BUG: arrow holes not showing in preview
     @Previewable @State var arrowHoles: [ArrowHole] = []
 
-    return TargetDetectorView(arrowHoles: arrowHoles, scale: 9.0) { arrowHole in
+    return TargetDetectorView(arrowHoles: arrowHoles, scale: 15.0) { arrowHole in
         arrowHoles.append(arrowHole)
     }
 }

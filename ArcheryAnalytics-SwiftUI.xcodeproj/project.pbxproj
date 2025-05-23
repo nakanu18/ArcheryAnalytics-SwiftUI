@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B64CCDB02DD9BBED00C71919 /* ToastModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = B64CCDAF2DD9BBED00C71919 /* ToastModifier.swift */; };
+		B64CCDB62DE0285300C71919 /* StoreModel+Versioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = B64CCDB52DE0284400C71919 /* StoreModel+Versioning.swift */; };
 		FA2A81822CE7DA2E008A4C08 /* NavManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2A81812CE7DA2E008A4C08 /* NavManager.swift */; };
 		FA78F25E2C361D5300A4ABA5 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA78F25D2C361D5300A4ABA5 /* Models.swift */; };
 		FAA521B12B369C6B00B52E95 /* MenuScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA521B02B369C6B00B52E95 /* MenuScreen.swift */; };
@@ -25,6 +26,7 @@
 
 /* Begin PBXFileReference section */
 		B64CCDAF2DD9BBED00C71919 /* ToastModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastModifier.swift; sourceTree = "<group>"; };
+		B64CCDB52DE0284400C71919 /* StoreModel+Versioning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StoreModel+Versioning.swift"; sourceTree = "<group>"; };
 		FA2A81812CE7DA2E008A4C08 /* NavManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavManager.swift; sourceTree = "<group>"; };
 		FA78F25D2C361D5300A4ABA5 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		FAA521B02B369C6B00B52E95 /* MenuScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScreen.swift; sourceTree = "<group>"; };
@@ -122,6 +124,7 @@
 		FAEC07E42B142B0200841E80 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				B64CCDB52DE0284400C71919 /* StoreModel+Versioning.swift */,
 				FAEC07E52B142B0B00841E80 /* StoreModel.swift */,
 				FA78F25D2C361D5300A4ABA5 /* Models.swift */,
 			);
@@ -232,6 +235,7 @@
 				FAEC07D72B142AF200841E80 /* ArcheryAnalytics_SwiftUIApp.swift in Sources */,
 				FA2A81822CE7DA2E008A4C08 /* NavManager.swift in Sources */,
 				FAEC07E62B142B0B00841E80 /* StoreModel.swift in Sources */,
+				B64CCDB62DE0285300C71919 /* StoreModel+Versioning.swift in Sources */,
 				FA78F25E2C361D5300A4ABA5 /* Models.swift in Sources */,
 				FACB2AD42B3D178F0085B1FF /* DateFormatter+Extension.swift in Sources */,
 				FAFF4FA92B146D8D00FB1D33 /* TargetDetectorView.swift in Sources */,
