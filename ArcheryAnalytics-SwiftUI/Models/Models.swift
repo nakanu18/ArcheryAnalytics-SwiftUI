@@ -41,6 +41,10 @@ struct Round: Identifiable, Codable {
         }
     }
 
+    func refCode() -> String {
+        return targetGroups.map { $0.refCode() }.joined(separator: "_")
+    }
+
     static var mockEmptyRound: Round {
         var round = Round(date: Date(),
                           name: "WA 50m",
@@ -99,7 +103,7 @@ struct Round: Identifiable, Codable {
 // 0.912cm -> 0.359" - 23/64
 struct TargetGroup: Identifiable, Codable {
     var id = UUID()
-    var targetSize: Float // cm
+    var targetSize: Int // cm
     var arrowSize: Float // cm
     var distance: Int // m
     
@@ -107,7 +111,7 @@ struct TargetGroup: Identifiable, Codable {
     let numberOfArrowsPerEnd: Int
     var arrowHoles: [ArrowHole] = []
 
-    init(targetSize: Float, arrowSize: Float, distance: Int, numberOfEnds: Int, numberOfArrowsPerEnd: Int) {
+    init(targetSize: Int, arrowSize: Float, distance: Int, numberOfEnds: Int, numberOfArrowsPerEnd: Int) {
         self.targetSize = targetSize
         self.arrowSize = arrowSize
         self.distance = distance
@@ -115,6 +119,10 @@ struct TargetGroup: Identifiable, Codable {
         self.numberOfArrowsPerEnd = numberOfArrowsPerEnd
         // Build ArrowHoles with unique ids
         self.arrowHoles = (0 ..< numberOfEnds * numberOfArrowsPerEnd).map { _ in ArrowHole() }
+    }
+    
+    func refCode() -> String {
+        return "WA_\(targetSize)cm_\(distance)m_\(numberOfEnds)x\(numberOfArrowsPerEnd)"
     }
 
     func arrowIDs(endID: Int) -> (start: Int, end: Int) {

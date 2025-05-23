@@ -52,8 +52,10 @@ struct RoundEditorScreen: View {
             List {
                 Section("Info") {
                     KeyValueCell(key: "Name", value: round.name)
+                    KeyValueCell(key: "refCode", value: round.refCode())
                 }
                 Section("\(round.currentTargetGroup.distance)m --- \(Int(round.currentTargetGroup.targetSize))cm") {
+                    KeyValueCell(key: "refCode", value: round.currentTargetGroup.refCode())
                     ForEach(0 ..< round.currentTargetGroup.numberOfEnds, id: \.self) { index in
                         EndCell(round: round, endID: index, isSelected: selectedEndID == index)
                             .onTapGesture {
