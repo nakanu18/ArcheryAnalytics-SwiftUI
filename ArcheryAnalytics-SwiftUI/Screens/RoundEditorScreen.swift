@@ -10,6 +10,7 @@ import SwiftUI
 struct RoundEditorScreen: View {
     @EnvironmentObject private var storeModel: StoreModel
     @State private var selectedEndID = 0
+    @State private var isLocked = false
     var roundID: UUID
 
     // Used for panning and zooming
@@ -74,6 +75,7 @@ struct RoundEditorScreen: View {
                     scale: 9.0,
                     onTargetTap: onArrowHoleScored
                 )
+                .disabled(isLocked)
                 .scaleEffect(scale * gestureScale)
                 .offset(
                     x: offset.width + gestureOffset.width,
@@ -102,21 +104,36 @@ struct RoundEditorScreen: View {
                 .clipped() // ⬅️ prevents overflowing outside of the frame
                 .contentShape(Rectangle()) // makes gestures work properly
             }
-
+            
             HStack {
                 Button("Re-center", action: onRecenter)
                 Spacer()
                 Button("Delete Last", action: onRemoveLastArrow)
+                    .disabled(isLocked)
                 Spacer()
-                Button("Next End", action: onNextEnd)
+                if !isLocked {
+                    if round.currentTargetGroup.isFinished {
+                        Button("Lock") {
+                            isLocked = true
+                        }
+                    } else {
+                        Button("Next End", action: onNextEnd)
+                    }
+                } else {
+                    Button("Unlock") {
+                        isLocked = false
+                    }
+                }
             }
             .padding(.horizontal)
         }
         .onAppear {
             if !round.isFinished {
                 selectedEndID = round.currentTargetGroup.firstUnfinishedEndID
+                isLocked = false
             } else {
                 selectedEndID = round.currentTargetGroup.numberOfEnds
+                isLocked = true
             }
         }
         .onDisappear {

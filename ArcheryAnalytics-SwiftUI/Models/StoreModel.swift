@@ -172,6 +172,10 @@ class StoreModel: ObservableObject, Codable {
         guard let index = rounds.firstIndex(where: { $0.id == roundID }) else {
             return
         }
+        
+        guard endID >= 0 && endID < rounds[index].targetGroups[0].numberOfEnds else {
+            return
+        }
 
         print("*** updateArrowHole: [\(roundID)] - end[\(endID)] - arrowHole[\(arrowHole.value)]")
         rounds[index].targetGroups[0].updateFirstUnmarkedArrowHole(endID: endID, arrowHole: arrowHole)
@@ -179,6 +183,10 @@ class StoreModel: ObservableObject, Codable {
 
     func clearLastMarkedArrowHole(roundID: UUID, endID: Int) {
         guard let index = rounds.firstIndex(where: { $0.id == roundID }) else {
+            return
+        }
+        
+        guard endID >= 0 && endID < rounds[index].targetGroups[0].numberOfEnds else {
             return
         }
 

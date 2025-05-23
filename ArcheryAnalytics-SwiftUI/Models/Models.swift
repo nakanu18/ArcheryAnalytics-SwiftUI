@@ -42,12 +42,54 @@ struct Round: Identifiable, Codable {
     }
 
     static var mockEmptyRound: Round {
-        let round = Round(date: Date(),
-                          name: "Vegas 300",
-                          numberOfEnds: 10,
-                          numberOfArrowsPerEnd: 3,
+        var round = Round(date: Date(),
+                          name: "WA 50m",
+                          numberOfEnds: 6,
+                          numberOfArrowsPerEnd: 6,
                           tags: [])
 
+        round.targetGroups[0].arrowHoles = []
+        round.targetGroups[0].arrowHoles.append(ArrowHole(point: CGPoint(x: -0.30565990314738023, y: -0.40257642173487007), value: 10))
+        round.targetGroups[0].arrowHoles.append(ArrowHole(point: CGPoint(x: 1.7668626850181524, y: -0.3205700230201703), value: 10))
+        round.targetGroups[0].arrowHoles.append(ArrowHole(point: CGPoint(x: 1.1108121778368565, y: 2.422912737175229), value: 9))
+        round.targetGroups[0].arrowHoles.append(ArrowHole(point: CGPoint(x: -3.1460595231984345, y: -0.1341922164156573), value: 9))
+        round.targetGroups[0].arrowHoles.append(ArrowHole(point: CGPoint(x: -3.2429759280298702, y: 0.9766203026893581), value: 9))
+        round.targetGroups[0].arrowHoles.append(ArrowHole(point: CGPoint(x: -2.3781822638007983, y: 2.9745914951985557), value: 9))
+        
+        round.targetGroups[0].arrowHoles.append(ArrowHole(point: CGPoint(x: 0.11182663846028618, y: -1.6997667474443985), value: 10))
+        round.targetGroups[0].arrowHoles.append(ArrowHole(point: CGPoint(x: -2.6614768165049125, y: -0.33548037040506845), value: 9))
+        round.targetGroups[0].arrowHoles.append(ArrowHole(point: CGPoint(x: 0.3503903765218076, y: 2.5571048398348353), value: 9))
+        round.targetGroups[0].arrowHoles.append(ArrowHole(point: CGPoint(x: -1.0959023992322254, y: 2.9596811478136513), value: 9))
+        round.targetGroups[0].arrowHoles.append(ArrowHole(point: CGPoint(x: -0.6635053964836067, y: 3.6082763106684173), value: 9))
+        round.targetGroups[0].arrowHoles.append(ArrowHole(point: CGPoint(x: -3.645552349764747, y: -3.384623261259956), value: 8))
+        
+        round.targetGroups[0].arrowHoles.append(ArrowHole(point: CGPoint(x: 0.275839322133638, y: -0.872248894799548), value: 10))
+        round.targetGroups[0].arrowHoles.append(ArrowHole(point: CGPoint(x: 0.5218581770095815, y: -1.8861446678049623), value: 10))
+        round.targetGroups[0].arrowHoles.append(ArrowHole(point: CGPoint(x: -0.05218593145701157, y: 2.9895017288274), value: 9))
+        round.targetGroups[0].arrowHoles.append(ArrowHole(point: CGPoint(x: 3.809564578413882, y: 0.5367682968823715), value: 9))
+        round.targetGroups[0].arrowHoles.append(ArrowHole(point: CGPoint(x: 4.0779486699770375, y: -3.585911415249364), value: 8))
+        round.targetGroups[0].arrowHoles.append(ArrowHole(point: CGPoint(x: -4.018308190485874, y: 2.5123742527043538), value: 8))
+        
+        round.targetGroups[0].arrowHoles.append(ArrowHole(point: CGPoint(x: 0.6529286861908822, y: -0.20893731241976196), value: 10))
+        round.targetGroups[0].arrowHoles.append(ArrowHole(point: CGPoint(x: 1.8456116201275437, y: -2.1503119393606482), value: 9))
+        round.targetGroups[0].arrowHoles.append(ArrowHole(point: CGPoint(x: 3.24723186648397, y: 0.5484598307229791), value: 9))
+        round.targetGroups[0].arrowHoles.append(ArrowHole(point: CGPoint(x: 1.3667972502542323, y: 2.6204204605794086), value: 9))
+        round.targetGroups[0].arrowHoles.append(ArrowHole(point: CGPoint(x: 1.8369059043116667, y: 3.4039348840084673), value: 9))
+        round.targetGroups[0].arrowHoles.append(ArrowHole(point: CGPoint(x: -4.953552564912182, y: 0.00870558297719981), value: 8))
+        
+        round.targetGroups[0].arrowHoles.append(ArrowHole(point: CGPoint(x: -0.15670301752449076, y: -0.13929145305405338), value: 10))
+        round.targetGroups[0].arrowHoles.append(ArrowHole(point: CGPoint(x: 0.40916864334628955, y: -0.609400107111488), value: 10))
+        round.targetGroups[0].arrowHoles.append(ArrowHole(point: CGPoint(x: 2.063254382685825, y: 1.5496174152263633), value: 9))
+        round.targetGroups[0].arrowHoles.append(ArrowHole(point: CGPoint(x: 0.06964559368834797, y: 3.012177672293938), value: 9))
+        round.targetGroups[0].arrowHoles.append(ArrowHole(point: CGPoint(x: 0.6181056900886878, y: 3.4213460499628607), value: 9))
+        round.targetGroups[0].arrowHoles.append(ArrowHole(point: CGPoint(x: -3.2907608440794056, y: -1.9587860585726433), value: 9))
+        
+        round.targetGroups[0].arrowHoles.append(ArrowHole(point: CGPoint(x: 0.36274714284244663, y: -1.1750970392259477), value: 10))
+        round.targetGroups[0].arrowHoles.append(ArrowHole(point: CGPoint(x: 1.2568426754923097, y: 2.8815417666288883), value: 9))
+        round.targetGroups[0].arrowHoles.append(ArrowHole(point: CGPoint(x: -3.4895269096955257, y: -0.3525292209102954), value: 9))
+        round.targetGroups[0].arrowHoles.append(ArrowHole(point: CGPoint(x: -0.2094739481597464, y: -2.8968694291164763), value: 9))
+        round.targetGroups[0].arrowHoles.append(ArrowHole(point: CGPoint(x: -3.014379117447286, y: 3.5201815330402786), value: 8))
+        round.targetGroups[0].arrowHoles.append(ArrowHole(point: CGPoint(x: -1.5736080782149695, y: -5.303263481456058), value: 8))
         return round
     }
 }

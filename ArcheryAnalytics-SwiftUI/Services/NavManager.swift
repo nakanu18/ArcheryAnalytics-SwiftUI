@@ -16,17 +16,17 @@ class NavManager: ObservableObject {
     @Published var path = NavigationPath()
 
     func push(route: Route) {
-        print("*** Navigating to: [\(route)]")
+        print("*** NavManager: navigating to: [\(route)]")
         path.append(route)
     }
 
     func pop() {
-        print("*** Popping current route")
+        print("*** NavManager: popping current route")
         path.removeLast()
     }
 
     func popToRoot() {
-        print("*** Popping to root")
+        print("*** NavManager: popping to root")
         path.removeLast(path.count)
     }
 }
