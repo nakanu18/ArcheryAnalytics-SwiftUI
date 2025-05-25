@@ -123,7 +123,7 @@ struct RoundEditorScreen: View {
                     arrowHoles: selectedEndID == round.currentTargetGroup.numberOfEnds ?
                         round.currentTargetGroup.arrowHoles :
                         round.currentTargetGroup.arrowHoles(endID: selectedEndID),
-                    scale: 15.0,
+                    targetWidth: Double(round.currentTargetGroup.targetSize),
                     onTargetTap: onArrowHoleScored
                 )
                 .disabled(isLocked)

@@ -16,7 +16,7 @@
           "numberOfArrowsPerEnd" : 6,
           "arrowSize" : 0.54,
           "numberOfEnds" : 6,
-          "targetSize" : 40,
+          "targetSize" : 122,
           "distance" : 50,
           "arrowHoles" : [
             {
@@ -609,7 +609,7 @@
             }
           ],
           "numberOfArrowsPerEnd" : 6,
-          "targetSize" : 40,
+          "targetSize" : 122,
           "id" : "C97DF4E0-F41B-4716-9D98-97EC4C2AA8BC",
           "arrowSize" : 0.54,
           "numberOfEnds" : 6,

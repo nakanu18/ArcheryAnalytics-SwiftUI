@@ -10,17 +10,31 @@ import SwiftUI
 struct TargetDetectorView: View {
     var arrowHoles: [ArrowHole]
 
-    var scale: Double
-    let targetWidth = 20.0
+    var targetWidth: Double
     let padding = 20.0
 
     // 0.540cm -> 0.214" - VAP
-    // 0.675cm -> 0.266" - 17/64
+    // 0.714cm -> 0.281" - 18/64
     // 0.912cm -> 0.359" - 23/64
-    let arrowHoleRadius = 0.540 / 2 // Divide by half because 20cm is half as big as a 40cm
+    let arrowHoleRadius = 0.25
+//    let arrowHoleRadius = 0.540 / 2
+//    let arrowHoleRadius = 0.714 / 2
+//    let arrowHoleRadius = 0.912 / 2
+//    let arrowHoleRadius = 1.19 / 2
 
     var onTargetTap: ((ArrowHole) -> Void)?
 
+    init(arrowHoles: [ArrowHole], targetWidth: Double, onTargetTap: ((ArrowHole) -> Void)?) {
+        self.arrowHoles = arrowHoles
+        self.targetWidth = 20
+        self.onTargetTap = onTargetTap
+    }
+    
+    var scale: Double {
+        // Given 40cm with 8x, calc the ratio of this target
+        (40 * 8) / targetWidth
+    }
+    
     var frameSize: Double {
         scale * targetWidth
     }
@@ -37,7 +51,8 @@ struct TargetDetectorView: View {
         let downscaledDist = dist / scale
 
         // Calculate which ring was hit
-        let ring = max(0, 10 - Int((downscaledDist - arrowHoleRadius)))
+        let ringWidth = (targetWidth / 2.0) / 10
+        let ring = 10 - Int((downscaledDist - arrowHoleRadius) / ringWidth)
 
         print("TAP: \(location.toString) -> \(downscaledPt.toString), DIST: \(String(format: "%.2f", downscaledDist)), RING: \(ring)")
 
@@ -48,8 +63,8 @@ struct TargetDetectorView: View {
     }
     
     var body: some View {
-        HStack {
-            ZStack {
+        ZStack(alignment: .bottomTrailing) {
+            ZStack() {
                 TargetView(scale: scale, targetWidth: targetWidth)
                     .frame(width: frameSize + padding * 2, height: frameSize + padding * 2)
                     .background(Color(red: 0.75, green: 0.75, blue: 0.75))
@@ -58,6 +73,8 @@ struct TargetDetectorView: View {
                     }
                 ArrowPlotView(arrowHoles: arrowHoles, scale: scale, arrowHoleRadius: arrowHoleRadius)
             }
+            Text("\(Int(targetWidth))cm")
+                .padding([.bottom, .trailing], 10)
         }
     }
 }
@@ -66,7 +83,7 @@ struct TargetDetectorView: View {
     // BUG: arrow holes not showing in preview
     @Previewable @State var arrowHoles: [ArrowHole] = []
 
-    return TargetDetectorView(arrowHoles: arrowHoles, scale: 15.0) { arrowHole in
+    return TargetDetectorView(arrowHoles: arrowHoles, targetWidth: 40) { arrowHole in
         arrowHoles.append(arrowHole)
     }
 }
@@ -113,7 +130,7 @@ struct ArrowPlotView: View {
         ForEach(arrowHoles) { hole in
             if let holePoint = hole.point {
                 Circle()
-                    .stroke(.white, lineWidth: 1)
+                    .stroke(.white, lineWidth: 0.5)
                     .background(Circle().fill(.black))
                     .position(holePoint
                         .scaleBy(scale)

@@ -7,18 +7,12 @@
 
 import Foundation
 
-/*
- TODO: Items
-
- Save data
- Load data
- Should StoreModel save the selectedRoundID?
- */
 class StoreModel: ObservableObject, Codable {
     enum CodingKeys: String, CodingKey {
         case version, saveDate, fileName, rounds, selectedRoundID
     }
 
+    // TODO: change to private(set)
     @Published var version = 1
     @Published var saveDate = Date()
     @Published var fileName = "Default"
