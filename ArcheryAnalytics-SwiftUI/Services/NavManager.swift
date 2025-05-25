@@ -9,24 +9,33 @@ import SwiftUI
 
 enum Route: Codable, Hashable {
     case rounds
-    case roundEditor(roundID: UUID)
+    case roundEditor(round: Round)
+    
+    var description: String {
+        switch self {
+        case .rounds:
+            return "Rounds"
+        case .roundEditor(let round):
+            return "RoundEditor: \(round.id)"
+        }
+    }
 }
 
 class NavManager: ObservableObject {
     @Published var path = NavigationPath()
 
     func push(route: Route) {
-        print("*** NavManager: navigating to: [\(route)]")
+        print("- NavManager: navigating to \(route.description)")
         path.append(route)
     }
 
     func pop() {
-        print("*** NavManager: popping current route")
+        print("- NavManager: popping current route")
         path.removeLast()
     }
 
     func popToRoot() {
-        print("*** NavManager: popping to root")
+        print("- NavManager: popping to root")
         path.removeLast(path.count)
     }
 }

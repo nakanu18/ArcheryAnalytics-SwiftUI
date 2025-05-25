@@ -21,21 +21,24 @@ struct RoundsScreen: View {
             Section("Rounds") {
                 ForEach(storeModel.rounds) { round in
                     RoundCell(round: round) {
-                        navManager.push(route: .roundEditor(roundID: round.id))
+                        navManager.push(route: .roundEditor(round: round))
                     }
                 }.onDelete { offsets in
                     storeModel.rounds.remove(atOffsets: offsets)
                 }
             }
-        }.navigationTitle("Rounds")
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("New Round") {
-                        showNewRoundSheet = true
-                    }
+        }
+        .navigationTitle("Rounds")
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button("New Round") {
+                    showNewRoundSheet = true
                 }
             }
-            .sheet(isPresented: $showNewRoundSheet, content: {
+        }
+        .sheet(
+            isPresented: $showNewRoundSheet,
+            content: {
                 Button("WA 18m Round") {
                     storeModel.createNewRound(indoor: true)
                     showNewRoundSheet = false
@@ -54,10 +57,11 @@ struct RoundsScreen: View {
 
     return NavigationStack(path: $navManager.path) {
         RoundsScreen()
-            .navigationBarTitleDisplayMode(.inline) // TODO: temp fix for big space on RoundEditorScreen
-    }.preferredColorScheme(.dark)
-        .environmentObject(storeModel)
-        .environmentObject(navManager)
+            .navigationBarTitleDisplayMode(.inline)  // TODO: temp fix for big space on RoundEditorScreen
+    }
+    .preferredColorScheme(.dark)
+    .environmentObject(storeModel)
+    .environmentObject(navManager)
 }
 
 struct RoundCell: View {
@@ -75,7 +79,7 @@ struct RoundCell: View {
                         .frame(width: 10, height: 10)
                         .padding(.leading, -12)
                 }
-                
+
                 VStack(alignment: .leading) {
                     Text("\(round.name)")
                         .foregroundColor(.orange)

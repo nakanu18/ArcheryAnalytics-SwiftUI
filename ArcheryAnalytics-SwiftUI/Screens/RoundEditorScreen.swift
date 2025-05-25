@@ -9,9 +9,9 @@ import SwiftUI
 
 struct RoundEditorScreen: View {
     @EnvironmentObject private var storeModel: StoreModel
+    @State var round: Round
     @State private var selectedEndID = 0
     @State private var isLocked = false
-    var roundID: UUID
 
     // Used for panning and zooming
     @State private var scale: CGFloat = 1.0
@@ -19,23 +19,16 @@ struct RoundEditorScreen: View {
     @GestureState private var gestureOffset: CGSize = .zero
     @GestureState private var gestureScale: CGFloat = 1.0
     
-    private var round: Round {
-        guard let foundRound = storeModel.rounds.first(where: { $0.id == roundID }) else {
-            fatalError("Round not found")
-        }
-        return foundRound
-    }
-
     private func onEndSelect(index: Int) {
         selectedEndID = index
     }
 
     private func onArrowHoleScored(arrowHole: ArrowHole) {
-        storeModel.updateArrowHole(roundID: roundID, endID: selectedEndID, arrowHole: arrowHole)
+        round.targetGroups[0].updateFirstUnmarkedArrowHole(endID: selectedEndID, arrowHole: arrowHole)
     }
 
     private func onRemoveLastArrow() {
-        storeModel.clearLastMarkedArrowHole(roundID: roundID, endID: selectedEndID)
+        round.targetGroups[0].clearLastMarkedArrowHole(endID: selectedEndID)
     }
     
     private func onRecenter() {
@@ -44,7 +37,7 @@ struct RoundEditorScreen: View {
     }
 
     private func onNextEnd() {
-        selectedEndID = min(selectedEndID + 1, round.currentTargetGroup.numberOfEnds - 1)
+        selectedEndID = min(selectedEndID + 1, round.targetGroups[0].numberOfEnds - 1)
     }
     
     private func calcLeftAndRightHoles(arrowHoles: [ArrowHole]) -> (left: CGPoint, right: CGPoint) {
@@ -92,6 +85,46 @@ struct RoundEditorScreen: View {
         return (width: width, height: height)
     }
     
+    private func renderTarget() -> some View {
+        GeometryReader { proxy in
+            TargetDetectorView(
+                arrowHoles: selectedEndID == round.targetGroups[0].numberOfEnds ?
+                    round.targetGroups[0].arrowHoles :
+                    round.targetGroups[0].arrowHoles(endID: selectedEndID),
+                targetWidth: Double(round.targetGroups[0].targetSize),
+                onTargetTap: onArrowHoleScored
+            )
+            .disabled(isLocked)
+            .scaleEffect(scale * gestureScale)
+            .offset(
+                x: offset.width + gestureOffset.width,
+                y: offset.height + gestureOffset.height
+            )
+            .gesture(
+                SimultaneousGesture(
+                    MagnificationGesture()
+                        .updating($gestureScale) { val, state, _ in
+                            state = val
+                        }
+                        .onEnded { val in
+                            scale *= val
+                        },
+                    DragGesture()
+                        .updating($gestureOffset) { val, state, _ in
+                            state = val.translation
+                        }
+                        .onEnded { val in
+                            offset.width += val.translation.width
+                            offset.height += val.translation.height
+                        }
+                )
+            )
+            .frame(width: proxy.size.width, height: proxy.size.height)
+            .clipped() // ⬅️ prevents overflowing outside of the frame
+            .contentShape(Rectangle()) // makes gestures work properly
+        }
+    }
+
     var body: some View {
         VStack {
             List {
@@ -99,63 +132,26 @@ struct RoundEditorScreen: View {
                     KeyValueCell(key: "Name", value: round.name)
                     KeyValueCell(key: "refCode", value: round.refCode())
                 }
-                Section("\(round.currentTargetGroup.distance)m --- \(Int(round.currentTargetGroup.targetSize))cm") {
-                    KeyValueCell(key: "refCode", value: round.currentTargetGroup.refCode())
-//                    KeyValueCell(key: "left", value: calcLeftAndRightHoles(arrowHoles: round.currentTargetGroup.arrowHoles).left.toString)
-//                    KeyValueCell(key: "right", value: calcLeftAndRightHoles(arrowHoles: round.currentTargetGroup.arrowHoles).right.toString)
-//                    KeyValueCell(key: "width", value: "\(calculateGroupDimensions(arrowHoles: round.currentTargetGroup.arrowHoles).width)")
-//                    KeyValueCell(key: "height", value: "\(calculateGroupDimensions(arrowHoles: round.currentTargetGroup.arrowHoles).height)")
-                    ForEach(0 ..< round.currentTargetGroup.numberOfEnds, id: \.self) { index in
+                Section("List") {
+                    KeyValueCell(key: "refCode", value: round.targetGroups[0].refCode())
+//                    KeyValueCell(key: "left", value: calcLeftAndRightHoles(arrowHoles: round.targetGroups[0].arrowHoles).left.toString)
+//                    KeyValueCell(key: "right", value: calcLeftAndRightHoles(arrowHoles: round.targetGroups[0].arrowHoles).right.toString)
+//                    KeyValueCell(key: "width", value: "\(calculateGroupDimensions(arrowHoles: round.targetGroups[0].arrowHoles).width)")
+//                    KeyValueCell(key: "height", value: "\(calculateGroupDimensions(arrowHoles: round.targetGroups[0].arrowHoles).height)")
+                    ForEach(0 ..< round.targetGroups[0].numberOfEnds, id: \.self) { index in
                         EndCell(round: round, endID: index, isSelected: selectedEndID == index)
                             .onTapGesture {
                                 onEndSelect(index: index)
                             }
                     }
-                    TotalCell(round: round, isSelected: selectedEndID == round.currentTargetGroup.numberOfEnds)
+                    TotalCell(round: round, isSelected: selectedEndID == round.targetGroups[0].numberOfEnds)
                         .onTapGesture {
-                            onEndSelect(index: round.currentTargetGroup.numberOfEnds)
+                            onEndSelect(index: round.targetGroups[0].numberOfEnds)
                         }
                 }
             }
 
-            GeometryReader { proxy in
-                TargetDetectorView(
-                    arrowHoles: selectedEndID == round.currentTargetGroup.numberOfEnds ?
-                        round.currentTargetGroup.arrowHoles :
-                        round.currentTargetGroup.arrowHoles(endID: selectedEndID),
-                    targetWidth: Double(round.currentTargetGroup.targetSize),
-                    onTargetTap: onArrowHoleScored
-                )
-                .disabled(isLocked)
-                .scaleEffect(scale * gestureScale)
-                .offset(
-                    x: offset.width + gestureOffset.width,
-                    y: offset.height + gestureOffset.height
-                )
-                .gesture(
-                    SimultaneousGesture(
-                        MagnificationGesture()
-                            .updating($gestureScale) { val, state, _ in
-                                state = val
-                            }
-                            .onEnded { val in
-                                scale *= val
-                            },
-                        DragGesture()
-                            .updating($gestureOffset) { val, state, _ in
-                                state = val.translation
-                            }
-                            .onEnded { val in
-                                offset.width += val.translation.width
-                                offset.height += val.translation.height
-                            }
-                    )
-                )
-                .frame(width: proxy.size.width, height: proxy.size.height)
-                .clipped() // ⬅️ prevents overflowing outside of the frame
-                .contentShape(Rectangle()) // makes gestures work properly
-            }
-            
+            renderTarget()
             HStack {
                 Button("Re-center", action: onRecenter)
                 Spacer()
@@ -163,7 +159,7 @@ struct RoundEditorScreen: View {
                     .disabled(isLocked)
                 Spacer()
                 if !isLocked {
-                    if round.currentTargetGroup.isFinished {
+                    if round.targetGroups[0].isFinished {
                         Button("Lock") {
                             isLocked = true
                         }
@@ -180,14 +176,15 @@ struct RoundEditorScreen: View {
         }
         .onAppear {
             if !round.isFinished {
-                selectedEndID = round.currentTargetGroup.firstUnfinishedEndID
+                selectedEndID = round.targetGroups[0].firstUnfinishedEndID
                 isLocked = false
             } else {
-                selectedEndID = round.currentTargetGroup.numberOfEnds
+                selectedEndID = round.targetGroups[0].numberOfEnds
                 isLocked = true
             }
         }
         .onDisappear {
+            storeModel.updateRound(round: round)
             storeModel.saveData()
         }
     }
@@ -195,11 +192,10 @@ struct RoundEditorScreen: View {
 
 #Preview {
     let storeModel = StoreModel.mockEmpty
-    let roundID = storeModel.rounds[0].id
     @ObservedObject var navManager = NavManager()
 
     return NavigationStack(path: $navManager.path) {
-        RoundEditorScreen(roundID: roundID)
+        RoundEditorScreen(round: storeModel.rounds[0])
             .navigationBarTitleDisplayMode(.inline) // TODO: temp fix for big space on RoundEditorScreen
     }.preferredColorScheme(.dark)
         .environmentObject(storeModel)
@@ -225,7 +221,7 @@ struct EndCell: View {
     let isSelected: Bool
 
     var arrowIDs: (start: Int, end: Int) {
-        round.currentTargetGroup.arrowIDs(endID: endID)
+        round.targetGroups[0].arrowIDs(endID: endID)
     }
 
     var body: some View {
@@ -237,7 +233,7 @@ struct EndCell: View {
                 .cornerRadius(6)
                 .padding(.trailing, 8)
 
-            ForEach(round.currentTargetGroup.arrowHoles[arrowIDs.start ..< arrowIDs.end]) { arrowHole in
+            ForEach(round.targetGroups[0].arrowHoles[arrowIDs.start ..< arrowIDs.end]) { arrowHole in
                 if arrowHole.value >= 0 {
                     ArrowHoleView(value: arrowHole.value)
 //                        .id(numberWrapper.id) // TODO: is this needed?
@@ -245,7 +241,7 @@ struct EndCell: View {
             }
 
             Spacer()
-            Text("\(round.currentTargetGroup.score(endID: endID))")
+            Text("\(round.targetGroups[0].score(endID: endID))")
                 .foregroundColor(isSelected ? .black : .white)
                 .padding(.trailing, 4)
         }
@@ -288,7 +284,7 @@ struct TotalCell: View {
                 .foregroundColor(.gray)
                 .cornerRadius(6)
             Spacer()
-            Text("\(round.currentTargetGroup.totalScore)")
+            Text("\(round.targetGroups[0].totalScore)")
                 .foregroundColor(isSelected ? .black : .white)
                 .padding(.trailing, 4)
         }

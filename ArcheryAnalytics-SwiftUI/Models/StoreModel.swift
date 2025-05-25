@@ -30,10 +30,6 @@ class StoreModel: ObservableObject, Codable {
         return StoreModel(rounds: [mockRound], selectedRoundID: mockRound.id)
     }
 
-    var isSelectedRoundValid: Bool {
-        return rounds.first(where: { $0.id == selectedRoundID }) != nil
-    }
-
     private static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
@@ -157,7 +153,7 @@ class StoreModel: ObservableObject, Codable {
         fileName = jsonFileName
         rounds = []
         selectedRoundID = UUID()
-        print("*** resetData")
+        print("- StoreModel: resetData")
     }
 
     func createNewRound(indoor: Bool) {
@@ -166,7 +162,7 @@ class StoreModel: ObservableObject, Codable {
 
         rounds.insert(newRound, at: 0)
         selectedRoundID = newRound.id
-        print("*** createNewRound: \(newRound.name)")
+        print("- StoreModel: createNewRound: \(newRound.name)")
     }
 
     func updateRound(round: Round) {
@@ -174,33 +170,7 @@ class StoreModel: ObservableObject, Codable {
             return
         }
 
-        print("*** updateRound: [\(round.id)] - \(round.name)")
+        print("- StoreModel: updateRound: [\(round.id)] - \(round.name)")
         rounds[index] = round
-    }
-
-    func updateArrowHole(roundID: UUID, endID: Int, arrowHole: ArrowHole) {
-        guard let index = rounds.firstIndex(where: { $0.id == roundID }) else {
-            return
-        }
-        
-        guard endID >= 0 && endID < rounds[index].targetGroups[0].numberOfEnds else {
-            return
-        }
-
-        print("*** updateArrowHole: [\(roundID)] - end[\(endID)] - arrowHole[\(arrowHole.value)]")
-        rounds[index].targetGroups[0].updateFirstUnmarkedArrowHole(endID: endID, arrowHole: arrowHole)
-    }
-
-    func clearLastMarkedArrowHole(roundID: UUID, endID: Int) {
-        guard let index = rounds.firstIndex(where: { $0.id == roundID }) else {
-            return
-        }
-        
-        guard endID >= 0 && endID < rounds[index].targetGroups[0].numberOfEnds else {
-            return
-        }
-
-        print("*** clearLastMarkedArrowHole: [\(roundID)] - end[\(endID)]")
-        rounds[index].targetGroups[0].clearLastMarkedArrowHole(endID: endID)
     }
 }

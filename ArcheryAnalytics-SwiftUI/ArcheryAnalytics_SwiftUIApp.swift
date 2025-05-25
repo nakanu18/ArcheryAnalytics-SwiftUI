@@ -21,8 +21,8 @@ struct ArcheryAnalytics_SwiftUIApp: App {
                         switch route {
                         case .rounds:
                             RoundsScreen()
-                        case let .roundEditor(roundID):
-                            RoundEditorScreen(roundID: roundID)
+                        case let .roundEditor(round):
+                            RoundEditorScreen(round: round)
                         }
                     }
                     .onReceive(NotificationCenter.default.publisher(for: UIApplication.didEnterBackgroundNotification)) { _ in

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Round: Identifiable, Codable {
+struct Round: Identifiable, Codable, Equatable, Hashable {
     var id = UUID()
     var name = ""
     var date = Date()
@@ -25,10 +25,6 @@ struct Round: Identifiable, Codable {
                                           numberOfEnds: numberOfEnds,
                                           numberOfArrowsPerEnd: numberOfArrowsPerEnd))]
         self.tags = tags
-    }
-    
-    var currentTargetGroup: TargetGroup {
-        return targetGroups[currentTargetGroupID]
     }
 
     var isFinished: Bool {
@@ -109,7 +105,7 @@ struct Round: Identifiable, Codable {
 // 0.540cm -> 0.214" - VAP
 // 0.675cm -> 0.266" - 17/64
 // 0.912cm -> 0.359" - 23/64
-struct TargetGroup: Identifiable, Codable {
+struct TargetGroup: Identifiable, Codable, Equatable, Hashable {
     var id = UUID()
     var targetSize: Int = 40 // cm
     var arrowSize: Float = 0.54 // cm
@@ -215,7 +211,7 @@ struct TargetGroup: Identifiable, Codable {
     }
 }
 
-struct ArrowHole: Identifiable, Codable {
+struct ArrowHole: Identifiable, Codable, Equatable, Hashable {
     var id = UUID()
     var point: CGPoint? = nil
     var value: Int = -1
@@ -230,13 +226,13 @@ struct ArrowHole: Identifiable, Codable {
     }
 }
 
-struct Bow: Identifiable, Codable {
+struct Bow: Identifiable, Codable, Equatable, Hashable {
     var id = UUID()
     let name: String
     let tags: [Tag]
 }
 
-struct Tag: Identifiable, Codable {
+struct Tag: Identifiable, Codable, Equatable, Hashable {
     var id = UUID()
     let name: String
 }
