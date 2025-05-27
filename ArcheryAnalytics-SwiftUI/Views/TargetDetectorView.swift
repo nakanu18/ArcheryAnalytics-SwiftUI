@@ -16,7 +16,7 @@ struct TargetDetectorView: View {
     // 0.540cm -> 0.214" - VAP
     // 0.714cm -> 0.281" - 18/64
     // 0.912cm -> 0.359" - 23/64
-    let arrowHoleRadius = 0.25
+    let arrowHoleRadius = 0.175
 //    let arrowHoleRadius = 0.540 / 2
 //    let arrowHoleRadius = 0.714 / 2
 //    let arrowHoleRadius = 0.912 / 2
@@ -26,6 +26,7 @@ struct TargetDetectorView: View {
 
     init(arrowHoles: [ArrowHole], targetWidth: Double, onTargetTap: ((ArrowHole) -> Void)?) {
         self.arrowHoles = arrowHoles
+//        self.targetWidth = targetWidth
         self.targetWidth = 20
         self.onTargetTap = onTargetTap
     }
@@ -54,7 +55,7 @@ struct TargetDetectorView: View {
         let ringWidth = (targetWidth / 2.0) / 10
         let ring = 10 - Int((downscaledDist - arrowHoleRadius) / ringWidth)
 
-        print("TAP: \(location.toString) -> \(downscaledPt.toString), DIST: \(String(format: "%.2f", downscaledDist)), RING: \(ring)")
+        print("- Tap: \(location.toString) -> \(downscaledPt.toString), DIST: \(String(format: "%.2f", downscaledDist)), RING: \(ring)")
 
         var arrowHole = ArrowHole()
         arrowHole.point = downscaledPt
@@ -71,7 +72,7 @@ struct TargetDetectorView: View {
                     .onTapGesture(coordinateSpace: .local) { location in
                         addArrowHole(location: location)
                     }
-                ArrowPlotView(arrowHoles: arrowHoles, scale: scale, arrowHoleRadius: arrowHoleRadius)
+                ArrowPlotView(arrowHoles: arrowHoles, isShadowEnabled: true, scale: scale, arrowHoleRadius: arrowHoleRadius)
             }
             Text("\(Int(targetWidth))cm")
                 .padding([.bottom, .trailing], 10)
@@ -119,7 +120,7 @@ struct TargetView: View {
 
 struct ArrowPlotView: View {
     var arrowHoles: [ArrowHole]
-
+    var isShadowEnabled: Bool
     var scale: Double
     var arrowHoleRadius: Double
     var arrowHoleDiameter: Double {
@@ -129,6 +130,14 @@ struct ArrowPlotView: View {
     var body: some View {
         ForEach(arrowHoles) { hole in
             if let holePoint = hole.point {
+                if isShadowEnabled {
+                    Circle()
+                        .fill(Color.black.opacity(0.2))
+                        .position(holePoint
+                            .scaleBy(scale)
+                            .shiftBy(CGPointMake(arrowHoleDiameter, arrowHoleDiameter)))
+                        .frame(width: arrowHoleDiameter * 2, height: arrowHoleDiameter * 2)
+                }
                 Circle()
                     .stroke(.white, lineWidth: 0.5)
                     .background(Circle().fill(.black))

@@ -30,10 +30,10 @@ struct ArcheryAnalytics_SwiftUIApp: App {
                         storeModel.saveData()
                     }
             }
-                .preferredColorScheme(.dark)
-                .environmentObject(storeModel)
-                .environmentObject(navManager)
-                .toast(message: $storeModel.toastMessage)
+            .preferredColorScheme(.dark)
+            .environmentObject(storeModel)
+            .environmentObject(navManager)
+            .toast(message: $storeModel.toastMessage)
         }
     }
 }

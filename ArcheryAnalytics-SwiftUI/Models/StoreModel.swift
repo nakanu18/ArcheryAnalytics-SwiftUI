@@ -83,7 +83,7 @@ class StoreModel: ObservableObject, Codable {
         let loadingSource = fromBundle ? "Xcode" : "Documents"
 
         do {
-            print("StoreModel: Loading JSON from \(loadingSource) - \(jsonFileName)")
+            print("- StoreModel: Loading JSON from \(loadingSource) - \(jsonFileName)")
 
             let url: URL
 
@@ -127,7 +127,7 @@ class StoreModel: ObservableObject, Codable {
         saveDate = Date()
 
         do {
-            print("StoreModel: Saving JSON - \(fileName)")
+            print("- StoreModel: Saving JSON - \(fileName)")
             toastMessage = "Saving to \(fileName).json"
 
             let data = try encoder.encode(self)
@@ -140,7 +140,7 @@ class StoreModel: ObservableObject, Codable {
             let url = documentsDirectory.appendingPathComponent("\(fileName).json")
             try data.write(to: url)
         } catch {
-            print("StoreModel: ERROR saving JSON file - \(error)")
+            print("- StoreModel: ERROR saving JSON file - \(error)")
             toastMessage = "Saving Failed ..."
         }
     }

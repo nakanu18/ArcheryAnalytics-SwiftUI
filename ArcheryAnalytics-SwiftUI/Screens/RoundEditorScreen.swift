@@ -40,51 +40,10 @@ struct RoundEditorScreen: View {
         selectedEndID = min(selectedEndID + 1, round.targetGroups[0].numberOfEnds - 1)
     }
     
-    private func calcLeftAndRightHoles(arrowHoles: [ArrowHole]) -> (left: CGPoint, right: CGPoint) {
-        // Extract only the non-nil CGPoint values from the ArrowHole array.
-        let validPoints = arrowHoles.compactMap { $0.point }
-
-        // Handle the edge case where no valid points are found after compactMap.
-        guard !validPoints.isEmpty else {
-            print("Warning: The input array of ArrowHoles contains no valid (non-nil) points. Returning (0.0, 0.0).")
-            return (left: CGPoint(x: 0.0, y: 0.0), right: CGPoint(x: 0.0, y: 0.0))
-        }
-
-        // Find the point with the minimum x-coordinate.
-        let minXPoint = validPoints.min(by: { $0.x < $1.x })! // '!' is safe due to guard above
-        // Find the point with the maximum x-coordinate.
-        let maxXPoint = validPoints.max(by: { $0.x < $1.x })!
-        
-        return (left: minXPoint, right: maxXPoint)
+    private var groups: [CGSize] {
+        Utils.calcGroup(arrowHoles: round.targetGroups[0].arrowHoles, throwOutliers: 2)
     }
-    
-    private func calculateGroupDimensions(arrowHoles: [ArrowHole]) -> (width: CGFloat, height: CGFloat) {
-        // Extract only the non-nil CGPoint values from the ArrowHole array.
-        let validPoints = arrowHoles.compactMap { $0.point }
 
-        // Handle the edge case where no valid points are found after compactMap.
-        guard !validPoints.isEmpty else {
-            print("Warning: The input array of ArrowHoles contains no valid (non-nil) points. Returning (0.0, 0.0).")
-            return (width: 0.0, height: 0.0)
-        }
-
-        // Find the point with the minimum x-coordinate.
-        let minXPoint = validPoints.min(by: { $0.x < $1.x })! // '!' is safe due to guard above
-        // Find the point with the maximum x-coordinate.
-        let maxXPoint = validPoints.max(by: { $0.x < $1.x })!
-
-        // Find the point with the minimum y-coordinate.
-        let minYPoint = validPoints.min(by: { $0.y < $1.y })!
-        // Find the point with the maximum y-coordinate.
-        let maxYPoint = validPoints.max(by: { $0.y < $1.y })!
-
-        // Calculate the width and height using the found min/max coordinates.
-        let width = maxXPoint.x - minXPoint.x
-        let height = maxYPoint.y - minYPoint.y
-
-        return (width: width, height: height)
-    }
-    
     private func renderTarget() -> some View {
         GeometryReader { proxy in
             TargetDetectorView(
@@ -134,10 +93,24 @@ struct RoundEditorScreen: View {
                 }
                 Section("List") {
                     KeyValueCell(key: "refCode", value: round.targetGroups[0].refCode())
-//                    KeyValueCell(key: "left", value: calcLeftAndRightHoles(arrowHoles: round.targetGroups[0].arrowHoles).left.toString)
-//                    KeyValueCell(key: "right", value: calcLeftAndRightHoles(arrowHoles: round.targetGroups[0].arrowHoles).right.toString)
-//                    KeyValueCell(key: "width", value: "\(calculateGroupDimensions(arrowHoles: round.targetGroups[0].arrowHoles).width)")
-//                    KeyValueCell(key: "height", value: "\(calculateGroupDimensions(arrowHoles: round.targetGroups[0].arrowHoles).height)")
+                    if groups.count >= 1 {
+                        KeyValueCell(key: "Group W", value: "\(groups[0].width.toString())")
+                    }
+                    if groups.count >= 2 {
+                        KeyValueCell(key: "Group W-1", value: "\(groups[1].width.toString())")
+                    }
+                    if groups.count >= 3 {
+                        KeyValueCell(key: "Group W-2", value: "\(groups[2].width.toString())")
+                    }
+                    if groups.count >= 1 {
+                        KeyValueCell(key: "Group H", value: "\(groups[0].height.toString())")
+                    }
+                    if groups.count >= 2 {
+                        KeyValueCell(key: "Group H-1", value: "\(groups[1].height.toString())")
+                    }
+                    if groups.count >= 3 {
+                        KeyValueCell(key: "Group H-2", value: "\(groups[2].height.toString())")
+                    }
                     ForEach(0 ..< round.targetGroups[0].numberOfEnds, id: \.self) { index in
                         EndCell(round: round, endID: index, isSelected: selectedEndID == index)
                             .onTapGesture {
