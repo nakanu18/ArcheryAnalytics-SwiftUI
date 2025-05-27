@@ -20,18 +20,26 @@ struct RoundEditorScreen: View {
     @GestureState private var gestureOffset: CGSize = .zero
     @GestureState private var gestureScale: CGFloat = 1.0
     
+    private func resetGroupAnalyzer() {
+        let arrowHoles = selectedEndID == round.targetGroups[0].numberOfEnds ?
+            round.targetGroups[0].arrowHoles :
+            round.targetGroups[0].arrowHoles(endID: selectedEndID)
+        groupAnalyzer = GroupAnalyzer(arrowHoles: arrowHoles)
+    }
+    
     private func onEndSelect(index: Int) {
         selectedEndID = index
+        resetGroupAnalyzer()
     }
 
     private func onArrowHoleScored(arrowHole: ArrowHole) {
         round.targetGroups[0].updateFirstUnmarkedArrowHole(endID: selectedEndID, arrowHole: arrowHole)
-        groupAnalyzer = GroupAnalyzer(arrowHoles: round.targetGroups[0].arrowHoles)
+        resetGroupAnalyzer()
     }
 
     private func onRemoveLastArrow() {
         round.targetGroups[0].clearLastMarkedArrowHole(endID: selectedEndID)
-        groupAnalyzer = GroupAnalyzer(arrowHoles: round.targetGroups[0].arrowHoles)
+        resetGroupAnalyzer()
     }
     
     private func onRecenter() {
@@ -41,6 +49,7 @@ struct RoundEditorScreen: View {
 
     private func onNextEnd() {
         selectedEndID = min(selectedEndID + 1, round.targetGroups[0].numberOfEnds - 1)
+        resetGroupAnalyzer()
     }
 
     private func renderTarget() -> some View {
@@ -94,24 +103,24 @@ struct RoundEditorScreen: View {
                 Section("List") {
                     let groups = groupAnalyzer.groups
                     KeyValueCell(key: "refCode", value: round.targetGroups[0].refCode())
-                    if groups.count >= 1 {
-                        KeyValueCell(key: "Group W", value: "\(groups[0].width.toString())")
-                    }
-                    if groups.count >= 2 {
-                        KeyValueCell(key: "Group W-1", value: "\(groups[1].width.toString())")
-                    }
-                    if groups.count >= 3 {
-                        KeyValueCell(key: "Group W-2", value: "\(groups[2].width.toString())")
-                    }
-                    if groups.count >= 1 {
-                        KeyValueCell(key: "Group H", value: "\(groups[0].height.toString())")
-                    }
-                    if groups.count >= 2 {
-                        KeyValueCell(key: "Group H-1", value: "\(groups[1].height.toString())")
-                    }
-                    if groups.count >= 3 {
-                        KeyValueCell(key: "Group H-2", value: "\(groups[2].height.toString())")
-                    }
+//                    if groups.count >= 1 {
+//                        KeyValueCell(key: "Group W", value: "\(groups[0].width.toString())")
+//                    }
+//                    if groups.count >= 2 {
+//                        KeyValueCell(key: "Group W-1", value: "\(groups[1].width.toString())")
+//                    }
+//                    if groups.count >= 3 {
+//                        KeyValueCell(key: "Group W-2", value: "\(groups[2].width.toString())")
+//                    }
+//                    if groups.count >= 1 {
+//                        KeyValueCell(key: "Group H", value: "\(groups[0].height.toString())")
+//                    }
+//                    if groups.count >= 2 {
+//                        KeyValueCell(key: "Group H-1", value: "\(groups[1].height.toString())")
+//                    }
+//                    if groups.count >= 3 {
+//                        KeyValueCell(key: "Group H-2", value: "\(groups[2].height.toString())")
+//                    }
                     ForEach(0 ..< round.targetGroups[0].numberOfEnds, id: \.self) { index in
                         EndCell(round: round, endID: index, isSelected: selectedEndID == index)
                             .onTapGesture {
@@ -149,8 +158,6 @@ struct RoundEditorScreen: View {
             .padding(.horizontal)
         }
         .onAppear {
-            groupAnalyzer = GroupAnalyzer(arrowHoles: round.targetGroups[0].arrowHoles)
-
             if !round.isFinished {
                 selectedEndID = round.targetGroups[0].firstUnfinishedEndID
                 isLocked = false
@@ -158,6 +165,7 @@ struct RoundEditorScreen: View {
                 selectedEndID = round.targetGroups[0].numberOfEnds
                 isLocked = true
             }
+            resetGroupAnalyzer()
         }
         .onDisappear {
             storeModel.updateRound(round: round)

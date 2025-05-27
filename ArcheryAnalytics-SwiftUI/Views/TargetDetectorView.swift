@@ -128,18 +128,6 @@ struct ArrowPlotView: View {
     var scale: Double
     var arrowHoleRadius: Double
     
-    var center: CGPoint {
-        guard groupAnalyzer.sortedX.count > 0, groupAnalyzer.sortedY.count > 0 else {
-            return CGPoint.zero
-        }
-        var midpoint = CGPoint.zero
-        midpoint.x = (groupAnalyzer.sortedX.first!.point!.x + groupAnalyzer.sortedX.last!.point!.x) / 2
-        midpoint.y = (groupAnalyzer.sortedY.first!.point!.y + groupAnalyzer.sortedY.last!.point!.y) / 2
-        
-        // TODO: change to median
-        return midpoint
-    }
-    
     var arrowHoleDiameter: Double {
         scale * arrowHoleRadius * 2
     }
@@ -155,7 +143,7 @@ struct ArrowPlotView: View {
                     .fill(Color.green.opacity(0.2))
                     .frame(width: 5 * scale)
             }
-            .offset(x: center.x * scale, y: center.y * scale)
+            .offset(x: groupAnalyzer.center.x * scale, y: groupAnalyzer.center.y * scale)
             .allowsHitTesting(false)
         }
         ForEach(arrowHoles) { hole in

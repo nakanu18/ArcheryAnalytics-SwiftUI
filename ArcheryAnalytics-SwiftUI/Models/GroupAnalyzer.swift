@@ -23,6 +23,31 @@ struct GroupAnalyzer {
     var numOfFinishedArrows: Int {
         return arrowHoles.filter { $0.value >= 0 }.count
     }
+    
+    var center: CGPoint {
+        guard sortedX.count > 0, sortedY.count > 0 else {
+            return CGPoint.zero
+        }
+        
+        func median(of points: [ArrowHole], using keyPath: KeyPath<CGPoint, CGFloat>) -> CGFloat {
+            let values = points.compactMap { $0.point?[keyPath: keyPath] }
+            let sorted = values.sorted()
+            let count = sorted.count
+
+            if count % 2 == 0 {
+                // Even number: take the average of the two middle values
+                return (sorted[count / 2 - 1] + sorted[count / 2]) / 2
+            } else {
+                // Odd number: take the middle value
+                return sorted[count / 2]
+            }
+        }
+
+        let medianX = median(of: sortedX, using: \.x)
+        let medianY = median(of: sortedY, using: \.y)
+
+        return CGPoint(x: medianX, y: medianY)
+    }
 
     private func sortByX() -> [ArrowHole] {
         let arrowHoles = arrowHoles.filter { $0.point != nil }
