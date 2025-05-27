@@ -12,6 +12,7 @@ struct RoundEditorScreen: View {
     @State var round: Round
     @State private var selectedEndID = 0
     @State private var isLocked = false
+    @State private var groupAnalyzer = GroupAnalyzer(arrowHoles: [])
 
     // Used for panning and zooming
     @State private var scale: CGFloat = 1.0
@@ -25,10 +26,12 @@ struct RoundEditorScreen: View {
 
     private func onArrowHoleScored(arrowHole: ArrowHole) {
         round.targetGroups[0].updateFirstUnmarkedArrowHole(endID: selectedEndID, arrowHole: arrowHole)
+        groupAnalyzer = GroupAnalyzer(arrowHoles: round.targetGroups[0].arrowHoles)
     }
 
     private func onRemoveLastArrow() {
         round.targetGroups[0].clearLastMarkedArrowHole(endID: selectedEndID)
+        groupAnalyzer = GroupAnalyzer(arrowHoles: round.targetGroups[0].arrowHoles)
     }
     
     private func onRecenter() {
@@ -39,10 +42,6 @@ struct RoundEditorScreen: View {
     private func onNextEnd() {
         selectedEndID = min(selectedEndID + 1, round.targetGroups[0].numberOfEnds - 1)
     }
-    
-    private var groups: [CGSize] {
-        Utils.calcGroup(arrowHoles: round.targetGroups[0].arrowHoles, throwOutliers: 2)
-    }
 
     private func renderTarget() -> some View {
         GeometryReader { proxy in
@@ -51,6 +50,7 @@ struct RoundEditorScreen: View {
                     round.targetGroups[0].arrowHoles :
                     round.targetGroups[0].arrowHoles(endID: selectedEndID),
                 targetWidth: Double(round.targetGroups[0].targetSize),
+                groupAnalyzer: groupAnalyzer,
                 onTargetTap: onArrowHoleScored
             )
             .disabled(isLocked)
@@ -92,6 +92,7 @@ struct RoundEditorScreen: View {
                     KeyValueCell(key: "refCode", value: round.refCode())
                 }
                 Section("List") {
+                    let groups = groupAnalyzer.groups
                     KeyValueCell(key: "refCode", value: round.targetGroups[0].refCode())
                     if groups.count >= 1 {
                         KeyValueCell(key: "Group W", value: "\(groups[0].width.toString())")
@@ -148,6 +149,8 @@ struct RoundEditorScreen: View {
             .padding(.horizontal)
         }
         .onAppear {
+            groupAnalyzer = GroupAnalyzer(arrowHoles: round.targetGroups[0].arrowHoles)
+
             if !round.isFinished {
                 selectedEndID = round.targetGroups[0].firstUnfinishedEndID
                 isLocked = false

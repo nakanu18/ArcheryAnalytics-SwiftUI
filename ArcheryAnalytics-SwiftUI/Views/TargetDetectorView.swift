@@ -11,6 +11,7 @@ struct TargetDetectorView: View {
     var arrowHoles: [ArrowHole]
 
     var targetWidth: Double
+    var groupAnalyzer: GroupAnalyzer
     let padding = 20.0
 
     // 0.540cm -> 0.214" - VAP
@@ -24,10 +25,11 @@ struct TargetDetectorView: View {
 
     var onTargetTap: ((ArrowHole) -> Void)?
 
-    init(arrowHoles: [ArrowHole], targetWidth: Double, onTargetTap: ((ArrowHole) -> Void)?) {
+    init(arrowHoles: [ArrowHole], targetWidth: Double, groupAnalyzer: GroupAnalyzer, onTargetTap: ((ArrowHole) -> Void)?) {
         self.arrowHoles = arrowHoles
 //        self.targetWidth = targetWidth
         self.targetWidth = 20
+        self.groupAnalyzer = groupAnalyzer
         self.onTargetTap = onTargetTap
     }
     
@@ -39,7 +41,7 @@ struct TargetDetectorView: View {
     var frameSize: Double {
         scale * targetWidth
     }
-
+    
     func addArrowHole(location: CGPoint) {
         // Tap relative to the center of the target
         let pt = CGPointMake(location.x - padding - frameSize / 2, location.y - padding - frameSize / 2)
@@ -72,7 +74,7 @@ struct TargetDetectorView: View {
                     .onTapGesture(coordinateSpace: .local) { location in
                         addArrowHole(location: location)
                     }
-                ArrowPlotView(arrowHoles: arrowHoles, isShadowEnabled: true, scale: scale, arrowHoleRadius: arrowHoleRadius)
+                ArrowPlotView(arrowHoles: arrowHoles, groupAnalyzer: groupAnalyzer, isShadowEnabled: true, scale: scale, arrowHoleRadius: arrowHoleRadius)
             }
             Text("\(Int(targetWidth))cm")
                 .padding([.bottom, .trailing], 10)
@@ -81,10 +83,14 @@ struct TargetDetectorView: View {
 }
 
 #Preview {
-    // BUG: arrow holes not showing in preview
     @Previewable @State var arrowHoles: [ArrowHole] = []
+    @Previewable @State var groups: [CGSize] = []
+    
+    var groupAnalyzer: GroupAnalyzer {
+        GroupAnalyzer(arrowHoles: arrowHoles)
+    }
 
-    return TargetDetectorView(arrowHoles: arrowHoles, targetWidth: 40) { arrowHole in
+    return TargetDetectorView(arrowHoles: arrowHoles, targetWidth: 40, groupAnalyzer: groupAnalyzer) { arrowHole in
         arrowHoles.append(arrowHole)
     }
 }
@@ -96,7 +102,7 @@ struct TargetView: View {
     let numberOfRings = 10
     let scale: Double
     let targetWidth: Double
-
+    
     func ringWidth(id: Int) -> CGFloat {
         let ringToRingDist = targetWidth / Double(numberOfRings)
         let width = targetWidth - ringToRingDist * Double(id)
@@ -110,9 +116,6 @@ struct TargetView: View {
                     .stroke(lineColor, lineWidth: 1)
                     .background(Circle().fill(bgColor[index]))
                     .frame(width: ringWidth(id: index))
-                    .onAppear {
-//                        print("\(index + 1): \(ringWidth(id: index))")
-                    }
             }
         }
     }
@@ -120,14 +123,41 @@ struct TargetView: View {
 
 struct ArrowPlotView: View {
     var arrowHoles: [ArrowHole]
+    var groupAnalyzer: GroupAnalyzer
     var isShadowEnabled: Bool
     var scale: Double
     var arrowHoleRadius: Double
+    
+    var center: CGPoint {
+        guard groupAnalyzer.sortedX.count > 0, groupAnalyzer.sortedY.count > 0 else {
+            return CGPoint.zero
+        }
+        var midpoint = CGPoint.zero
+        midpoint.x = (groupAnalyzer.sortedX.first!.point!.x + groupAnalyzer.sortedX.last!.point!.x) / 2
+        midpoint.y = (groupAnalyzer.sortedY.first!.point!.y + groupAnalyzer.sortedY.last!.point!.y) / 2
+        
+        // TODO: change to median
+        return midpoint
+    }
+    
     var arrowHoleDiameter: Double {
         scale * arrowHoleRadius * 2
     }
 
     var body: some View {
+        if groupAnalyzer.numOfFinishedArrows >= 3 {
+            Group {
+                Circle()
+                    .stroke(Color.white.opacity(1), lineWidth: 1)
+                    .frame(width: 1 * scale)
+                Circle()
+                    .stroke(Color.white.opacity(0.5), lineWidth: 1)
+                    .fill(Color.green.opacity(0.2))
+                    .frame(width: 5 * scale)
+            }
+            .offset(x: center.x * scale, y: center.y * scale)
+            .allowsHitTesting(false)
+        }
         ForEach(arrowHoles) { hole in
             if let holePoint = hole.point {
                 if isShadowEnabled {
@@ -135,7 +165,7 @@ struct ArrowPlotView: View {
                         .fill(Color.black.opacity(0.2))
                         .position(holePoint
                             .scaleBy(scale)
-                            .shiftBy(CGPointMake(arrowHoleDiameter, arrowHoleDiameter)))
+                            .shiftBy(CGPoint(x: arrowHoleDiameter, y: arrowHoleDiameter)))
                         .frame(width: arrowHoleDiameter * 2, height: arrowHoleDiameter * 2)
                 }
                 Circle()
@@ -143,7 +173,7 @@ struct ArrowPlotView: View {
                     .background(Circle().fill(.black))
                     .position(holePoint
                         .scaleBy(scale)
-                        .shiftBy(CGPointMake(arrowHoleDiameter / 2, arrowHoleDiameter / 2)))
+                        .shiftBy(CGPoint(x: arrowHoleDiameter / 2, y: arrowHoleDiameter / 2)))
                     .frame(width: arrowHoleDiameter, height: arrowHoleDiameter)
             }
         }

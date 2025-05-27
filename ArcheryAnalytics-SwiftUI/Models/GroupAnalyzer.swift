@@ -1,5 +1,5 @@
 //
-//  Utils.swift
+//  GroupAnalyzer.swift
 //  ArcheryAnalytics-SwiftUI
 //
 //  Created by Alex de Vera on 5/25/25.
@@ -7,9 +7,24 @@
 
 import Foundation
 
-struct Utils {
+struct GroupAnalyzer {
+    private(set) var arrowHoles: [ArrowHole]
+    private(set) var sortedX: [ArrowHole] = []
+    private(set) var sortedY: [ArrowHole] = []
+    private(set) var groups: [CGSize] = []
+    
+    init(arrowHoles: [ArrowHole]) {
+        self.arrowHoles = arrowHoles
+        self.sortedX = sortByX()
+        self.sortedY = sortByY()
+        self.groups = calcGroup(throwOutliers: 2)
+    }
+        
+    var numOfFinishedArrows: Int {
+        return arrowHoles.filter { $0.value >= 0 }.count
+    }
 
-    static func sortByX(arrowHoles: [ArrowHole]) -> [ArrowHole] {
+    private func sortByX() -> [ArrowHole] {
         let arrowHoles = arrowHoles.filter { $0.point != nil }
         guard arrowHoles.count > 1 else {
             return arrowHoles
@@ -18,7 +33,7 @@ struct Utils {
         return arrowHoles.sorted { $0.point!.x < $1.point!.x }
     }
 
-    static func sortByY(arrowHoles: [ArrowHole]) -> [ArrowHole] {
+    private func sortByY() -> [ArrowHole] {
         let arrowHoles = arrowHoles.filter { $0.point != nil }
         guard arrowHoles.count > 1 else {
             return arrowHoles
@@ -27,14 +42,14 @@ struct Utils {
         return arrowHoles.sorted { $0.point!.y < $1.point!.y }
     }
     
-    static func calcGroup(arrowHoles: [ArrowHole], throwOutliers: Int) -> [CGSize] {
+    private func calcGroup(throwOutliers: Int) -> [CGSize] {
         let arrowHoles = arrowHoles.filter { $0.point != nil }
         guard arrowHoles.count > 1 else {
             return []
         }
 
-        var xSorted = sortByX(arrowHoles: arrowHoles)
-        var ySorted = sortByY(arrowHoles: arrowHoles)
+        var xSorted = sortByX()
+        var ySorted = sortByY()
         var groups: [CGSize] = []
         var width  = xSorted[xSorted.count - 1].point!.x - xSorted[0].point!.x
         var height = ySorted[ySorted.count - 1].point!.y - ySorted[0].point!.y
