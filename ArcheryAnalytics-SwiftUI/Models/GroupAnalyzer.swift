@@ -48,6 +48,18 @@ struct GroupAnalyzer {
 
         return CGPoint(x: medianX, y: medianY)
     }
+    
+    var size: CGSize {
+        guard sortedX.count > 0, sortedY.count > 0 else {
+            return CGSize.zero
+        }
+
+        let width = sortedX[sortedX.count - 1].point!.x - sortedX[0].point!.x
+        let height = sortedY[sortedY.count - 1].point!.y - sortedY[0].point!.y
+        let modifier = 1.0
+        // TODO: is there some way to do a median style calc?
+        return CGSize(width: width * modifier, height: height * modifier)
+    }
 
     private func sortByX() -> [ArrowHole] {
         let arrowHoles = arrowHoles.filter { $0.point != nil }

@@ -135,15 +135,20 @@ struct ArrowPlotView: View {
     var body: some View {
         if groupAnalyzer.numOfFinishedArrows >= 3 {
             Group {
-                Circle()
-                    .stroke(Color.white.opacity(1), lineWidth: 1)
-                    .frame(width: 1 * scale)
-                Circle()
+                Ellipse()
                     .stroke(Color.white.opacity(0.5), lineWidth: 1)
-                    .fill(Color.green.opacity(0.2))
-                    .frame(width: 5 * scale)
+                    .fill(Color.black.opacity(0.2))
+                    .frame(width: groupAnalyzer.size.width * scale,
+                           height: groupAnalyzer.size.height * scale)
+                Rectangle()
+                    .stroke(Color.white, lineWidth: 1)
+                    .frame(width: 1, height: 1 * scale)
+                Rectangle()
+                    .stroke(Color.white, lineWidth: 1)
+                    .frame(width: 1 * scale, height: 1)
             }
-            .offset(x: groupAnalyzer.center.x * scale, y: groupAnalyzer.center.y * scale)
+            .offset(x: groupAnalyzer.center.x * scale,
+                    y: groupAnalyzer.center.y * scale)
             .allowsHitTesting(false)
         }
         ForEach(arrowHoles) { hole in
