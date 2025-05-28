@@ -10,7 +10,8 @@ import SwiftUI
 struct RoundEditorScreen: View {
     @EnvironmentObject private var storeModel: StoreModel
     @State var round: Round
-    @State private var selectedEndID = 0
+    @State private var selectedStageIndex = 0
+    @State private var selectedEndIndex = 0
     @State private var isLocked = false
     @State private var groupAnalyzer = GroupAnalyzer(arrowHoles: [])
 
@@ -20,25 +21,30 @@ struct RoundEditorScreen: View {
     @GestureState private var gestureOffset: CGSize = .zero
     @GestureState private var gestureScale: CGFloat = 1.0
     
+    private var selectedStage: Stage {
+        round.stages[selectedStageIndex]
+    }
+    
     private func resetGroupAnalyzer() {
-        let arrowHoles = selectedEndID == round.stages[0].numberOfEnds ?
-            round.stages[0].arrowHoles :
-            round.stages[0].arrowHoles(endID: selectedEndID)
+        let arrowHoles = selectedEndIndex == round.stages[selectedStageIndex].numberOfEnds ?
+            round.stages[selectedStageIndex].arrowHoles :
+            round.stages[selectedStageIndex].arrowHoles(endID: selectedEndIndex)
         groupAnalyzer = GroupAnalyzer(arrowHoles: arrowHoles)
     }
     
-    private func onEndSelect(index: Int) {
-        selectedEndID = index
+    private func onEndSelect(stageIndex: Int, endIndex: Int) {
+        selectedStageIndex = stageIndex
+        selectedEndIndex = endIndex
         resetGroupAnalyzer()
     }
 
     private func onArrowHoleScored(arrowHole: ArrowHole) {
-        round.stages[0].updateFirstUnmarkedArrowHole(endID: selectedEndID, arrowHole: arrowHole)
+        round.stages[selectedStageIndex].updateFirstUnmarkedArrowHole(endID: selectedEndIndex, arrowHole: arrowHole)
         resetGroupAnalyzer()
     }
 
     private func onRemoveLastArrow() {
-        round.stages[0].clearLastMarkedArrowHole(endID: selectedEndID)
+        round.stages[selectedStageIndex].clearLastMarkedArrowHole(endID: selectedEndIndex)
         resetGroupAnalyzer()
     }
     
@@ -48,7 +54,7 @@ struct RoundEditorScreen: View {
     }
 
     private func onNextEnd() {
-        selectedEndID = min(selectedEndID + 1, round.stages[0].numberOfEnds - 1)
+        selectedEndIndex = min(selectedEndIndex + 1, round.stages[selectedStageIndex].numberOfEnds - 1)
         resetGroupAnalyzer()
     }
     
@@ -80,10 +86,10 @@ struct RoundEditorScreen: View {
     private func renderTarget() -> some View {
         GeometryReader { proxy in
             TargetDetectorView(
-                arrowHoles: selectedEndID == round.stages[0].numberOfEnds ?
-                    round.stages[0].arrowHoles :
-                    round.stages[0].arrowHoles(endID: selectedEndID),
-                targetWidth: Double(round.stages[0].targetSize),
+                arrowHoles: selectedEndIndex == round.stages[selectedStageIndex].numberOfEnds ?
+                    round.stages[selectedStageIndex].arrowHoles :
+                    round.stages[selectedStageIndex].arrowHoles(endID: selectedEndIndex),
+                targetWidth: Double(round.stages[selectedStageIndex].targetSize),
                 groupAnalyzer: groupAnalyzer,
                 onTargetTap: onArrowHoleScored
             )
@@ -123,20 +129,20 @@ struct RoundEditorScreen: View {
             List {
                 Section("Info") {
                     KeyValueCell(key: "Name", value: round.name)
-                    KeyValueCell(key: "refCode", value: round.refCode())
+//                    KeyValueCell(key: "refCode", value: round.refCode())
                 }
                 ForEach(0 ..< round.stages.count, id: \.self) { stageIndex in
                     Section("Stage \(stageIndex + 1)") {
-                        KeyValueCell(key: "refCode", value: round.stages[stageIndex].refCode())
+//                        KeyValueCell(key: "refCode", value: round.stages[stageIndex].refCode())
                         ForEach(0 ..< round.stages[stageIndex].numberOfEnds, id: \.self) { endIndex in
-                            EndCell(round: round, endID: endIndex, isSelected: selectedEndID == endIndex)
+                            EndCell(round: round, stageIndex: stageIndex, endIndex: endIndex, isSelected: selectedStageIndex == stageIndex && selectedEndIndex == endIndex)
                                 .onTapGesture {
-                                    onEndSelect(index: endIndex)
+                                    onEndSelect(stageIndex: stageIndex, endIndex: endIndex)
                                 }
                         }
-                        TotalCell(round: round, isSelected: selectedEndID == round.stages[stageIndex].numberOfEnds)
+                        TotalCell(round: round, stageIndex: stageIndex, isSelected: selectedStageIndex == stageIndex && selectedEndIndex == round.stages[stageIndex].numberOfEnds)
                             .onTapGesture {
-                                onEndSelect(index: round.stages[stageIndex].numberOfEnds)
+                                onEndSelect(stageIndex: stageIndex, endIndex: round.stages[stageIndex].numberOfEnds)
                             }
                     }
                 }
@@ -167,10 +173,10 @@ struct RoundEditorScreen: View {
         }
         .onAppear {
             if !round.isFinished {
-                selectedEndID = round.stages[0].firstUnfinishedEndID
+                selectedEndIndex = round.stages[0].firstUnfinishedEndID
                 isLocked = false
             } else {
-                selectedEndID = round.stages[0].numberOfEnds
+                selectedEndIndex = round.stages[0].numberOfEnds
                 isLocked = true
             }
             resetGroupAnalyzer()
@@ -209,23 +215,24 @@ struct KeyValueCell: View {
 
 struct EndCell: View {
     let round: Round
-    let endID: Int
+    let stageIndex: Int
+    let endIndex: Int
     let isSelected: Bool
 
     var arrowIDs: (start: Int, end: Int) {
-        round.stages[0].arrowIDs(endID: endID)
+        round.stages[stageIndex].arrowIDs(endID: endIndex)
     }
 
     var body: some View {
         HStack {
-            Text("\(endID + 1)")
+            Text("\(endIndex + 1)")
                 .frame(width: 30, height: 30)
                 .background(.black)
                 .foregroundColor(.gray)
                 .cornerRadius(6)
                 .padding(.trailing, 8)
 
-            ForEach(round.stages[0].arrowHoles[arrowIDs.start ..< arrowIDs.end]) { arrowHole in
+            ForEach(round.stages[stageIndex].arrowHoles[arrowIDs.start ..< arrowIDs.end]) { arrowHole in
                 if arrowHole.value >= 0 {
                     ArrowHoleView(value: arrowHole.value)
 //                        .id(numberWrapper.id) // TODO: is this needed?
@@ -233,7 +240,7 @@ struct EndCell: View {
             }
 
             Spacer()
-            Text("\(round.stages[0].score(endID: endID))")
+            Text("\(round.stages[stageIndex].score(endID: endIndex))")
                 .foregroundColor(isSelected ? .black : .white)
                 .padding(.trailing, 4)
         }
@@ -265,6 +272,7 @@ struct ArrowHoleView: View {
 
 struct TotalCell: View {
     let round: Round
+    let stageIndex: Int
     let isSelected: Bool
     
     var body: some View {
@@ -276,7 +284,7 @@ struct TotalCell: View {
                 .foregroundColor(.gray)
                 .cornerRadius(6)
             Spacer()
-            Text("\(round.stages[0].totalScore)")
+            Text("\(round.stages[stageIndex].totalScore)")
                 .foregroundColor(isSelected ? .black : .white)
                 .padding(.trailing, 4)
         }
