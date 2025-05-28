@@ -31,16 +31,16 @@ extension StoreModel {
             round.name = v1Round.name
             round.date = v1Round.date
             round.tags = v1Round.tags
-            round.targetGroups = v1Round.targetGroups.map { v1TargetGroup in
-                var targetGroup = TargetGroup()
+            round.stages = v1Round.stages.map { v1Stage in
+                var stage = Stage()
 
-                targetGroup.id = v1TargetGroup.id
-                targetGroup.targetSize = v1TargetGroup.targetSize
-                targetGroup.arrowSize = v1TargetGroup.arrowSize
-                targetGroup.distance = v1TargetGroup.distance
-                targetGroup.numberOfEnds = v1TargetGroup.numberOfEnds
-                targetGroup.numberOfArrowsPerEnd = v1TargetGroup.numberOfArrowsPerEnd
-                targetGroup.arrowHoles = v1TargetGroup.arrowHoles.map { v1ArrowHole in
+                stage.id = v1Stage.id
+                stage.targetSize = v1Stage.targetSize
+                stage.arrowSize = v1Stage.arrowSize
+                stage.distance = v1Stage.distance
+                stage.numberOfEnds = v1Stage.numberOfEnds
+                stage.numberOfArrowsPerEnd = v1Stage.numberOfArrowsPerEnd
+                stage.arrowHoles = v1Stage.arrowHoles.map { v1ArrowHole in
                     var arrowHole = ArrowHole()
                     
                     arrowHole.id = v1ArrowHole.id
@@ -53,7 +53,7 @@ extension StoreModel {
                     }
                     return arrowHole
                 }
-                return targetGroup
+                return stage
             }
             return round
         }
@@ -69,6 +69,6 @@ extension Round {
     fileprivate init() {}
 }
 
-extension TargetGroup {
+extension Stage {
     fileprivate init() {}
 }

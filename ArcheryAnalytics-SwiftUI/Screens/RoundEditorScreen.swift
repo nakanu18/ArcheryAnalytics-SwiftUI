@@ -21,9 +21,9 @@ struct RoundEditorScreen: View {
     @GestureState private var gestureScale: CGFloat = 1.0
     
     private func resetGroupAnalyzer() {
-        let arrowHoles = selectedEndID == round.targetGroups[0].numberOfEnds ?
-            round.targetGroups[0].arrowHoles :
-            round.targetGroups[0].arrowHoles(endID: selectedEndID)
+        let arrowHoles = selectedEndID == round.stages[0].numberOfEnds ?
+            round.stages[0].arrowHoles :
+            round.stages[0].arrowHoles(endID: selectedEndID)
         groupAnalyzer = GroupAnalyzer(arrowHoles: arrowHoles)
     }
     
@@ -33,12 +33,12 @@ struct RoundEditorScreen: View {
     }
 
     private func onArrowHoleScored(arrowHole: ArrowHole) {
-        round.targetGroups[0].updateFirstUnmarkedArrowHole(endID: selectedEndID, arrowHole: arrowHole)
+        round.stages[0].updateFirstUnmarkedArrowHole(endID: selectedEndID, arrowHole: arrowHole)
         resetGroupAnalyzer()
     }
 
     private func onRemoveLastArrow() {
-        round.targetGroups[0].clearLastMarkedArrowHole(endID: selectedEndID)
+        round.stages[0].clearLastMarkedArrowHole(endID: selectedEndID)
         resetGroupAnalyzer()
     }
     
@@ -48,17 +48,42 @@ struct RoundEditorScreen: View {
     }
 
     private func onNextEnd() {
-        selectedEndID = min(selectedEndID + 1, round.targetGroups[0].numberOfEnds - 1)
+        selectedEndID = min(selectedEndID + 1, round.stages[0].numberOfEnds - 1)
         resetGroupAnalyzer()
+    }
+    
+    private func renderAnalysis() -> some View {
+        Group {
+            let groups = groupAnalyzer.groups
+            if groups.count >= 1 {
+                KeyValueCell(key: "Group W", value: "\(groups[0].width.toString())")
+            }
+            if groups.count >= 2 {
+                KeyValueCell(key: "Group W-1", value: "\(groups[1].width.toString())")
+            }
+            if groups.count >= 3 {
+                KeyValueCell(key: "Group W-2", value: "\(groups[2].width.toString())")
+            }
+            if groups.count >= 1 {
+                KeyValueCell(key: "Group H", value: "\(groups[0].height.toString())")
+            }
+            if groups.count >= 2 {
+                KeyValueCell(key: "Group H-1", value: "\(groups[1].height.toString())")
+            }
+            if groups.count >= 3 {
+                KeyValueCell(key: "Group H-2", value: "\(groups[2].height.toString())")
+            }
+
+        }
     }
 
     private func renderTarget() -> some View {
         GeometryReader { proxy in
             TargetDetectorView(
-                arrowHoles: selectedEndID == round.targetGroups[0].numberOfEnds ?
-                    round.targetGroups[0].arrowHoles :
-                    round.targetGroups[0].arrowHoles(endID: selectedEndID),
-                targetWidth: Double(round.targetGroups[0].targetSize),
+                arrowHoles: selectedEndID == round.stages[0].numberOfEnds ?
+                    round.stages[0].arrowHoles :
+                    round.stages[0].arrowHoles(endID: selectedEndID),
+                targetWidth: Double(round.stages[0].targetSize),
                 groupAnalyzer: groupAnalyzer,
                 onTargetTap: onArrowHoleScored
             )
@@ -100,37 +125,20 @@ struct RoundEditorScreen: View {
                     KeyValueCell(key: "Name", value: round.name)
                     KeyValueCell(key: "refCode", value: round.refCode())
                 }
-                Section("List") {
-                    let groups = groupAnalyzer.groups
-                    KeyValueCell(key: "refCode", value: round.targetGroups[0].refCode())
-//                    if groups.count >= 1 {
-//                        KeyValueCell(key: "Group W", value: "\(groups[0].width.toString())")
-//                    }
-//                    if groups.count >= 2 {
-//                        KeyValueCell(key: "Group W-1", value: "\(groups[1].width.toString())")
-//                    }
-//                    if groups.count >= 3 {
-//                        KeyValueCell(key: "Group W-2", value: "\(groups[2].width.toString())")
-//                    }
-//                    if groups.count >= 1 {
-//                        KeyValueCell(key: "Group H", value: "\(groups[0].height.toString())")
-//                    }
-//                    if groups.count >= 2 {
-//                        KeyValueCell(key: "Group H-1", value: "\(groups[1].height.toString())")
-//                    }
-//                    if groups.count >= 3 {
-//                        KeyValueCell(key: "Group H-2", value: "\(groups[2].height.toString())")
-//                    }
-                    ForEach(0 ..< round.targetGroups[0].numberOfEnds, id: \.self) { index in
-                        EndCell(round: round, endID: index, isSelected: selectedEndID == index)
+                ForEach(0 ..< round.stages.count, id: \.self) { stageIndex in
+                    Section("Stage \(stageIndex + 1)") {
+                        KeyValueCell(key: "refCode", value: round.stages[stageIndex].refCode())
+                        ForEach(0 ..< round.stages[stageIndex].numberOfEnds, id: \.self) { endIndex in
+                            EndCell(round: round, endID: endIndex, isSelected: selectedEndID == endIndex)
+                                .onTapGesture {
+                                    onEndSelect(index: endIndex)
+                                }
+                        }
+                        TotalCell(round: round, isSelected: selectedEndID == round.stages[stageIndex].numberOfEnds)
                             .onTapGesture {
-                                onEndSelect(index: index)
+                                onEndSelect(index: round.stages[stageIndex].numberOfEnds)
                             }
                     }
-                    TotalCell(round: round, isSelected: selectedEndID == round.targetGroups[0].numberOfEnds)
-                        .onTapGesture {
-                            onEndSelect(index: round.targetGroups[0].numberOfEnds)
-                        }
                 }
             }
 
@@ -142,7 +150,7 @@ struct RoundEditorScreen: View {
                     .disabled(isLocked)
                 Spacer()
                 if !isLocked {
-                    if round.targetGroups[0].isFinished {
+                    if round.stages[0].isFinished {
                         Button("Lock") {
                             isLocked = true
                         }
@@ -159,10 +167,10 @@ struct RoundEditorScreen: View {
         }
         .onAppear {
             if !round.isFinished {
-                selectedEndID = round.targetGroups[0].firstUnfinishedEndID
+                selectedEndID = round.stages[0].firstUnfinishedEndID
                 isLocked = false
             } else {
-                selectedEndID = round.targetGroups[0].numberOfEnds
+                selectedEndID = round.stages[0].numberOfEnds
                 isLocked = true
             }
             resetGroupAnalyzer()
@@ -205,7 +213,7 @@ struct EndCell: View {
     let isSelected: Bool
 
     var arrowIDs: (start: Int, end: Int) {
-        round.targetGroups[0].arrowIDs(endID: endID)
+        round.stages[0].arrowIDs(endID: endID)
     }
 
     var body: some View {
@@ -217,7 +225,7 @@ struct EndCell: View {
                 .cornerRadius(6)
                 .padding(.trailing, 8)
 
-            ForEach(round.targetGroups[0].arrowHoles[arrowIDs.start ..< arrowIDs.end]) { arrowHole in
+            ForEach(round.stages[0].arrowHoles[arrowIDs.start ..< arrowIDs.end]) { arrowHole in
                 if arrowHole.value >= 0 {
                     ArrowHoleView(value: arrowHole.value)
 //                        .id(numberWrapper.id) // TODO: is this needed?
@@ -225,7 +233,7 @@ struct EndCell: View {
             }
 
             Spacer()
-            Text("\(round.targetGroups[0].score(endID: endID))")
+            Text("\(round.stages[0].score(endID: endID))")
                 .foregroundColor(isSelected ? .black : .white)
                 .padding(.trailing, 4)
         }
@@ -268,7 +276,7 @@ struct TotalCell: View {
                 .foregroundColor(.gray)
                 .cornerRadius(6)
             Spacer()
-            Text("\(round.targetGroups[0].totalScore)")
+            Text("\(round.stages[0].totalScore)")
                 .foregroundColor(isSelected ? .black : .white)
                 .padding(.trailing, 4)
         }

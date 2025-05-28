@@ -11,7 +11,7 @@
       "tags" : [
 
       ],
-      "targetGroups" : [
+      "stages" : [
         {
           "numberOfArrowsPerEnd" : 6,
           "arrowSize" : 0.54,
@@ -312,11 +312,11 @@
           "id" : "04749004-3863-45ED-A1BD-5B14A4D0B587"
         }
       ],
-      "currentTargetGroupID" : 0
+      "currentStageID" : 0
     },
     {
       "id" : "2363D7CE-7F60-4184-8F6B-F4ECEDB77675",
-      "targetGroups" : [
+      "stages" : [
         {
           "arrowHoles" : [
             {
@@ -616,7 +616,7 @@
           "distance" : 50
         }
       ],
-      "currentTargetGroupID" : 0,
+      "currentStageID" : 0,
       "date" : 769353698.026494,
       "name" : "50m - 360",
       "tags" : [

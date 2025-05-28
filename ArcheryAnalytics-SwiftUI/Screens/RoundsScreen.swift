@@ -40,11 +40,15 @@ struct RoundsScreen: View {
             isPresented: $showNewRoundSheet,
             content: {
                 Button("WA 18m Round") {
-                    storeModel.createNewRound(indoor: true)
+                    storeModel.createNewRound(roundInfo: .vegasRound)
                     showNewRoundSheet = false
                 }
                 Button("WA 50m Round") {
-                    storeModel.createNewRound(indoor: false)
+                    storeModel.createNewRound(roundInfo: .outdoorRound)
+                    showNewRoundSheet = false
+                }
+                Button("Field Round - Flat") {
+                    storeModel.createNewRound(roundInfo: .fieldRoundFlat)
                     showNewRoundSheet = false
                 }
             })
@@ -94,6 +98,7 @@ struct RoundCell: View {
                         .foregroundColor(.blue)
                 }
             }
-        }.foregroundColor(.white)
+        }
+        .foregroundColor(.white)
     }
 }

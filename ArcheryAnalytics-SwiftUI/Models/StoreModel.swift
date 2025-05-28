@@ -155,10 +155,18 @@ class StoreModel: ObservableObject, Codable {
         selectedRoundID = UUID()
         print("- StoreModel: resetData")
     }
-
-    func createNewRound(indoor: Bool) {
-        let newRound = indoor ? Round(date: Date(), name: "Vegas - 300", numberOfEnds: 10, numberOfArrowsPerEnd: 3, tags: []) :
-            Round(date: Date(), name: "50m - 360", numberOfEnds: 6, numberOfArrowsPerEnd: 6, tags: [])
+    
+    func createNewRound(roundInfo: RoundInfo) {
+        var newRound: Round
+        
+        switch roundInfo {
+            case .vegasRound:
+                newRound = Round(date: Date(), name: "Vegas - 300", numberOfEnds: 10, numberOfArrowsPerEnd: 3, tags: [])
+            case .outdoorRound:
+                newRound = Round(date: Date(), name: "50m - 360", numberOfEnds: 6, numberOfArrowsPerEnd: 6, tags: [])
+            case .fieldRoundFlat:
+                newRound = Round(date: Date(), name: "Field - 360", numberOfEnds: 6, numberOfArrowsPerEnd: 6, tags: [])
+        }
 
         rounds.insert(newRound, at: 0)
         selectedRoundID = newRound.id
