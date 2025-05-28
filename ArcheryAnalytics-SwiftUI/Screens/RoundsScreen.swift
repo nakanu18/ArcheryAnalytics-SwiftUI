@@ -39,19 +39,23 @@ struct RoundsScreen: View {
         .sheet(
             isPresented: $showNewRoundSheet,
             content: {
-                Button("WA 18m Round") {
-                    storeModel.createNewRound(roundInfo: .vegasRound)
-                    showNewRoundSheet = false
+                VStack(spacing: 20) {
+                    Button("WA 18m Round - 300") {
+                        storeModel.createNewRound(roundType: .vegasRound)
+                        showNewRoundSheet = false
+                    }
+                    Button("WA 50m Round - 360") {
+                        storeModel.createNewRound(roundType: .outdoorRound(distance: 50))
+                        showNewRoundSheet = false
+                    }
+                    Button("Field Round - 360") {
+                        storeModel.createNewRound(roundType: .fieldRoundFlat)
+                        showNewRoundSheet = false
+                    }
                 }
-                Button("WA 50m Round") {
-                    storeModel.createNewRound(roundInfo: .outdoorRound)
-                    showNewRoundSheet = false
-                }
-                Button("Field Round - Flat") {
-                    storeModel.createNewRound(roundInfo: .fieldRoundFlat)
-                    showNewRoundSheet = false
-                }
-            })
+                .padding()
+            }
+        )
     }
 }
 

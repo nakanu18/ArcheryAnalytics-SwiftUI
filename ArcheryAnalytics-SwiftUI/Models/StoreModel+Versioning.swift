@@ -65,10 +65,6 @@ extension StoreModel {
 // Models - define empty init's for easier version migration
 //
 
-extension Round {
-    fileprivate init() {}
-}
-
 extension Stage {
     fileprivate init() {}
 }

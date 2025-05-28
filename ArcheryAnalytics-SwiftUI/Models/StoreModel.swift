@@ -155,17 +155,32 @@ class StoreModel: ObservableObject, Codable {
         selectedRoundID = UUID()
         print("- StoreModel: resetData")
     }
-    
-    func createNewRound(roundInfo: RoundInfo) {
-        var newRound: Round
-        
-        switch roundInfo {
+
+    func createNewRound(roundType: RoundType) {
+        var newRound = Round()
+
+        switch roundType {
             case .vegasRound:
-                newRound = Round(date: Date(), name: "Vegas - 300", numberOfEnds: 10, numberOfArrowsPerEnd: 3, tags: [])
-            case .outdoorRound:
-                newRound = Round(date: Date(), name: "50m - 360", numberOfEnds: 6, numberOfArrowsPerEnd: 6, tags: [])
+                newRound.name = roundType.name
+                newRound.stages.append(Stage(targetSize: 40, arrowSize: 0.5, distance: 18, numberOfEnds: 10, numberOfArrowsPerEnd: 3))
+            case .outdoorRound(let distance):
+                newRound.name = roundType.name
+                newRound.stages.append(Stage(targetSize: 122, arrowSize: 0.5, distance: distance, numberOfEnds: 6, numberOfArrowsPerEnd: 6))
             case .fieldRoundFlat:
-                newRound = Round(date: Date(), name: "Field - 360", numberOfEnds: 6, numberOfArrowsPerEnd: 6, tags: [])
+                newRound.name = roundType.name
+                newRound.stages.append(Stage(targetSize: 60, arrowSize: 0.5, distance: 25, numberOfEnds: 1, numberOfArrowsPerEnd: 4))
+                newRound.stages.append(Stage(targetSize: 60, arrowSize: 0.5, distance: 30, numberOfEnds: 1, numberOfArrowsPerEnd: 4))
+                newRound.stages.append(Stage(targetSize: 60, arrowSize: 0.5, distance: 35, numberOfEnds: 1, numberOfArrowsPerEnd: 4))
+
+                newRound.stages.append(Stage(targetSize: 80, arrowSize: 0.5, distance: 40, numberOfEnds: 1, numberOfArrowsPerEnd: 4))
+                newRound.stages.append(Stage(targetSize: 80, arrowSize: 0.5, distance: 45, numberOfEnds: 1, numberOfArrowsPerEnd: 4))
+                newRound.stages.append(Stage(targetSize: 80, arrowSize: 0.5, distance: 50, numberOfEnds: 1, numberOfArrowsPerEnd: 4))
+
+                newRound.stages.append(Stage(targetSize: 20, arrowSize: 0.5, distance:  5, numberOfEnds: 1, numberOfArrowsPerEnd: 3))
+                newRound.stages.append(Stage(targetSize: 20, arrowSize: 0.5, distance: 10, numberOfEnds: 1, numberOfArrowsPerEnd: 3))
+
+                newRound.stages.append(Stage(targetSize: 40, arrowSize: 0.5, distance: 15, numberOfEnds: 1, numberOfArrowsPerEnd: 3))
+                newRound.stages.append(Stage(targetSize: 40, arrowSize: 0.5, distance: 20, numberOfEnds: 1, numberOfArrowsPerEnd: 3))
         }
 
         rounds.insert(newRound, at: 0)

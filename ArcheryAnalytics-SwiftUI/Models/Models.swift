@@ -7,10 +7,21 @@
 
 import Foundation
 
-enum RoundInfo {
+enum RoundType {
     case vegasRound
-    case outdoorRound
+    case outdoorRound(distance: Int)
     case fieldRoundFlat
+    
+    var name: String {
+        switch self {
+            case .vegasRound:
+                return "Vegas"
+            case .outdoorRound(distance: let distance):
+                return "Outdoors \(distance)m"
+            case .fieldRoundFlat:
+                return "Field (Flat)"
+        }
+    }
 }
 
 struct Round: Identifiable, Codable, Equatable, Hashable {
@@ -19,19 +30,6 @@ struct Round: Identifiable, Codable, Equatable, Hashable {
     var date = Date()
     var stages: [Stage] = []
     var tags: [Tag] = []
-    
-    var currentStageID = 0
-    
-    init(date: Date, name: String, numberOfEnds: Int, numberOfArrowsPerEnd: Int, tags: [Tag]) {
-        self.date = date
-        self.name = name
-        self.stages = [(Stage(targetSize: 40,
-                              arrowSize: 0.54,
-                              distance: 50,
-                              numberOfEnds: numberOfEnds,
-                              numberOfArrowsPerEnd: numberOfArrowsPerEnd))]
-        self.tags = tags
-    }
 
     var isFinished: Bool {
         return stages.filter(\.isFinished).count == stages.count
@@ -44,23 +42,19 @@ struct Round: Identifiable, Codable, Equatable, Hashable {
     }
 
     func refCode() -> String {
-        return stages.map { $0.refCode() }.joined(separator: "_")
+        return stages.map { $0.refCode() }.joined(separator: " ")
     }
     
     static var mockEmptyRound: Round {
-        return Round(date: Date(),
-                     name: "WA 50m",
-                     numberOfEnds: 6,
-                     numberOfArrowsPerEnd: 6,
-                     tags: [])
+        var round = Round();
+        round.stages.append(Stage(targetSize: 40, arrowSize: 0.25, distance: 50, numberOfEnds: 6, numberOfArrowsPerEnd: 6))
+        
+        return round
     }
 
     static var mockFullRound: Round {
-        var round = Round(date: Date(),
-                          name: "WA 50m",
-                          numberOfEnds: 6,
-                          numberOfArrowsPerEnd: 6,
-                          tags: [])
+        var round = Round()
+        round.stages.append(Stage(targetSize: 122, arrowSize: 0.25, distance: 50, numberOfEnds: 6, numberOfArrowsPerEnd: 6))
 
         round.stages[0].arrowHoles = []
         round.stages[0].arrowHoles.append(ArrowHole(point: CGPoint(x: -0.30565990314738023, y: -0.40257642173487007), value: 10))
