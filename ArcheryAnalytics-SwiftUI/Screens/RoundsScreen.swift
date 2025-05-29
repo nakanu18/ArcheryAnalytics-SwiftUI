@@ -85,12 +85,10 @@ struct RoundCell: View {
             onRowTap?()
         } label: {
             HStack {
-                if !round.isFinished {
-                    Circle()
-                        .fill(Color.green)
-                        .frame(width: 10, height: 10)
-                        .padding(.leading, -12)
-                }
+                Rectangle()
+                    .fill(!round.isFinished ? Color.green : Color.clear)
+                    .frame(width: 8)
+                    .padding(.trailing, 6)
 
                 VStack(alignment: .leading) {
                     Text("\(round.name)")
@@ -104,9 +102,12 @@ struct RoundCell: View {
                     Text("\(round.totalScore)")
                     Image(systemName: "chevron.right")
                         .foregroundColor(.blue)
+                        .padding(.trailing, 12)
                 }
             }
+            .frame(height: 60)
         }
+        .listRowInsets(EdgeInsets())
         .foregroundColor(.white)
     }
 }
