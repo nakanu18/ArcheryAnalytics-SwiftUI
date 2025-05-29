@@ -10,13 +10,23 @@ import SwiftUI
 struct ConfirmationView: View {
     var confirmMessage: String
     var cancelMessage: String
-    var onConfirmButtonTap: () -> Void
-    var onCancelButtonTap: () -> Void
+    var onConfirmTap: () -> Void
+    var onCancelTap: () -> Void
 
     var body: some View {
         VStack {
-            Button(confirmMessage, action: onConfirmButtonTap)
-            Button(cancelMessage, action: onCancelButtonTap)
+            Button(confirmMessage, action: onConfirmTap)
+            Button(cancelMessage, action: onCancelTap)
+        }
+        .presentationDetents([.fraction(0.3), .medium, .large])
+        .presentationDragIndicator(.visible)
+    }
+}
+
+extension View {
+    func confirmationSheet(isPresented: Binding<Bool>, confirmMessage: String, cancelMessage: String, onConfirmTap: @escaping () -> Void, onCancelTap: @escaping () -> Void) -> some View {
+        self.sheet(isPresented: isPresented) {
+            ConfirmationView(confirmMessage: confirmMessage, cancelMessage: cancelMessage, onConfirmTap: onConfirmTap, onCancelTap: onCancelTap)
         }
     }
 }
@@ -24,6 +34,6 @@ struct ConfirmationView: View {
 #Preview {
     return ConfirmationView(confirmMessage: "Continue",
                             cancelMessage: "Cancel",
-                            onConfirmButtonTap: {},
-                            onCancelButtonTap: {})
+                            onConfirmTap: {},
+                            onCancelTap: {})
 }

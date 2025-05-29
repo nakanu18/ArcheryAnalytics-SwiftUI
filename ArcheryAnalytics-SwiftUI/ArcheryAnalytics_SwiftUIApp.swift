@@ -22,7 +22,7 @@ struct ArcheryAnalytics_SwiftUIApp: App {
                             switch route {
                             case .rounds:
                                 RoundsScreen()
-                            case let .roundEditor(round):
+                            case .roundEditor(let round):
                                 RoundEditorScreen(round: round)
                             }
                         }
