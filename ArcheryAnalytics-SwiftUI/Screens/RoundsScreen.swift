@@ -61,7 +61,7 @@ struct RoundsScreen: View {
 }
 
 #Preview {
-    let storeModel = StoreModel.mockEmpty
+    let storeModel = StoreModel.mock
     @ObservedObject var navManager = NavManager()
 
     return NavigationStack(path: $navManager.path) {

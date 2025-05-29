@@ -8,9 +8,10 @@
 import SwiftUI
 
 struct ToastView: View {
+    @State private var isVisible = false
+
     @Binding var message: String?
     var showSpinner: Bool = false
-    @State private var isVisible = false
     
     var body: some View {
         ZStack {

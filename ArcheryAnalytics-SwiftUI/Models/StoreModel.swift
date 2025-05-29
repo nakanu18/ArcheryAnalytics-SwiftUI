@@ -9,7 +9,7 @@ import Foundation
 
 class StoreModel: ObservableObject, Codable {
     enum CodingKeys: String, CodingKey {
-        case version, saveDate, fileName, rounds, selectedRoundID
+        case version, saveDate, fileName, rounds
     }
 
     // TODO: change to private(set)
@@ -17,17 +17,20 @@ class StoreModel: ObservableObject, Codable {
     @Published var saveDate = Date()
     @Published var fileName = "Default"
     @Published var rounds: [Round] = []
-    @Published var selectedRoundID: UUID
     @Published var toastMessage: String? = nil
 
     static var mockEmpty: StoreModel {
         let mockRound = Round.mockEmptyRound
-        return StoreModel(rounds: [mockRound], selectedRoundID: mockRound.id)
+        return StoreModel(rounds: [mockRound])
     }
 
     static var mockFull: StoreModel {
         let mockRound = Round.mockFullRound
-        return StoreModel(rounds: [mockRound], selectedRoundID: mockRound.id)
+        return StoreModel(rounds: [mockRound])
+    }
+    
+    static var mock: StoreModel {
+        return StoreModel(rounds: [Round.mockEmptyRound, Round.mockFullRound])
     }
 
     private static let dateFormatter: DateFormatter = {
@@ -36,9 +39,8 @@ class StoreModel: ObservableObject, Codable {
         return formatter
     }()
 
-    init(rounds: [Round], selectedRoundID: UUID) {
+    init(rounds: [Round]) {
         self.rounds = rounds
-        self.selectedRoundID = selectedRoundID
     }
 
     //
@@ -59,7 +61,6 @@ class StoreModel: ObservableObject, Codable {
 
         fileName = try container.decode(String.self, forKey: .fileName)
         rounds = try container.decode([Round].self, forKey: .rounds)
-        selectedRoundID = try container.decode(UUID.self, forKey: .selectedRoundID)
     }
 
     func encode(to encoder: Encoder) throws {
@@ -70,7 +71,6 @@ class StoreModel: ObservableObject, Codable {
         try container.encode(dateString, forKey: .saveDate)
         try container.encode(fileName, forKey: .fileName)
         try container.encode(rounds, forKey: .rounds)
-        try container.encode(selectedRoundID, forKey: .selectedRoundID)
     }
 
     //
@@ -106,7 +106,6 @@ class StoreModel: ObservableObject, Codable {
             saveDate = decodedStoreModel.saveDate
             fileName = decodedStoreModel.fileName
             rounds = decodedStoreModel.rounds
-            selectedRoundID = decodedStoreModel.selectedRoundID
             toastMessage = decodedStoreModel.toastMessage
         } catch {
             print("StoreModel: ERROR loading JSON from \(loadingSource) - \(jsonFileName), \(error)")
@@ -152,7 +151,6 @@ class StoreModel: ObservableObject, Codable {
     func resetData(jsonFileName: String) {
         fileName = jsonFileName
         rounds = []
-        selectedRoundID = UUID()
         print("- StoreModel: resetData")
     }
 
@@ -184,7 +182,6 @@ class StoreModel: ObservableObject, Codable {
         }
 
         rounds.insert(newRound, at: 0)
-        selectedRoundID = newRound.id
         print("- StoreModel: createNewRound: \(newRound.name)")
     }
 

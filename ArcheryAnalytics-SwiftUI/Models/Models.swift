@@ -30,6 +30,18 @@ struct Round: Identifiable, Codable, Equatable, Hashable {
     var date = Date()
     var stages: [Stage] = []
     var tags: [Tag] = []
+    
+    var totalNumberOfArrowsShot: Int {
+        return stages.reduce(0) { result, stage in
+            result + stage.totalNumberOfArrowsShot
+        }
+    }
+
+    var totalNumberOfArrows: Int {
+        return stages.reduce(0) { result, stage in
+            result + stage.totalNumberOfArrows
+        }
+    }
 
     var isFinished: Bool {
         return stages.filter(\.isFinished).count == stages.count
@@ -41,7 +53,7 @@ struct Round: Identifiable, Codable, Equatable, Hashable {
         }
     }
 
-    func refCode() -> String {
+    var refCode: String {
         return stages.map { $0.refCode() }.joined(separator: " ")
     }
     
@@ -140,6 +152,14 @@ struct Stage: Identifiable, Codable, Equatable, Hashable {
         let end = start + numberOfArrowsPerEnd
 
         return (start, end)
+    }
+        
+    var totalNumberOfArrowsShot: Int {
+        return arrowHoles.filter { $0.value >= 0 }.count
+    }
+
+    var totalNumberOfArrows: Int {
+        return numberOfEnds * numberOfArrowsPerEnd
     }
     
     var isFinished: Bool {

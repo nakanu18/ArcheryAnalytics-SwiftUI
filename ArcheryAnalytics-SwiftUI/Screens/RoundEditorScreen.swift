@@ -151,12 +151,14 @@ struct RoundEditorScreen: View {
     var body: some View {
         VStack {
             List {
-                Section("Info") {
+                Section("Overview") {
                     KeyValueCell(key: "Name", value: round.name)
+                    KeyValueCell(key: "Number of Arrows", value: "\(round.totalNumberOfArrowsShot) / \(round.totalNumberOfArrows)")
+                    KeyValueCell(key: "Total Score", value: "\(round.totalScore)")
 //                    KeyValueCell(key: "refCode", value: round.refCode())
                 }
                 ForEach(0 ..< round.stages.count, id: \.self) { stageIndex in
-                    Section("Stage \(stageIndex + 1)") {
+                    Section("Stage \(stageIndex + 1) - \(round.stages[stageIndex].distance)m") {
 //                        KeyValueCell(key: "refCode", value: round.stages[stageIndex].refCode())
                         ForEach(0 ..< round.stages[stageIndex].numberOfEnds, id: \.self) { endIndex in
                             EndCell(round: round, stageIndex: stageIndex, endIndex: endIndex, isSelected: selectedStageIndex == stageIndex && selectedEndIndex == endIndex)
@@ -230,16 +232,15 @@ struct EndCell: View {
     var body: some View {
         HStack {
             Text("\(endIndex + 1)")
-                .frame(width: 30, height: 30)
+                .frame(width: 35, height: 35)
                 .background(.black)
-                .foregroundColor(.gray)
+                .foregroundColor(.white)
                 .cornerRadius(6)
                 .padding(.trailing, 8)
 
             ForEach(round.stages[stageIndex].arrowHoles[arrowIDs.start ..< arrowIDs.end]) { arrowHole in
                 if arrowHole.value >= 0 {
                     ArrowHoleView(value: arrowHole.value)
-//                        .id(numberWrapper.id) // TODO: is this needed?
                 }
             }
 
@@ -248,8 +249,9 @@ struct EndCell: View {
                 .foregroundColor(isSelected ? .black : .white)
                 .padding(.trailing, 4)
         }
-        .padding(1)
-        .background(isSelected ? .green : .black)
+        .padding(2)
+        .contentShape(Rectangle())
+        .background(isSelected ? .green : Color.clear)
         .cornerRadius(6)
     }
 }
@@ -259,17 +261,18 @@ struct ArrowHoleView: View {
 
     let bgColor: [Color] = [.white, .white, .white, .black, .black, .blue, .blue, .red, .red, .yellow, .yellow, .yellow]
     let color: [Color] = [.black, .black, .black, .white, .white, .white, .white, .white, .white, .black, .black, .red]
-
+    let size = 28.0
+    
     var body: some View {
         ZStack {
             Text("\(value)")
-                .frame(width: 26, height: 26)
+                .frame(width: size, height: size)
                 .background(bgColor[value])
                 .foregroundColor(color[value])
                 .cornerRadius(20)
             Circle()
-                .stroke(Color.gray, lineWidth: 2)
-                .frame(width: 26, height: 26)
+                .stroke(.black, lineWidth: 2)
+                .frame(width: size, height: size)
         }
     }
 }
@@ -285,15 +288,16 @@ struct TotalCell: View {
                 .padding(.horizontal, 4)
                 .frame(height: 30)
                 .background(.black)
-                .foregroundColor(.gray)
+                .foregroundColor(.white)
                 .cornerRadius(6)
             Spacer()
             Text("\(round.stages[stageIndex].totalScore)")
                 .foregroundColor(isSelected ? .black : .white)
                 .padding(.trailing, 4)
         }
-        .padding(1)
-        .background(isSelected ? .green : .black)
+        .padding(2)
+        .contentShape(Rectangle())
+        .background(isSelected ? .green : Color.clear)
         .cornerRadius(6)
     }
 }

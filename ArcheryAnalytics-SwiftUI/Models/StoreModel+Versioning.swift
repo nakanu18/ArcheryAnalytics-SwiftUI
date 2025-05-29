@@ -17,12 +17,11 @@ extension StoreModel {
         
         print("  V1 detected - converting to V2")
         
-        let v2Model = StoreModel(rounds: [], selectedRoundID: UUID())
+        let v2Model = StoreModel(rounds: [])
         
         v2Model.version = 2
         v2Model.saveDate = saveDate
         v2Model.fileName = fileName
-        v2Model.selectedRoundID = selectedRoundID
         v2Model.toastMessage = toastMessage
         v2Model.rounds = rounds.map { v1Round in
             var round = Round()
