@@ -119,7 +119,7 @@ struct RoundEditorScreen: View {
                 )
             )
             .frame(width: proxy.size.width, height: proxy.size.height)
-            .clipped() // ⬅️ prevents overflowing outside of the frame
+            .clipped()
             .contentShape(Rectangle()) // makes gestures work properly
         }
     }

@@ -1,5 +1,5 @@
 //
-//  ToastModifier.swift
+//  ToastView.swift
 //  ArcheryAnalytics-SwiftUI
 //
 //  Created by Alex de Vera on 5/18/25.
@@ -7,14 +7,12 @@
 
 import SwiftUI
 
-struct ToastModifier: ViewModifier {
+struct ToastView: View {
     @Binding var message: String?
     @State private var isVisible = false
     
-    func body(content: Content) -> some View {
+    var body: some View {
         ZStack {
-            content
-            
             if let message = message {
                 VStack {
                     Spacer()
@@ -42,30 +40,16 @@ struct ToastModifier: ViewModifier {
                             self.message = nil
                         }
                     }
-                }
+                }                
             }
         }
         .animation(.easeInOut(duration: 0.3), value: isVisible)
     }
 }
 
-extension View {
-    func toast(message: Binding<String?>) -> some View {
-        self.modifier(ToastModifier(message: message))
-    }}
 
 #Preview {
-    struct PreviewWrapper: View {
-        @State private var toastMessage: String? = "This is a test toast"
-
-        var body: some View {
-            VStack {
-                Text("Hello, world!")
-                    .padding()
-            }
-            .toast(message: $toastMessage)
-        }
-    }
+    @Previewable @State var message: String? = "Hello, World!"
     
-    return PreviewWrapper()
+    return ToastView(message: $message)
 }

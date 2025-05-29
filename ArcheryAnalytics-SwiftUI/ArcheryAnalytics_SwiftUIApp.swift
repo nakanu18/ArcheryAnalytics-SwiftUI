@@ -14,26 +14,28 @@ struct ArcheryAnalytics_SwiftUIApp: App {
 
     var body: some Scene {
         WindowGroup {
-            NavigationStack(path: $navManager.path) {
-                MenuScreen()
-                    .navigationBarTitleDisplayMode(.inline)
-                    .navigationDestination(for: Route.self) { route in
-                        switch route {
-                        case .rounds:
-                            RoundsScreen()
-                        case let .roundEditor(round):
-                            RoundEditorScreen(round: round)
+            ZStack {
+                NavigationStack(path: $navManager.path) {
+                    MenuScreen()
+                        .navigationBarTitleDisplayMode(.inline)
+                        .navigationDestination(for: Route.self) { route in
+                            switch route {
+                            case .rounds:
+                                RoundsScreen()
+                            case let .roundEditor(round):
+                                RoundEditorScreen(round: round)
+                            }
                         }
-                    }
-                    .onReceive(NotificationCenter.default.publisher(for: UIApplication.didEnterBackgroundNotification)) { _ in
-                        print("didEnterBackgroundNotification")
-                        storeModel.saveData()
-                    }
+                        .onReceive(NotificationCenter.default.publisher(for: UIApplication.didEnterBackgroundNotification)) { _ in
+                            print("didEnterBackgroundNotification")
+                            storeModel.saveData()
+                        }                    
+                }
+                ToastView(message: $storeModel.toastMessage)
             }
             .preferredColorScheme(.dark)
             .environmentObject(storeModel)
             .environmentObject(navManager)
-            .toast(message: $storeModel.toastMessage)
         }
     }
 }

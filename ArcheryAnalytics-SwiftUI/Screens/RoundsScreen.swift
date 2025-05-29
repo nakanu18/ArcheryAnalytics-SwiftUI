@@ -53,7 +53,8 @@ struct RoundsScreen: View {
                         showNewRoundSheet = false
                     }
                 }
-                .padding()
+                .presentationDetents([.fraction(0.3), .medium, .large])
+                .presentationDragIndicator(.visible)
             }
         )
     }

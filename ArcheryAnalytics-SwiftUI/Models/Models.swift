@@ -47,6 +47,7 @@ struct Round: Identifiable, Codable, Equatable, Hashable {
     
     static var mockEmptyRound: Round {
         var round = Round();
+        round.name = "Mock Empty Round"
         round.stages.append(Stage(targetSize: 40, arrowSize: 0.25, distance: 50, numberOfEnds: 6, numberOfArrowsPerEnd: 6))
         
         return round
@@ -54,6 +55,7 @@ struct Round: Identifiable, Codable, Equatable, Hashable {
 
     static var mockFullRound: Round {
         var round = Round()
+        round.name = "Mock Full Round"
         round.stages.append(Stage(targetSize: 122, arrowSize: 0.25, distance: 50, numberOfEnds: 6, numberOfArrowsPerEnd: 6))
 
         round.stages[0].arrowHoles = []
