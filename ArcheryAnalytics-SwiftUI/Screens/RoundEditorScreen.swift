@@ -158,7 +158,7 @@ struct RoundEditorScreen: View {
 //                    KeyValueCell(key: "refCode", value: round.refCode())
                 }
                 ForEach(0 ..< round.stages.count, id: \.self) { stageIndex in
-                    Section("Stage \(stageIndex + 1) - \(round.stages[stageIndex].distance)m") {
+                    Section("Stage \(stageIndex + 1): \(round.stages[stageIndex].distance)m - \(round.stages[stageIndex].targetSize)cm") {
 //                        KeyValueCell(key: "refCode", value: round.stages[stageIndex].refCode())
                         ForEach(0 ..< round.stages[stageIndex].numberOfEnds, id: \.self) { endIndex in
                             EndCell(round: round, stageIndex: stageIndex, endIndex: endIndex, isSelected: selectedStageIndex == stageIndex && selectedEndIndex == endIndex)
@@ -173,7 +173,6 @@ struct RoundEditorScreen: View {
                     }
                 }
             }
-
             renderTarget()
             renderButtons()
         }
@@ -232,7 +231,7 @@ struct EndCell: View {
     var body: some View {
         HStack {
             Text("\(endIndex + 1)")
-                .frame(width: 35, height: 35)
+                .frame(width: 34, height: 34)
                 .background(.black)
                 .foregroundColor(.white)
                 .cornerRadius(6)
@@ -253,6 +252,10 @@ struct EndCell: View {
         .contentShape(Rectangle())
         .background(isSelected ? .green : Color.clear)
         .cornerRadius(6)
+//        .overlay(
+//            RoundedRectangle(cornerRadius: 8)
+//                .stroke(isSelected ? Color.blue : Color.clear, lineWidth: 2)
+//        )
     }
 }
 
@@ -285,8 +288,8 @@ struct TotalCell: View {
     var body: some View {
         HStack {
             Text("Total")
-                .padding(.horizontal, 4)
-                .frame(height: 30)
+                .padding(.horizontal, 10)
+                .frame(height: 34)
                 .background(.black)
                 .foregroundColor(.white)
                 .cornerRadius(6)

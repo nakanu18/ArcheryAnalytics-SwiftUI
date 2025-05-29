@@ -41,15 +41,18 @@ struct RoundsScreen: View {
             content: {
                 VStack(spacing: 20) {
                     Button("WA 18m Round - 300") {
-                        storeModel.createNewRound(roundType: .vegasRound)
+                        let newRound = storeModel.createNewRound(roundType: .vegasRound)
+                        navManager.push(route: .roundEditor(round: newRound))
                         showNewRoundSheet = false
                     }
                     Button("WA 50m Round - 360") {
-                        storeModel.createNewRound(roundType: .outdoorRound(distance: 50))
+                        let newRound = storeModel.createNewRound(roundType: .outdoorRound(distance: 50))
+                        navManager.push(route: .roundEditor(round: newRound))
                         showNewRoundSheet = false
                     }
                     Button("Field Round - 360") {
-                        storeModel.createNewRound(roundType: .fieldRoundFlat)
+                        let newRound = storeModel.createNewRound(roundType: .fieldRoundFlat)
+                        navManager.push(route: .roundEditor(round: newRound))
                         showNewRoundSheet = false
                     }
                 }

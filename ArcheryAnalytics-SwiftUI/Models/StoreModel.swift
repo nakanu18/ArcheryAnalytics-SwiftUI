@@ -154,7 +154,7 @@ class StoreModel: ObservableObject, Codable {
         print("- StoreModel: resetData")
     }
 
-    func createNewRound(roundType: RoundType) {
+    func createNewRound(roundType: RoundType) -> Round {
         var newRound = Round()
 
         switch roundType {
@@ -183,6 +183,7 @@ class StoreModel: ObservableObject, Codable {
 
         rounds.insert(newRound, at: 0)
         print("- StoreModel: createNewRound: \(newRound.name)")
+        return newRound
     }
 
     func updateRound(round: Round) {
