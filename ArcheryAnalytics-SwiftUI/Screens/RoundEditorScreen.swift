@@ -123,6 +123,30 @@ struct RoundEditorScreen: View {
             .contentShape(Rectangle()) // makes gestures work properly
         }
     }
+    
+    private func renderButtons() -> some View {
+        HStack {
+            Button("Re-center", action: onRecenter)
+            Spacer()
+            Button("Delete Last", action: onRemoveLastArrow)
+                .disabled(isLocked)
+            Spacer()
+            if !isLocked {
+                if round.stages[0].isFinished {
+                    Button("Lock") {
+                        isLocked = true
+                    }
+                } else {
+                    Button("Next End", action: onNextEnd)
+                }
+            } else {
+                Button("Unlock") {
+                    isLocked = false
+                }
+            }
+        }
+        .padding(.horizontal)
+    }
 
     var body: some View {
         VStack {
@@ -149,27 +173,7 @@ struct RoundEditorScreen: View {
             }
 
             renderTarget()
-            HStack {
-                Button("Re-center", action: onRecenter)
-                Spacer()
-                Button("Delete Last", action: onRemoveLastArrow)
-                    .disabled(isLocked)
-                Spacer()
-                if !isLocked {
-                    if round.stages[0].isFinished {
-                        Button("Lock") {
-                            isLocked = true
-                        }
-                    } else {
-                        Button("Next End", action: onNextEnd)
-                    }
-                } else {
-                    Button("Unlock") {
-                        isLocked = false
-                    }
-                }
-            }
-            .padding(.horizontal)
+            renderButtons()
         }
         .onAppear {
             if !round.isFinished {

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ToastView: View {
     @Binding var message: String?
+    var showSpinner: Bool = false
     @State private var isVisible = false
     
     var body: some View {
@@ -16,16 +17,24 @@ struct ToastView: View {
             if let message = message {
                 VStack {
                     Spacer()
-                    Text(message)
-                        .padding()
-                        .background(Color.white.opacity(0.5))
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
-                        .shadow(radius: 10)
-                        .opacity(isVisible ? 1 : 0)
-                        .transition(.opacity)
-                        .animation(.easeInOut(duration: 0.3), value: isVisible)
-                        .padding(.bottom, 50)
+                    HStack() {
+                        if showSpinner {
+                            ProgressView()
+                                .tint(.black)
+                                .scaleEffect(1.5)
+                                .padding(.leading, 15)
+                        }
+                        Text(message)
+                            .padding()
+                            .foregroundColor(.black)
+                    }
+                    .background(Color.white.opacity(0.75))
+                    .cornerRadius(10)
+                    .shadow(radius: 10)
+                    .opacity(isVisible ? 1 : 0)
+                    .transition(.opacity)
+                    .animation(.easeInOut(duration: 0.3), value: isVisible)
+                    .padding(.bottom, 50)
                 }
                 .onAppear {
                     withAnimation {
@@ -40,7 +49,7 @@ struct ToastView: View {
                             self.message = nil
                         }
                     }
-                }                
+                }
             }
         }
         .animation(.easeInOut(duration: 0.3), value: isVisible)
@@ -51,5 +60,5 @@ struct ToastView: View {
 #Preview {
     @Previewable @State var message: String? = "Hello, World!"
     
-    return ToastView(message: $message)
+    return ToastView(message: $message, showSpinner: true)
 }

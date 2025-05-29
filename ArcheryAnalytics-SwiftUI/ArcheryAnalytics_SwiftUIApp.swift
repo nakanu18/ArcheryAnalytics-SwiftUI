@@ -31,7 +31,7 @@ struct ArcheryAnalytics_SwiftUIApp: App {
                             storeModel.saveData()
                         }                    
                 }
-                ToastView(message: $storeModel.toastMessage)
+                ToastView(message: $storeModel.toastMessage, showSpinner: true)
             }
             .preferredColorScheme(.dark)
             .environmentObject(storeModel)
