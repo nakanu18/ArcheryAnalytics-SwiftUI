@@ -12,6 +12,7 @@
       ],
       "stages" : [
         {
+          "targetFaceType": "gold",
           "numberOfArrowsPerEnd" : 6,
           "arrowSize" : 0.54,
           "numberOfEnds" : 6,
@@ -317,6 +318,7 @@
       "id" : "2363D7CE-7F60-4184-8F6B-F4ECEDB77675",
       "stages" : [
         {
+          "targetFaceType": "gold",
           "arrowHoles" : [
             {
               "point" : [

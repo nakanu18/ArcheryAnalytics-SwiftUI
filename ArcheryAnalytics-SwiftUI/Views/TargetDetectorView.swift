@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct TargetDetectorView: View {
+    var targetFaceType: TargetFaceType
     var arrowHoles: [ArrowHole]
 
     var targetWidth: Double
@@ -25,7 +26,8 @@ struct TargetDetectorView: View {
 
     var onTargetTap: ((ArrowHole) -> Void)?
 
-    init(arrowHoles: [ArrowHole], targetWidth: Double, groupAnalyzer: GroupAnalyzer, onTargetTap: ((ArrowHole) -> Void)?) {
+    init(targetFaceType: TargetFaceType, arrowHoles: [ArrowHole], targetWidth: Double, groupAnalyzer: GroupAnalyzer, onTargetTap: ((ArrowHole) -> Void)?) {
+        self.targetFaceType = targetFaceType
         self.arrowHoles = arrowHoles
 //        self.targetWidth = targetWidth
         self.targetWidth = 20
@@ -54,9 +56,9 @@ struct TargetDetectorView: View {
         let downscaledDist = dist / scale
 
         // Calculate which ring was hit
-        let ringWidth = (targetWidth / 2.0) / 10
-        let ring = 10 - Int((downscaledDist - arrowHoleRadius) / ringWidth)
-
+        let ringWidth = (targetWidth / 2.0) / Double(targetFaceType.numberOfRings)
+        let ring = targetFaceType.numberOfRings - Int((downscaledDist - arrowHoleRadius) / ringWidth)
+        
         print("- Tap: \(location.toString) -> \(downscaledPt.toString), DIST: \(String(format: "%.2f", downscaledDist)), RING: \(ring)")
 
         var arrowHole = ArrowHole()
@@ -68,7 +70,7 @@ struct TargetDetectorView: View {
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
             ZStack() {
-                TargetView(scale: scale, targetWidth: targetWidth)
+                TargetView(targetFaceType: targetFaceType, scale: scale, targetWidth: targetWidth)
                     .frame(width: frameSize + padding * 2, height: frameSize + padding * 2)
                     .background(Color(red: 0.75, green: 0.75, blue: 0.75))
                     .onTapGesture(coordinateSpace: .local) { location in
@@ -90,33 +92,34 @@ struct TargetDetectorView: View {
         GroupAnalyzer(arrowHoles: arrowHoles)
     }
 
-    return TargetDetectorView(arrowHoles: arrowHoles, targetWidth: 40, groupAnalyzer: groupAnalyzer) { arrowHole in
+    return TargetDetectorView(targetFaceType: .gold, arrowHoles: arrowHoles, targetWidth: 40, groupAnalyzer: groupAnalyzer) { arrowHole in
         arrowHoles.append(arrowHole)
     }
 }
 
 struct TargetView: View {
-    let bgColor: [Color] = [.white, .white, .black, .black, .blue, .blue, .red, .red, .yellow, .yellow, .yellow]
-    let lineColor = Color(red: 0.3, green: 0.3, blue: 0.3)
-
-    let numberOfRings = 10
+    let targetFaceType: TargetFaceType
     let scale: Double
     let targetWidth: Double
-    
-    func ringWidth(id: Int) -> CGFloat {
-        let ringToRingDist = targetWidth / Double(numberOfRings)
-        let width = targetWidth - ringToRingDist * Double(id)
+
+    func ringWidth(index: Int) -> CGFloat {
+        let width = targetWidth - targetFaceType.ringToRingDistance(targetWidth: targetWidth) * Double(index)
         return CGFloat(scale * width)
     }
 
     var body: some View {
         ZStack {
-            ForEach(0 ..< numberOfRings, id: \.self) { index in
+            ForEach(0 ..< targetFaceType.numberOfRings, id: \.self) { index in
                 Circle()
-                    .stroke(lineColor, lineWidth: 1)
-                    .background(Circle().fill(bgColor[index]))
-                    .frame(width: ringWidth(id: index))
+                    .stroke(targetFaceType.targetLineColor, lineWidth: 1)
+                    .background(Circle().fill(targetFaceType.ringColors(value: 1 + index)))
+                    .frame(width: ringWidth(index: index))
             }
+            // Draw center ring - half size of normal ring
+            Circle()
+                .stroke(targetFaceType.targetLineColor, lineWidth: 1)
+                .background(Circle().fill(targetFaceType.ringColors(value: 1 + targetFaceType.numberOfRings - 1)))
+                .frame(width: ringWidth(index: targetFaceType.numberOfRings - 1) / 2)
         }
     }
 }

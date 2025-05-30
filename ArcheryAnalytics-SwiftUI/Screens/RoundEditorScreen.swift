@@ -26,9 +26,9 @@ struct RoundEditorScreen: View {
     }
     
     private func resetGroupAnalyzer() {
-        let arrowHoles = selectedEndIndex == round.stages[selectedStageIndex].numberOfEnds ?
-            round.stages[selectedStageIndex].arrowHoles :
-            round.stages[selectedStageIndex].arrowHoles(endID: selectedEndIndex)
+        let arrowHoles = selectedEndIndex == selectedStage.numberOfEnds ?
+            selectedStage.arrowHoles :
+            selectedStage.arrowHoles(endID: selectedEndIndex)
         groupAnalyzer = GroupAnalyzer(arrowHoles: arrowHoles)
     }
     
@@ -54,7 +54,7 @@ struct RoundEditorScreen: View {
     }
 
     private func onNextEnd() {
-        selectedEndIndex = min(selectedEndIndex + 1, round.stages[selectedStageIndex].numberOfEnds - 1)
+        selectedEndIndex = min(selectedEndIndex + 1, selectedStage.numberOfEnds - 1)
         resetGroupAnalyzer()
     }
     
@@ -86,10 +86,11 @@ struct RoundEditorScreen: View {
     private func renderTarget() -> some View {
         GeometryReader { proxy in
             TargetDetectorView(
-                arrowHoles: selectedEndIndex == round.stages[selectedStageIndex].numberOfEnds ?
-                    round.stages[selectedStageIndex].arrowHoles :
-                    round.stages[selectedStageIndex].arrowHoles(endID: selectedEndIndex),
-                targetWidth: Double(round.stages[selectedStageIndex].targetSize),
+                targetFaceType: selectedStage.targetFaceType,
+                arrowHoles: selectedEndIndex == selectedStage.numberOfEnds ?
+                    selectedStage.arrowHoles :
+                    selectedStage.arrowHoles(endID: selectedEndIndex),
+                targetWidth: Double(selectedStage.targetSize),
                 groupAnalyzer: groupAnalyzer,
                 onTargetTap: onArrowHoleScored
             )
@@ -161,7 +162,7 @@ struct RoundEditorScreen: View {
                     Section("Stage \(stageIndex + 1): \(round.stages[stageIndex].distance)m - \(round.stages[stageIndex].targetSize)cm") {
 //                        KeyValueCell(key: "refCode", value: round.stages[stageIndex].refCode())
                         ForEach(0 ..< round.stages[stageIndex].numberOfEnds, id: \.self) { endIndex in
-                            EndCell(round: round, stageIndex: stageIndex, endIndex: endIndex, isSelected: selectedStageIndex == stageIndex && selectedEndIndex == endIndex)
+                            EndCell(stage: round.stages[stageIndex], endIndex: endIndex, isSelected: selectedStageIndex == stageIndex && selectedEndIndex == endIndex)
                                 .onTapGesture {
                                     onEndSelect(stageIndex: stageIndex, endIndex: endIndex)
                                 }
@@ -219,13 +220,12 @@ struct KeyValueCell: View {
 }
 
 struct EndCell: View {
-    let round: Round
-    let stageIndex: Int
+    let stage: Stage
     let endIndex: Int
     let isSelected: Bool
 
     var arrowIDs: (start: Int, end: Int) {
-        round.stages[stageIndex].arrowIDs(endID: endIndex)
+        stage.arrowIDs(endID: endIndex)
     }
 
     var body: some View {
@@ -237,14 +237,14 @@ struct EndCell: View {
                 .cornerRadius(6)
                 .padding(.trailing, 8)
 
-            ForEach(round.stages[stageIndex].arrowHoles[arrowIDs.start ..< arrowIDs.end]) { arrowHole in
+            ForEach(stage.arrowHoles[arrowIDs.start ..< arrowIDs.end]) { arrowHole in
                 if arrowHole.value >= 0 {
-                    ArrowHoleView(value: arrowHole.value)
+                    ArrowHoleView(targetFaceType: stage.targetFaceType, value: arrowHole.value)
                 }
             }
 
             Spacer()
-            Text("\(round.stages[stageIndex].score(endID: endIndex))")
+            Text("\(stage.score(endID: endIndex))")
                 .foregroundColor(isSelected ? .black : .white)
                 .padding(.trailing, 4)
         }
@@ -260,18 +260,17 @@ struct EndCell: View {
 }
 
 struct ArrowHoleView: View {
+    let targetFaceType: TargetFaceType
     let value: Int
 
-    let bgColor: [Color] = [.white, .white, .white, .black, .black, .blue, .blue, .red, .red, .yellow, .yellow, .yellow]
-    let color: [Color] = [.black, .black, .black, .white, .white, .white, .white, .white, .white, .black, .black, .red]
     let size = 28.0
     
     var body: some View {
         ZStack {
             Text("\(value)")
                 .frame(width: size, height: size)
-                .background(bgColor[value])
-                .foregroundColor(color[value])
+                .background(targetFaceType.ringColors(value: value))
+                .foregroundColor(targetFaceType.valueTextColor(value: value))
                 .cornerRadius(20)
             Circle()
                 .stroke(.black, lineWidth: 2)

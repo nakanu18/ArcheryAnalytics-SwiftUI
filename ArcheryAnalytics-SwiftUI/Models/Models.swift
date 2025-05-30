@@ -7,23 +7,6 @@
 
 import Foundation
 
-enum RoundType {
-    case vegasRound
-    case outdoorRound(distance: Int)
-    case fieldRoundFlat
-    
-    var name: String {
-        switch self {
-            case .vegasRound:
-                return "Vegas"
-            case .outdoorRound(distance: let distance):
-                return "Outdoors \(distance)m"
-            case .fieldRoundFlat:
-                return "Field (Flat)"
-        }
-    }
-}
-
 struct Round: Identifiable, Codable, Equatable, Hashable {
     var id = UUID()
     var name = ""
@@ -60,7 +43,7 @@ struct Round: Identifiable, Codable, Equatable, Hashable {
     static var mockEmptyRound: Round {
         var round = Round();
         round.name = "Mock Empty Round"
-        round.stages.append(Stage(targetSize: 40, arrowSize: 0.25, distance: 50, numberOfEnds: 6, numberOfArrowsPerEnd: 6))
+        round.stages.append(Stage(targetFaceType: .gold, targetSize: 40, arrowSize: 0.25, distance: 50, numberOfEnds: 6, numberOfArrowsPerEnd: 6))
         
         return round
     }
@@ -68,7 +51,7 @@ struct Round: Identifiable, Codable, Equatable, Hashable {
     static var mockFullRound: Round {
         var round = Round()
         round.name = "Mock Full Round"
-        round.stages.append(Stage(targetSize: 122, arrowSize: 0.25, distance: 50, numberOfEnds: 6, numberOfArrowsPerEnd: 6))
+        round.stages.append(Stage(targetFaceType: .gold, targetSize: 122, arrowSize: 0.25, distance: 50, numberOfEnds: 6, numberOfArrowsPerEnd: 6))
 
         round.stages[0].arrowHoles = []
         round.stages[0].arrowHoles.append(ArrowHole(point: CGPoint(x: -0.30565990314738023, y: -0.40257642173487007), value: 10))
@@ -125,11 +108,13 @@ struct Stage: Identifiable, Codable, Equatable, Hashable {
     var arrowSize: Float = 0.54 // cm
     var distance: Int = 20 // m
     
+    var targetFaceType: TargetFaceType = .gold
     var numberOfEnds: Int = 10
     var numberOfArrowsPerEnd: Int = 3
     var arrowHoles: [ArrowHole] = []
 
-    init(targetSize: Int, arrowSize: Float, distance: Int, numberOfEnds: Int, numberOfArrowsPerEnd: Int) {
+    init(targetFaceType: TargetFaceType, targetSize: Int, arrowSize: Float, distance: Int, numberOfEnds: Int, numberOfArrowsPerEnd: Int) {
+        self.targetFaceType = targetFaceType
         self.targetSize = targetSize
         self.arrowSize = arrowSize
         self.distance = distance
