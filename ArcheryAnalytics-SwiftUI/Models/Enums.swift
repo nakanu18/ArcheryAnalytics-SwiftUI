@@ -40,7 +40,7 @@ enum TargetFaceType: String, Codable {
     }
     
     func ringToRingDistance(targetWidth: Double) -> Double {
-        targetWidth / Double(numberOfRings)
+        targetWidth / Double(numberOfRings) / 2
     }
     
     // Handles values of 0 to n, rings should start at index: 1
@@ -50,13 +50,13 @@ enum TargetFaceType: String, Codable {
         // green ring is for misses
         switch self {
         case .gold:
-            colors = [.darkGreen, .white, .white, .black, .black, .blue, .blue, .red, .red, .yellow, .yellow, .yellow]
+            colors = [.darkGreen, .white, .white, .black, .black, .blue, .blue, .red, .red, .yellow, .yellow]
         case .blue:
             colors = [.darkGreen, .blue, .blue, .blue, .blue, .white]
         case .fitaField:
             colors = [.darkGreen, .customTeal, .customTeal, .customTeal, .customTeal, .yellow]
         }
-        return value >= 0 && value < colors.count ? colors[value] : .black
+        return colors[value.clamped(to: 0...colors.count - 1)]
     }
     
     var targetLineColor: Color {
@@ -75,8 +75,8 @@ enum TargetFaceType: String, Codable {
         case .gold:
             colors = [.white, .black, .black, .white, .white, .white, .white, .white, .white, .black, .black]
         case .blue, .fitaField:
-            colors = [.white, .white, .white, .white, .white, .black, .black]
+            colors = [.white, .white, .white, .white, .white, .black]
         }
-        return value >= 0 && value < colors.count ? colors[value] : .black
+        return colors[value.clamped(to: 0...colors.count - 1)]
     }
 }

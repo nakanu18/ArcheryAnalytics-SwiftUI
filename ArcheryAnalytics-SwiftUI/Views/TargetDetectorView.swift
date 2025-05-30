@@ -56,8 +56,11 @@ struct TargetDetectorView: View {
         let downscaledDist = dist / scale
 
         // Calculate which ring was hit
-        let ringWidth = (targetWidth / 2.0) / Double(targetFaceType.numberOfRings)
-        let ring = targetFaceType.numberOfRings - Int((downscaledDist - arrowHoleRadius) / ringWidth)
+        let ringWidth = targetFaceType.ringToRingDistance(targetWidth: targetWidth)
+        var ring = targetFaceType.numberOfRings - Int((downscaledDist - arrowHoleRadius) / ringWidth)
+        if ring == targetFaceType.numberOfRings && downscaledDist - arrowHoleRadius < ringWidth / 2 {
+            ring = targetFaceType.numberOfRings + 1
+        }
         
         print("- Tap: \(location.toString) -> \(downscaledPt.toString), DIST: \(String(format: "%.2f", downscaledDist)), RING: \(ring)")
 
@@ -103,7 +106,7 @@ struct TargetView: View {
     let targetWidth: Double
 
     func ringWidth(index: Int) -> CGFloat {
-        let width = targetWidth - targetFaceType.ringToRingDistance(targetWidth: targetWidth) * Double(index)
+        let width = targetWidth - 2 * targetFaceType.ringToRingDistance(targetWidth: targetWidth) * Double(index)
         return CGFloat(scale * width)
     }
 
