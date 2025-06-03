@@ -13,6 +13,7 @@
       "stages" : [
         {
           "targetFaceType": "gold",
+          "xPlusOne": false,
           "numberOfArrowsPerEnd" : 6,
           "arrowSize" : 0.54,
           "numberOfEnds" : 6,
@@ -319,6 +320,7 @@
       "stages" : [
         {
           "targetFaceType": "gold",
+          "xPlusOne": false,
           "arrowHoles" : [
             {
               "point" : [

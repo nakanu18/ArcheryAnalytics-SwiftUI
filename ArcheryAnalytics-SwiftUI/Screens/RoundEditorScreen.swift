@@ -156,18 +156,16 @@ struct RoundEditorScreen: View {
                     KeyValueCell(key: "Name", value: round.name)
                     KeyValueCell(key: "Number of Arrows", value: "\(round.totalNumberOfArrowsShot) / \(round.totalNumberOfArrows)")
                     KeyValueCell(key: "Total Score", value: "\(round.totalScore)")
-//                    KeyValueCell(key: "refCode", value: round.refCode())
                 }
                 ForEach(0 ..< round.stages.count, id: \.self) { stageIndex in
                     Section("Stage \(stageIndex + 1): \(round.stages[stageIndex].distance)m - \(round.stages[stageIndex].targetSize)cm") {
-//                        KeyValueCell(key: "refCode", value: round.stages[stageIndex].refCode())
                         ForEach(0 ..< round.stages[stageIndex].numberOfEnds, id: \.self) { endIndex in
                             EndCell(stage: round.stages[stageIndex], endIndex: endIndex, isSelected: selectedStageIndex == stageIndex && selectedEndIndex == endIndex)
                                 .onTapGesture {
                                     onEndSelect(stageIndex: stageIndex, endIndex: endIndex)
                                 }
                         }
-                        TotalCell(round: round, stageIndex: stageIndex, isSelected: selectedStageIndex == stageIndex && selectedEndIndex == round.stages[stageIndex].numberOfEnds)
+                        TotalCell(stage: round.stages[stageIndex], isSelected: selectedStageIndex == stageIndex && selectedEndIndex == round.stages[stageIndex].numberOfEnds)
                             .onTapGesture {
                                 onEndSelect(stageIndex: stageIndex, endIndex: round.stages[stageIndex].numberOfEnds)
                             }
@@ -223,6 +221,7 @@ struct EndCell: View {
     let stage: Stage
     let endIndex: Int
     let isSelected: Bool
+    let arrowValueSize = 28.0
 
     var arrowIDs: (start: Int, end: Int) {
         stage.arrowIDs(endID: endIndex)
@@ -239,7 +238,17 @@ struct EndCell: View {
 
             ForEach(stage.arrowHoles[arrowIDs.start ..< arrowIDs.end]) { arrowHole in
                 if arrowHole.value >= 0 {
-                    ArrowHoleView(targetFaceType: stage.targetFaceType, value: arrowHole.value)
+                    let isX = !stage.xPlusOne && arrowHole.value > stage.targetFaceType.numberOfRings
+                    ZStack {
+                        Text(isX ? "X" : "\(arrowHole.value)")
+                            .frame(width: arrowValueSize, height: arrowValueSize)
+                            .background(stage.targetFaceType.ringColors(value: arrowHole.value))
+                            .foregroundColor(stage.targetFaceType.valueTextColor(value: arrowHole.value))
+                            .cornerRadius(20)
+                        Circle()
+                            .stroke(.black, lineWidth: 2)
+                            .frame(width: arrowValueSize, height: arrowValueSize)
+                    }
                 }
             }
 
@@ -259,29 +268,8 @@ struct EndCell: View {
     }
 }
 
-struct ArrowHoleView: View {
-    let targetFaceType: TargetFaceType
-    let value: Int
-
-    let size = 28.0
-    
-    var body: some View {
-        ZStack {
-            Text("\(value)")
-                .frame(width: size, height: size)
-                .background(targetFaceType.ringColors(value: value))
-                .foregroundColor(targetFaceType.valueTextColor(value: value))
-                .cornerRadius(20)
-            Circle()
-                .stroke(.black, lineWidth: 2)
-                .frame(width: size, height: size)
-        }
-    }
-}
-
 struct TotalCell: View {
-    let round: Round
-    let stageIndex: Int
+    let stage: Stage
     let isSelected: Bool
     
     var body: some View {
@@ -293,7 +281,7 @@ struct TotalCell: View {
                 .foregroundColor(.white)
                 .cornerRadius(6)
             Spacer()
-            Text("\(round.stages[stageIndex].totalScore)")
+            Text("\(stage.totalScore)")
                 .foregroundColor(isSelected ? .black : .white)
                 .padding(.trailing, 4)
         }

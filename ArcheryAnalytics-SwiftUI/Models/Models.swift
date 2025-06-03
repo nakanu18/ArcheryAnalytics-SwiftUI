@@ -111,15 +111,17 @@ struct Stage: Identifiable, Codable, Equatable, Hashable {
     var targetFaceType: TargetFaceType = .gold
     var numberOfEnds: Int = 10
     var numberOfArrowsPerEnd: Int = 3
+    var xPlusOne: Bool = false
     var arrowHoles: [ArrowHole] = []
 
-    init(targetFaceType: TargetFaceType, targetSize: Int, arrowSize: Float, distance: Int, numberOfEnds: Int, numberOfArrowsPerEnd: Int) {
+    init(targetFaceType: TargetFaceType, targetSize: Int, arrowSize: Float, distance: Int, numberOfEnds: Int, numberOfArrowsPerEnd: Int, xPlusOne: Bool = false) {
         self.targetFaceType = targetFaceType
         self.targetSize = targetSize
         self.arrowSize = arrowSize
         self.distance = distance
         self.numberOfEnds = numberOfEnds
         self.numberOfArrowsPerEnd = numberOfArrowsPerEnd
+        self.xPlusOne = xPlusOne
         // Build ArrowHoles with unique ids
         self.arrowHoles = (0 ..< numberOfEnds * numberOfArrowsPerEnd).map { _ in ArrowHole() }
     }
@@ -172,25 +174,27 @@ struct Stage: Identifiable, Codable, Equatable, Hashable {
         return Array(arrowHoles[IDs.start ..< IDs.end])
     }
     
-    func arrowValues(endID: Int) -> [Int] {
-        let IDs = arrowIDs(endID: endID)
-
-        guard IDs.start >= 0, IDs.end <= arrowHoles.count else {
-            return []
-        }
-        return arrowHoles[IDs.start ..< IDs.end].map { $0.value }
-    }
-
-    var allArrowValues: [Int] {
-        return arrowHoles.map { $0.value }
-    }
-
     func score(endID: Int) -> Int {
-        return arrowValues(endID: endID).filter { $0 >= 0 }.reduce(0, +)
+        var numXs = 0
+        var score = 0
+
+        arrowHoles(endID: endID).forEach { arrowHole in
+            if arrowHole.value >= 0 {
+                score = score + arrowHole.value
+                if arrowHole.value > targetFaceType.numberOfRings {
+                    numXs = numXs + 1
+                }
+            }
+        }
+        return xPlusOne ? score : score - numXs
     }
 
     var totalScore: Int {
-        return allArrowValues.filter { $0 >= 0 }.reduce(0, +)
+        var score = 0
+        for endID in 0 ..< numberOfEnds {
+            score = score + self.score(endID: endID)
+        }
+        return score
     }
 
     mutating func updateFirstUnmarkedArrowHole(endID: Int, arrowHole: ArrowHole) {
