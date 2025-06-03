@@ -158,17 +158,21 @@ struct RoundEditorScreen: View {
                     KeyValueCell(key: "Total Score", value: "\(round.totalScore)")
                 }
                 ForEach(0 ..< round.stages.count, id: \.self) { stageIndex in
-                    Section("Stage \(stageIndex + 1): \(round.stages[stageIndex].distance)m - \(round.stages[stageIndex].targetSize)cm") {
-                        ForEach(0 ..< round.stages[stageIndex].numberOfEnds, id: \.self) { endIndex in
-                            EndCell(stage: round.stages[stageIndex], endIndex: endIndex, isSelected: selectedStageIndex == stageIndex && selectedEndIndex == endIndex)
+                    let currStage = round.stages[stageIndex]
+                                        
+                    Section("Stage \(stageIndex + 1): \(currStage.distance)m - \(currStage.targetSize)cm") {
+                        ForEach(0 ..< currStage.numberOfEnds, id: \.self) { endIndex in
+                            EndCell(stage: currStage, endIndex: endIndex, isSelected: selectedStageIndex == stageIndex && selectedEndIndex == endIndex)
                                 .onTapGesture {
                                     onEndSelect(stageIndex: stageIndex, endIndex: endIndex)
                                 }
                         }
-                        TotalCell(stage: round.stages[stageIndex], isSelected: selectedStageIndex == stageIndex && selectedEndIndex == round.stages[stageIndex].numberOfEnds)
-                            .onTapGesture {
-                                onEndSelect(stageIndex: stageIndex, endIndex: round.stages[stageIndex].numberOfEnds)
-                            }
+                        if currStage.numberOfEnds > 1 {
+                            TotalCell(stage: currStage, isSelected: selectedStageIndex == stageIndex && selectedEndIndex == currStage.numberOfEnds)
+                                .onTapGesture {
+                                    onEndSelect(stageIndex: stageIndex, endIndex: currStage.numberOfEnds)
+                                }
+                        }
                     }
                 }
             }
