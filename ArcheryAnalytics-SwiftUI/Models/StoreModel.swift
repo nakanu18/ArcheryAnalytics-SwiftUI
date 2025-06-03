@@ -166,19 +166,19 @@ class StoreModel: ObservableObject, Codable {
                 newRound.stages.append(Stage(targetFaceType: .gold, targetSize: 122, arrowSize: 0.5, distance: distance, numberOfEnds: 6, numberOfArrowsPerEnd: 6))
             case .fieldRoundFlat:
                 newRound.name = roundType.name
-                newRound.stages.append(Stage(targetFaceType: .fitaField, targetSize: 60, arrowSize: 0.5, distance: 25, numberOfEnds: 1, numberOfArrowsPerEnd: 4))
-                newRound.stages.append(Stage(targetFaceType: .fitaField, targetSize: 60, arrowSize: 0.5, distance: 30, numberOfEnds: 1, numberOfArrowsPerEnd: 4))
-                newRound.stages.append(Stage(targetFaceType: .fitaField, targetSize: 60, arrowSize: 0.5, distance: 35, numberOfEnds: 1, numberOfArrowsPerEnd: 4))
+                newRound.stages.append(Stage(targetFaceType: .fitaField, targetSize: 60, arrowSize: 0.5, distance: 25, numberOfEnds: 1, numberOfArrowsPerEnd: 4, xPlusOne: true))
+                newRound.stages.append(Stage(targetFaceType: .fitaField, targetSize: 60, arrowSize: 0.5, distance: 30, numberOfEnds: 1, numberOfArrowsPerEnd: 4, xPlusOne: true))
+                newRound.stages.append(Stage(targetFaceType: .fitaField, targetSize: 60, arrowSize: 0.5, distance: 35, numberOfEnds: 1, numberOfArrowsPerEnd: 4, xPlusOne: true))
 
-                newRound.stages.append(Stage(targetFaceType: .fitaField, targetSize: 80, arrowSize: 0.5, distance: 40, numberOfEnds: 1, numberOfArrowsPerEnd: 4))
-                newRound.stages.append(Stage(targetFaceType: .fitaField, targetSize: 80, arrowSize: 0.5, distance: 45, numberOfEnds: 1, numberOfArrowsPerEnd: 4))
-                newRound.stages.append(Stage(targetFaceType: .fitaField, targetSize: 80, arrowSize: 0.5, distance: 50, numberOfEnds: 1, numberOfArrowsPerEnd: 4))
+                newRound.stages.append(Stage(targetFaceType: .fitaField, targetSize: 80, arrowSize: 0.5, distance: 40, numberOfEnds: 1, numberOfArrowsPerEnd: 4, xPlusOne: true))
+                newRound.stages.append(Stage(targetFaceType: .fitaField, targetSize: 80, arrowSize: 0.5, distance: 45, numberOfEnds: 1, numberOfArrowsPerEnd: 4, xPlusOne: true))
+                newRound.stages.append(Stage(targetFaceType: .fitaField, targetSize: 80, arrowSize: 0.5, distance: 50, numberOfEnds: 1, numberOfArrowsPerEnd: 4, xPlusOne: true))
 
-                newRound.stages.append(Stage(targetFaceType: .fitaField, targetSize: 20, arrowSize: 0.5, distance:  5, numberOfEnds: 1, numberOfArrowsPerEnd: 3))
-                newRound.stages.append(Stage(targetFaceType: .fitaField, targetSize: 20, arrowSize: 0.5, distance: 10, numberOfEnds: 1, numberOfArrowsPerEnd: 3))
+                newRound.stages.append(Stage(targetFaceType: .fitaField, targetSize: 20, arrowSize: 0.5, distance:  5, numberOfEnds: 1, numberOfArrowsPerEnd: 3, xPlusOne: true))
+                newRound.stages.append(Stage(targetFaceType: .fitaField, targetSize: 20, arrowSize: 0.5, distance: 10, numberOfEnds: 1, numberOfArrowsPerEnd: 3, xPlusOne: true))
 
-                newRound.stages.append(Stage(targetFaceType: .fitaField, targetSize: 40, arrowSize: 0.5, distance: 15, numberOfEnds: 1, numberOfArrowsPerEnd: 3))
-                newRound.stages.append(Stage(targetFaceType: .fitaField, targetSize: 40, arrowSize: 0.5, distance: 20, numberOfEnds: 1, numberOfArrowsPerEnd: 3))
+                newRound.stages.append(Stage(targetFaceType: .fitaField, targetSize: 40, arrowSize: 0.5, distance: 15, numberOfEnds: 1, numberOfArrowsPerEnd: 3, xPlusOne: true))
+                newRound.stages.append(Stage(targetFaceType: .fitaField, targetSize: 40, arrowSize: 0.5, distance: 20, numberOfEnds: 1, numberOfArrowsPerEnd: 3, xPlusOne: true))
         }
 
         rounds.insert(newRound, at: 0)

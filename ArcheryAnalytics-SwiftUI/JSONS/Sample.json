@@ -1,32 +1,295 @@
 {
-    "version" : 2,
-    "fileName" : "Default",
-    "saveDate" : "2025-05-22T23:14:09.327-0500",
-    "rounds" : [
+  "rounds" : [
     {
-      "date" : 769389901.90096,
-      "name" : "Outdoors 50m",
-      "id" : "92FE7C85-DD75-47F2-BB85-E8659990BB31",
+      "stages" : [
+        {
+          "numberOfEnds" : 1,
+          "targetFaceType" : "fitaField",
+          "numberOfArrowsPerEnd" : 4,
+          "targetSize" : 60,
+          "xPlusOne" : true,
+          "arrowSize" : 0.5,
+          "distance" : 25,
+          "id" : "C96EA5B3-2181-4AC5-A1F1-BB233DE488E2",
+          "arrowHoles" : [
+            {
+              "value" : -1,
+              "id" : "02028AA6-0B24-4E72-90FE-D7CC98793248"
+            },
+            {
+              "id" : "B85429C8-D473-4C1A-888A-075AEC4FAD9E",
+              "value" : -1
+            },
+            {
+              "value" : -1,
+              "id" : "853E0444-4D64-43ED-90B0-5FCBBD8B8F46"
+            },
+            {
+              "id" : "DA5A75D5-1436-49CE-98E9-555EA0C2D443",
+              "value" : -1
+            }
+          ]
+        },
+        {
+          "arrowSize" : 0.5,
+          "xPlusOne" : true,
+          "arrowHoles" : [
+            {
+              "value" : -1,
+
+              "id" : "E908F71C-C6EF-4918-937E-DD2E02FA28DC"
+            },
+            {
+              "value" : -1,
+              "id" : "A0350E46-04AD-4F4B-A30B-0A12DE31B190"
+            },
+            {
+              "id" : "7B524AFE-C1ED-4382-9899-11BC2F597923",
+              "value" : -1
+            },
+            {
+              "id" : "8F1ABCE7-BD6F-4EF3-AAD1-56CA0995902D",
+              "value" : -1
+            }
+          ],
+          "numberOfEnds" : 1,
+          "id" : "13EA7766-60A7-4F2B-B7FD-71EECCF52DB0",
+          "distance" : 30,
+          "targetSize" : 60,
+          "numberOfArrowsPerEnd" : 4,
+          "targetFaceType" : "fitaField"
+        },
+        {
+          "numberOfArrowsPerEnd" : 4,
+          "targetSize" : 60,
+          "arrowSize" : 0.5,
+          "distance" : 35,
+          "id" : "245837AD-E811-4EAC-A97D-2F1AC0502552",
+          "targetFaceType" : "fitaField",
+          "numberOfEnds" : 1,
+          "xPlusOne" : true,
+          "arrowHoles" : [
+            {
+              "value" : -1,
+              "id" : "2D096A1F-9F04-43AD-9854-20443A917A9D"
+            },
+            {
+              "id" : "C7C1192F-7DB3-4435-8B40-A087D27BAD4A",
+              "value" : -1
+            },
+            {
+              "value" : -1,
+              "id" : "B5BF89E7-E604-456E-B451-5CAE00961ED6"
+            },
+            {
+              "value" : -1,
+              "id" : "EE94A910-591C-4067-9474-1647B511A513"
+            }
+          ]
+        },
+        {
+          "targetSize" : 80,
+          "arrowHoles" : [
+            {
+              "id" : "81ED7336-CE0D-4CBE-AFF6-F7FE9B8C2F81",
+              "value" : -1
+            },
+            {
+              "id" : "C915C474-9C5D-4526-ACA8-888FAB8F670D",
+              "value" : -1
+            },
+            {
+              "id" : "72F115EB-63AB-480B-B7E7-DA7C30EE248C",
+              "value" : -1
+            },
+            {
+              "id" : "AA592411-5814-447B-8D4A-08A03E021B1C",
+              "value" : -1
+            }
+          ],
+          "numberOfArrowsPerEnd" : 4,
+          "distance" : 40,
+          "arrowSize" : 0.5,
+          "targetFaceType" : "fitaField",
+          "xPlusOne" : true,
+          "id" : "A3034D5C-F6C0-43E8-AEA1-48DCACB58530",
+          "numberOfEnds" : 1
+        },
+        {
+          "targetFaceType" : "fitaField",
+          "numberOfArrowsPerEnd" : 4,
+          "arrowSize" : 0.5,
+          "numberOfEnds" : 1,
+          "arrowHoles" : [
+            {
+              "id" : "06C5599A-A53A-4839-9EEB-4BAD58AD46DA",
+              "value" : -1
+            },
+            {
+              "value" : -1,
+              "id" : "A9BE23F7-6C1E-4595-9C2B-A6C252A6A9B0"
+            },
+            {
+              "id" : "07939CE1-5789-467F-AB20-D1B0C68E3C98",
+              "value" : -1
+            },
+            {
+              "value" : -1,
+              "id" : "DA6051A6-5CF7-458A-93FB-267F44A28162"
+            }
+          ],
+          "xPlusOne" : true,
+          "distance" : 45,
+          "id" : "5A597DC7-662F-4459-805E-13AC881C478D",
+          "targetSize" : 80
+        },
+        {
+          "arrowHoles" : [
+            {
+              "id" : "93B399A6-8DCB-43DC-A64E-6462C06071F2",
+              "value" : -1
+            },
+            {
+              "id" : "B7A1F0F8-DCB8-41D1-8F69-66970C68C14A",
+              "value" : -1
+            },
+            {
+              "id" : "27F08595-7CA7-4B76-98DC-53643B5BDD81",
+              "value" : -1
+            },
+            {
+              "value" : -1,
+              "id" : "58F5DD1A-C9F6-4067-8888-31EE388F8F09"
+            }
+          ],
+          "arrowSize" : 0.5,
+          "xPlusOne" : true,
+          "numberOfArrowsPerEnd" : 4,
+          "targetFaceType" : "fitaField",
+          "numberOfEnds" : 1,
+          "distance" : 50,
+          "targetSize" : 80,
+          "id" : "4B05ED20-5A7A-4780-8563-9BAE9E5BF7E4"
+        },
+        {
+          "targetSize" : 20,
+          "numberOfEnds" : 1,
+          "arrowSize" : 0.5,
+          "id" : "B8FD35B3-018A-4F4D-B514-9C1B33F415BF",
+          "xPlusOne" : true,
+          "targetFaceType" : "fitaField",
+          "arrowHoles" : [
+            {
+              "value" : -1,
+              "id" : "064AD16F-F96A-457B-997A-B0415B4F820E"
+            },
+            {
+              "id" : "86CC2436-F0F8-49C8-933E-7709CE0A6A3D",
+              "value" : -1
+            },
+            {
+              "value" : -1,
+              "id" : "B599447B-A82D-4E71-84D7-2D08B91CA0D3"
+            }
+          ],
+          "distance" : 5,
+          "numberOfArrowsPerEnd" : 3
+        },
+        {
+          "targetSize" : 20,
+          "targetFaceType" : "fitaField",
+          "distance" : 10,
+          "numberOfArrowsPerEnd" : 3,
+          "numberOfEnds" : 1,
+          "id" : "0B424CD9-4BED-4460-8886-7294FF6C2E3C",
+          "xPlusOne" : true,
+          "arrowHoles" : [
+            {
+              "id" : "5A5DD36B-905C-411D-8BAA-EC16F883266B",
+              "value" : -1
+            },
+            {
+              "id" : "FDF69148-709D-43B2-A963-23FAF2C359E0",
+              "value" : -1
+            },
+            {
+              "value" : -1,
+              "id" : "59AD188C-88F5-40C9-8644-61D6A99D8CD7"
+            }
+          ],
+          "arrowSize" : 0.5
+        },
+        {
+          "arrowHoles" : [
+            {
+              "value" : -1,
+              "id" : "C585BF0F-F98C-44BD-BC42-78A7DFB189EE"
+            },
+            {
+              "value" : -1,
+              "id" : "A331F6DA-11AD-4594-A747-C146FA2E7297"
+            },
+            {
+              "id" : "93C80487-AE7F-4751-9657-1467B2EB1148",
+              "value" : -1
+            }
+          ],
+          "id" : "44FD6085-8003-4FBE-8DF6-FE0D2B65E7CF",
+          "distance" : 15,
+          "targetSize" : 40,
+          "numberOfArrowsPerEnd" : 3,
+          "arrowSize" : 0.5,
+          "targetFaceType" : "fitaField",
+          "xPlusOne" : true,
+          "numberOfEnds" : 1
+        },
+        {
+          "id" : "08046B9B-8597-4A37-AF8F-2BB9F0A61C9C",
+          "numberOfArrowsPerEnd" : 3,
+          "targetSize" : 40,
+          "numberOfEnds" : 1,
+          "targetFaceType" : "fitaField",
+          "xPlusOne" : true,
+          "arrowHoles" : [
+            {
+              "id" : "DA30B67A-4B7D-421F-A4B2-5F08DD33EA5C",
+              "value" : -1
+            },
+            {
+              "value" : -1,
+              "id" : "CB71C3E4-1194-48DD-B31D-D4CE34516FCC"
+            },
+            {
+              "id" : "9D87285E-6368-4B45-95BE-17EA574F1FD7",
+              "value" : -1
+            }
+          ],
+          "distance" : 20,
+          "arrowSize" : 0.5
+        }
+      ],
+      "tags" : [
+
+      ],
+      "name" : "Field (Flat)",
+      "date" : 770621668.438468,
+      "id" : "E36A36C3-090F-40B5-A10A-88C18F8DE20E"
+    },
+    {
       "tags" : [
 
       ],
       "stages" : [
         {
-          "targetFaceType": "gold",
-          "xPlusOne": false,
           "numberOfArrowsPerEnd" : 6,
-          "arrowSize" : 0.54,
-          "numberOfEnds" : 6,
-          "targetSize" : 122,
-          "distance" : 50,
           "arrowHoles" : [
             {
+              "id" : "04F2D058-1AD4-495A-A6A4-B8A0B0881C68",
+              "value" : 10,
               "point" : [
                 -0.1529,
                 -0.2013
-              ],
-              "id" : "04F2D058-1AD4-495A-A6A4-B8A0B0881C68",
-              "value" : 10
+              ]
             },
             {
               "id" : "22CF9DE1-1568-4BC2-947E-CDAA17740B4A",
@@ -37,28 +300,28 @@
               "value" : 10
             },
             {
+              "id" : "2C9E32AC-88A4-4132-9C83-E0C7BC507A46",
+              "value" : 9,
               "point" : [
                 0.5554,
                 1.2114
-              ],
-              "id" : "2C9E32AC-88A4-4132-9C83-E0C7BC507A46",
-              "value" : 9
+              ]
             },
             {
               "id" : "6FE0993D-7B98-463B-8C14-B685116023B3",
+              "value" : 9,
               "point" : [
                 -1.5731,
                 -0.0671
-              ],
-              "value" : 9
+              ]
             },
             {
+              "value" : 9,
               "point" : [
                 -1.6215,
                 0.4883
               ],
-              "id" : "2AAF44E4-367D-4854-9A77-1FA941358E26",
-              "value" : 9
+              "id" : "2AAF44E4-367D-4854-9A77-1FA941358E26"
             },
             {
               "point" : [
@@ -77,11 +340,11 @@
               "value" : 10
             },
             {
-              "value" : 9,
               "point" : [
                 -1.3308,
                 -0.1678
               ],
+              "value" : 9,
               "id" : "3B63FABF-6743-40B0-A5C0-16B399EDD2D8"
             },
             {
@@ -101,36 +364,35 @@
               "value" : 9
             },
             {
-              "id" : "C93CD089-5A10-4F31-8375-1EF85D53B505",
-              "value" : 9,
               "point" : [
                 -0.3318,
                 1.8041
-              ]
+              ],
+              "id" : "C93CD089-5A10-4F31-8375-1EF85D53B505",
+              "value" : 9
             },
             {
-              "id" : "72B3473C-D3AA-4634-B034-821BEB0088B7",
               "value" : 8,
+              "id" : "72B3473C-D3AA-4634-B034-821BEB0088B7",
               "point" : [
                 -1.8228,
                 -1.6924
               ]
             },
-
             {
-              "value" : 10,
               "id" : "8426D597-1347-42C9-AE58-E1CE50A395BA",
+              "value" : 10,
               "point" : [
                 0.1379,
                 -0.4362
               ]
             },
             {
-              "id" : "CE2E8D5D-D1BB-4170-B47B-CEE1843494C4",
               "point" : [
                 0.2609,
                 -0.9431
               ],
+              "id" : "CE2E8D5D-D1BB-4170-B47B-CEE1843494C4",
               "value" : 10
             },
             {
@@ -142,108 +404,108 @@
               ]
             },
             {
+              "id" : "7F5A5323-1AA7-44EB-B721-ADEED2FD341A",
               "value" : 9,
               "point" : [
                 1.9047,
                 0.2683
-              ],
-              "id" : "7F5A5323-1AA7-44EB-B721-ADEED2FD341A"
-            },
-            {
-              "point" : [
-                2.0389,
-                -1.793
-              ],
-              "value" : 8,
-              "id" : "C3F80E25-5DA9-4E7E-9CDC-1962738E4984"
-            },
-            {
-              "value" : 8,
-              "id" : "1C8F4C99-4344-4C58-AF1D-6AF50FC80FF0",
-              "point" : [
-                -2.0092,
-                1.2561
               ]
             },
             {
-              "id" : "78138C76-AD5A-4AE5-A675-05D2ADC99D80",
+              "id" : "C3F80E25-5DA9-4E7E-9CDC-1962738E4984",
+              "value" : 8,
+              "point" : [
+                2.0389,
+                -1.793
+              ]
+            },
+            {
+              "point" : [
+                -2.0092,
+                1.2561
+              ],
+              "id" : "1C8F4C99-4344-4C58-AF1D-6AF50FC80FF0",
+              "value" : 8
+            },
+            {
               "point" : [
                 0.3264,
                 -0.1045
               ],
+              "id" : "78138C76-AD5A-4AE5-A675-05D2ADC99D80",
               "value" : 10
             },
             {
+              "value" : 9,
+              "id" : "A184B0F7-2BCB-40C6-A490-BF6BBA59A1C8",
               "point" : [
                 0.9228,
                 -1.0752
-              ],
-              "id" : "A184B0F7-2BCB-40C6-A490-BF6BBA59A1C8",
-              "value" : 9
+              ]
             },
             {
-              "id" : "E7816F0D-EA21-4415-A3DB-38E1D4B4CFD0",
               "point" : [
                 1.6236,
                 0.2742
               ],
-              "value" : 9
-            },
-            {
-              "point" : [
-                0.6833,
-                1.3102
-              ],
-              "id" : "E837BD7C-023A-4B2B-B448-DDDE86BB8AC9",
-              "value" : 9
+              "value" : 9,
+              "id" : "E7816F0D-EA21-4415-A3DB-38E1D4B4CFD0"
             },
             {
               "value" : 9,
-              "id" : "6EFA8F55-4A29-4E37-BB56-3013ECEFFE80",
+              "id" : "E837BD7C-023A-4B2B-B448-DDDE86BB8AC9",
               "point" : [
-                0.9184,
-                1.7019
+                0.6833,
+                1.3102
               ]
             },
             {
+              "point" : [
+                0.9184,
+                1.7019
+              ],
+              "id" : "6EFA8F55-4A29-4E37-BB56-3013ECEFFE80",
+              "value" : 9
+            },
+            {
+              "value" : 8,
               "id" : "DFF5CDB2-F9E7-470F-B7F9-D0D903F74898",
               "point" : [
                 -2.4768,
                 0.0043
-              ],
-              "value" : 8
-            },
-            {
-              "value" : 10,
-              "id" : "3F8056D6-2C11-4968-BE59-7C42B601BF7D",
-              "point" : [
-                -0.0784,
-                -0.0697
               ]
             },
             {
               "value" : 10,
               "point" : [
-                0.2045,
-                -0.3048
+                -0.0784,
+                -0.0697
               ],
-              "id" : "66D9E151-EE73-4D1F-BE21-EB177D973114"
+              "id" : "3F8056D6-2C11-4968-BE59-7C42B601BF7D"
             },
             {
+              "value" : 10,
+              "id" : "66D9E151-EE73-4D1F-BE21-EB177D973114",
+              "point" : [
+                0.2045,
+                -0.3048
+              ]
+            },
+            {
+              "value" : 9,
               "id" : "6D8B633A-8C61-43FE-A242-84CA9C6A56BB",
               "point" : [
                 1.0316,
                 0.7748
-              ],
-              "value" : 9
+              ]
             },
             {
-              "id" : "BA84FF4B-1C2F-4BF0-9F00-48997A10A631",
               "point" : [
                 0.0348,
                 1.506
               ],
-              "value" : 9
+              "value" : 9,
+              "id" : "BA84FF4B-1C2F-4BF0-9F00-48997A10A631"
             },
             {
               "point" : [
@@ -254,35 +516,35 @@
               "id" : "E307AF5B-AC58-48FB-8458-D6137D6F5F8B"
             },
             {
+              "id" : "88AB3EDC-81BD-4E51-91AC-3CE7402CDD2B",
               "point" : [
                 -1.6454,
                 -0.9794
               ],
-              "value" : 9,
-              "id" : "88AB3EDC-81BD-4E51-91AC-3CE7402CDD2B"
+              "value" : 9
             },
             {
               "point" : [
                 0.1813,
                 -0.5876
               ],
-              "id" : "7716B95E-A258-404F-B72D-8D9CF09EB9D0",
-              "value" : 10
+              "value" : 10,
+              "id" : "7716B95E-A258-404F-B72D-8D9CF09EB9D0"
             },
             {
               "point" : [
                 0.6284,
                 1.4407
               ],
-              "id" : "8FF22A6D-4234-4416-841D-A3B4DDB349A6",
-              "value" : 9
+              "value" : 9,
+              "id" : "8FF22A6D-4234-4416-841D-A3B4DDB349A6"
             },
             {
+              "id" : "E227401C-23B4-4C4D-B047-514C6BBA1E51",
               "point" : [
                 -1.7448,
                 -0.1763
               ],
-              "id" : "E227401C-23B4-4C4D-B047-514C6BBA1E51",
               "value" : 9
             },
             {
@@ -294,97 +556,109 @@
               "id" : "BCDEF88B-7FC9-4B16-9468-E0081020CBB9"
             },
             {
+              "id" : "81B5A63C-FA40-4B91-94F9-EBE83C4DC85D",
               "point" : [
                 -1.5072,
                 1.76
               ],
-              "value" : 8,
-              "id" : "81B5A63C-FA40-4B91-94F9-EBE83C4DC85D"
+              "value" : 8
             },
             {
-              "id" : "3A1C8BE9-31AD-411B-89F5-BB6D6F76DDA6",
+              "value" : 8,
               "point" : [
                 -0.7869,
                 -2.6517
               ],
-              "value" : 8
+              "id" : "3A1C8BE9-31AD-411B-89F5-BB6D6F76DDA6"
             }
           ],
+          "xPlusOne" : false,
+          "arrowSize" : 0.54,
+          "targetFaceType" : "gold",
+          "targetSize" : 122,
+          "numberOfEnds" : 6,
+          "distance" : 50,
           "id" : "04749004-3863-45ED-A1BD-5B14A4D0B587"
         }
       ],
-      "currentStageID" : 0
+      "date" : 769389901.90096,
+      "id" : "92FE7C85-DD75-47F2-BB85-E8659990BB31",
+      "name" : "Outdoors 50m"
     },
     {
-      "id" : "2363D7CE-7F60-4184-8F6B-F4ECEDB77675",
+      "date" : 769353698.026494,
+      "name" : "Outdoors 50m",
       "stages" : [
         {
-          "targetFaceType": "gold",
-          "xPlusOne": false,
+          "targetFaceType" : "gold",
+          "id" : "C97DF4E0-F41B-4716-9D98-97EC4C2AA8BC",
+          "targetSize" : 122,
+          "arrowSize" : 0.54,
+          "numberOfArrowsPerEnd" : 6,
           "arrowHoles" : [
             {
+              "value" : 10,
+              "id" : "B1DED989-05DA-4726-AA43-80D4A795C326",
               "point" : [
                 -0.197,
                 0.0328
-              ],
-              "id" : "B1DED989-05DA-4726-AA43-80D4A795C326",
-              "value" : 10
+              ]
             },
             {
+              "value" : 10,
               "point" : [
                 0.1044,
                 -0.1731
               ],
-              "value" : 10,
               "id" : "232A5A78-DC72-46C3-955B-679BC5258122"
             },
             {
               "value" : 10,
-              "id" : "828FE300-3145-462A-A605-E6931BB7ADEE",
               "point" : [
                 0.7191,
                 -0.5491
-              ]
+              ],
+              "id" : "828FE300-3145-462A-A605-E6931BB7ADEE"
             },
             {
-              "id" : "D2440F3F-CC97-4389-B223-72D7F4E7260E",
               "point" : [
                 0.4207,
                 -1.2534
               ],
+              "id" : "D2440F3F-CC97-4389-B223-72D7F4E7260E",
               "value" : 9
             },
             {
-              "value" : 9,
-              "id" : "60852647-A644-49FD-B8C1-3B1DA84BC24F",
               "point" : [
                 0.9668,
                 0.8743
-              ]
+              ],
+              "value" : 9,
+              "id" : "60852647-A644-49FD-B8C1-3B1DA84BC24F"
             },
             {
+              "id" : "0E00BC39-3682-4016-94EA-3C74806AF97E",
+              "value" : 8,
               "point" : [
                 -0.3104,
                 -2.3127
-              ],
-              "value" : 8,
-              "id" : "0E00BC39-3682-4016-94EA-3C74806AF97E"
+              ]
             },
             {
+              "id" : "FA8DAFC7-E2BF-453A-A4C7-329A442A8DCA",
               "point" : [
                 -0.5889,
                 0.4328
               ],
-              "id" : "FA8DAFC7-E2BF-453A-A4C7-329A442A8DCA",
               "value" : 10
             },
             {
-              "value" : 9,
               "id" : "2A107507-04B6-4AC6-B9B6-A4D9AE890191",
               "point" : [
                 0.9914,
                 -0.9764
-              ]
+              ],
+              "value" : 9
             },
             {
               "id" : "E5C2ABA1-D2FC-44B0-94F4-AD470CAEC22A",
@@ -395,52 +669,52 @@
               "value" : 9
             },
             {
-              "value" : 9,
-              "id" : "C6010234-EEE3-4BA1-A5D4-0257249B4C9E",
               "point" : [
                 1.0719,
                 0.7045
-              ]
+              ],
+              "id" : "C6010234-EEE3-4BA1-A5D4-0257249B4C9E",
+              "value" : 9
             },
             {
-              "id" : "617D9590-2360-4481-8AC2-3E55835EEFE2",
-              "value" : 9,
               "point" : [
                 -0.9562,
                 -1.5803
-              ]
+              ],
+              "value" : 9,
+              "id" : "617D9590-2360-4481-8AC2-3E55835EEFE2"
             },
             {
-              "id" : "4FAC0393-F705-4522-BDB7-43168C8246C8",
               "point" : [
                 0.2214,
                 -2.3402
               ],
-              "value" : 8
+              "value" : 8,
+              "id" : "4FAC0393-F705-4522-BDB7-43168C8246C8"
             },
             {
-              "id" : "380C3163-F374-49C0-8212-74E4984EDE7E",
               "point" : [
                 -0.0677,
                 -1.353
               ],
-              "value" : 9
+              "value" : 9,
+              "id" : "380C3163-F374-49C0-8212-74E4984EDE7E"
             },
             {
-              "id" : "813697B8-9205-4D9E-8722-AD7A75E23616",
               "value" : 9,
+              "id" : "813697B8-9205-4D9E-8722-AD7A75E23616",
               "point" : [
                 1.5063,
                 -0.2887
               ]
             },
             {
-              "id" : "ED4C6390-643F-4D6F-B175-6FA8DBAE98FB",
+              "value" : 9,
               "point" : [
                 0.3021,
                 1.3574
               ],
-              "value" : 9
+              "id" : "ED4C6390-643F-4D6F-B175-6FA8DBAE98FB"
             },
             {
               "id" : "CFE4C4E8-CC31-4A44-86D1-03A1B8A2F684",
@@ -452,71 +726,71 @@
             },
             {
               "id" : "C13AE586-9E58-45AC-A6E6-E59126738564",
-              "value" : 7,
               "point" : [
                 3.6169,
                 -0.5232
-              ]
+              ],
+              "value" : 7
             },
             {
+              "id" : "060B1C34-FC28-45AC-ACA2-AF2D897F4AE8",
               "point" : [
                 4.591,
                 -0.902
               ],
-              "value" : 6,
-              "id" : "060B1C34-FC28-45AC-ACA2-AF2D897F4AE8"
+              "value" : 6
             },
             {
-              "id" : "9C505F81-69A5-4358-ADB8-DDBCDBA339AB",
               "point" : [
                 0.0202,
                 -0.0963
               ],
-              "value" : 10
+              "value" : 10,
+              "id" : "9C505F81-69A5-4358-ADB8-DDBCDBA339AB"
             },
             {
-              "id" : "32C2BE21-DF34-4A8F-AD8F-92851BA3F1BF",
               "point" : [
                 1.5759,
                 -0.3041
               ],
+              "id" : "32C2BE21-DF34-4A8F-AD8F-92851BA3F1BF",
               "value" : 9
             },
             {
+              "id" : "DD7B2D49-9761-439C-A169-EC0FD6804BF3",
               "point" : [
                 -1.4037,
                 0.1874
               ],
-              "id" : "DD7B2D49-9761-439C-A169-EC0FD6804BF3",
               "value" : 9
             },
             {
+              "id" : "45782697-8556-4B04-B12A-396E35934D2F",
+              "value" : 9,
               "point" : [
                 -0.3142,
                 1.3124
-              ],
-              "id" : "45782697-8556-4B04-B12A-396E35934D2F",
-              "value" : 9
+              ]
             },
             {
-              "id" : "9A6B80C9-D0F5-4F83-83C8-752A7F74560E",
               "point" : [
                 1.9509,
                 -1.5456
               ],
+              "id" : "9A6B80C9-D0F5-4F83-83C8-752A7F74560E",
               "value" : 8
             },
             {
+              "value" : 6,
               "point" : [
                 4.2312,
                 -1.6723
               ],
-              "id" : "3624436F-32CC-48EB-B6A9-AED9B9911B21",
-              "value" : 6
+              "id" : "3624436F-32CC-48EB-B6A9-AED9B9911B21"
             },
             {
-              "value" : 10,
               "id" : "4A8543A5-D8CF-4CFC-90DC-9F625D22819F",
+              "value" : 10,
               "point" : [
                 -0.6132,
                 0.2989
@@ -531,100 +805,98 @@
               ]
             },
             {
-              "id" : "E24817B0-08BA-4B34-86F4-8902B8D303E6",
               "point" : [
                 -1.2365,
                 -0.4308
               ],
-              "value" : 9
+              "value" : 9,
+              "id" : "E24817B0-08BA-4B34-86F4-8902B8D303E6"
             },
             {
+              "value" : 9,
               "point" : [
                 -1.0946,
                 0.7449
               ],
-              "id" : "ED3F749B-1ABF-420A-AA78-77F531B93765",
-              "value" : 9
+              "id" : "ED3F749B-1ABF-420A-AA78-77F531B93765"
             },
             {
-              "id" : "AFFC0AA6-CCE9-47D2-B9EA-5BDC0B79AFFE",
-              "value" : 9,
               "point" : [
                 0.5979,
                 1.3175
-              ]
+              ],
+              "id" : "AFFC0AA6-CCE9-47D2-B9EA-5BDC0B79AFFE",
+              "value" : 9
             },
             {
+              "value" : 8,
+              "id" : "711B21BA-703B-4774-8986-5D6F0428284B",
               "point" : [
                 -2.2702,
                 -0.4612
-              ],
-              "value" : 8,
-              "id" : "711B21BA-703B-4774-8986-5D6F0428284B"
+              ]
             },
             {
-              "id" : "305B3B92-1EC7-4BBD-ADC2-7E2149EB6A37",
               "value" : 10,
+              "id" : "305B3B92-1EC7-4BBD-ADC2-7E2149EB6A37",
               "point" : [
                 -0.0254,
                 -0.8514
               ]
             },
             {
+              "id" : "0C093C52-1774-4A4D-B712-59002BD41EBF",
               "point" : [
                 -0.0558,
                 -1.8243
               ],
-              "id" : "0C093C52-1774-4A4D-B712-59002BD41EBF",
               "value" : 9
             },
             {
+              "id" : "21059A54-15C2-4AEE-AAE4-6D2ACDF6970E",
+              "value" : 9,
               "point" : [
                 -0.0913,
                 1.3884
-              ],
-              "value" : 9,
-              "id" : "21059A54-15C2-4AEE-AAE4-6D2ACDF6970E"
+              ]
             },
             {
+              "id" : "DD4825B2-C642-4DC9-BF55-C2A39AA5C61B",
+              "value" : 8,
               "point" : [
                 2.2397,
                 -0.7703
-              ],
-              "value" : 8,
-              "id" : "DD4825B2-C642-4DC9-BF55-C2A39AA5C61B"
+              ]
             },
             {
+              "value" : 8,
               "point" : [
                 -0.7652,
                 -2.3665
               ],
-              "value" : 8,
               "id" : "6DBE09EE-13B8-4682-ABA0-340AB77CFD53"
             },
             {
+              "value" : 8,
+              "id" : "3F4399CE-7B07-431B-A22E-F60BA53B1CAD",
               "point" : [
                 -2.3817,
                 -0.3801
-              ],
-              "id" : "3F4399CE-7B07-431B-A22E-F60BA53B1CAD",
-              "value" : 8
+              ]
             }
           ],
-          "numberOfArrowsPerEnd" : 6,
-          "targetSize" : 122,
-          "id" : "C97DF4E0-F41B-4716-9D98-97EC4C2AA8BC",
-          "arrowSize" : 0.54,
-          "numberOfEnds" : 6,
-          "distance" : 50
+          "xPlusOne" : false,
+          "distance" : 50,
+          "numberOfEnds" : 6
         }
       ],
-      "currentStageID" : 0,
-      "date" : 769353698.026494,
-      "name" : "Outdoors 50m",
       "tags" : [
 
-      ]
+      ],
+      "id" : "2363D7CE-7F60-4184-8F6B-F4ECEDB77675"
     }
-  ]
+  ],
+  "fileName" : "Default",
+  "saveDate" : "2025-06-03T00:34:45.764-0500",
+  "version" : 2
 }
