@@ -10,6 +10,7 @@ import SwiftUI
 struct RoundEditorScreen: View {
     @EnvironmentObject private var storeModel: StoreModel
     @State var round: Round
+    @State private var showTargetView = false
     @State private var selectedStageIndex = 0
     @State private var selectedEndIndex = 0
     @State private var isLocked = false
@@ -33,6 +34,7 @@ struct RoundEditorScreen: View {
     }
     
     private func onEndSelect(stageIndex: Int, endIndex: Int) {
+        showTargetView = true
         selectedStageIndex = stageIndex
         selectedEndIndex = endIndex
         resetGroupAnalyzer()
@@ -159,7 +161,7 @@ struct RoundEditorScreen: View {
                 }
                 ForEach(0 ..< round.stages.count, id: \.self) { stageIndex in
                     let currStage = round.stages[stageIndex]
-                                        
+                    
                     Section("Stage \(stageIndex + 1): \(currStage.distance)m - \(currStage.targetSize)cm") {
                         ForEach(0 ..< currStage.numberOfEnds, id: \.self) { endIndex in
                             EndCell(stage: currStage, endIndex: endIndex, isSelected: selectedStageIndex == stageIndex && selectedEndIndex == endIndex)
@@ -176,8 +178,12 @@ struct RoundEditorScreen: View {
                     }
                 }
             }
-            renderTarget()
-            renderButtons()
+            if showTargetView {
+                Group {
+                    renderTarget()
+                    renderButtons()
+                }
+            }
         }
         .onAppear {
             if !round.isFinished {
@@ -192,6 +198,13 @@ struct RoundEditorScreen: View {
         .onDisappear {
             storeModel.updateRound(round: round)
             storeModel.saveData()
+        }
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button("🎯") {
+                    showTargetView = !showTargetView
+                }
+            }
         }
     }
 }
