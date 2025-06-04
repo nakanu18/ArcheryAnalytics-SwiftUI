@@ -12,8 +12,8 @@ struct RoundEditorScreen: View {
     @State var round: Round
     @State private var showTargetView = false
     @State private var selectedStageIndex = 0
-    @State private var selectedEndIndex = 0
-    @State private var isLocked = false
+    @State private var selectedEndIndex = -1
+    @State private var isLocked = true
     @State private var groupAnalyzer = GroupAnalyzer(arrowHoles: [])
 
     // Used for panning and zooming
@@ -190,9 +190,7 @@ struct RoundEditorScreen: View {
             if !round.isFinished {
                 selectedEndIndex = round.stages[0].firstUnfinishedEndID
                 isLocked = false
-            } else {
-                selectedEndIndex = round.stages[0].numberOfEnds
-                isLocked = true
+                showTargetView = true
             }
             resetGroupAnalyzer()
         }
@@ -202,9 +200,13 @@ struct RoundEditorScreen: View {
         }
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
-                Button("🎯") {
+                Button("Target View") {
                     showTargetView = !showTargetView
+                    if !showTargetView {
+                        selectedEndIndex = -1
+                    }
                 }
+                .disabled(!showTargetView)
             }
         }
         .animation(.easeInOut, value: showTargetView)

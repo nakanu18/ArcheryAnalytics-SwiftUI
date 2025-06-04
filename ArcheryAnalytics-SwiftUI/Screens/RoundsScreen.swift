@@ -31,7 +31,7 @@ struct RoundsScreen: View {
         .navigationTitle("Rounds")
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
-                Button("New Round") {
+                Button("+") {
                     showNewRoundSheet = true
                 }
             }
