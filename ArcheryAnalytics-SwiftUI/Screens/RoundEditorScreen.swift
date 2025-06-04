@@ -179,10 +179,11 @@ struct RoundEditorScreen: View {
                 }
             }
             if showTargetView {
-                Group {
+                VStack {
                     renderTarget()
                     renderButtons()
                 }
+                .transition(.move(edge: .bottom))
             }
         }
         .onAppear {
@@ -206,6 +207,7 @@ struct RoundEditorScreen: View {
                 }
             }
         }
+        .animation(.easeInOut, value: showTargetView)
     }
 }
 
