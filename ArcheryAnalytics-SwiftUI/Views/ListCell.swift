@@ -17,6 +17,7 @@ struct ListCell<Content: View>: View {
                 .contentShape(Rectangle())
         }
         .listRowInsets(EdgeInsets())
+        .buttonStyle(ListCellStyle(shouldDisableFeedback: onTap == nil))
         .foregroundColor(.white)
     }
 }
@@ -28,4 +29,20 @@ struct ListCell<Content: View>: View {
         Text("hi")
     }
     .background(Color.blue)
+}
+
+struct ListCellStyle: ButtonStyle {
+    let shouldDisableFeedback: Bool
+    
+    func makeBody(configuration: Configuration) -> some View {
+        if shouldDisableFeedback {
+            // No feedback - just show the label as-is
+            configuration.label
+        } else {
+            // Default feedback behavior
+            configuration.label
+                .scaleEffect(configuration.isPressed ? 0.98 : 1.0)
+                .opacity(configuration.isPressed ? 0.8 : 1.0)
+        }
+    }
 }

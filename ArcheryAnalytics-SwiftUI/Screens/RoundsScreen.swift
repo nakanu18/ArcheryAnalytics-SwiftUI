@@ -35,6 +35,7 @@ struct RoundsScreen: View {
                 Button("+") {
                     showNewRoundSheet = true
                 }
+                .padding(.trailing, 16)
             }
         }
         .sheet(
@@ -78,8 +79,8 @@ struct RoundsScreen: View {
 }
 
 struct RoundCell: View {
-    var round: Round
-    var onRowTap: (() -> Void)?
+    let round: Round
+    let onRowTap: (() -> Void)?
     
     var body: some View {
         ListCell(onTap: onRowTap) {

@@ -164,16 +164,16 @@ struct RoundEditorScreen: View {
                     
                     Section("Stage \(stageIndex + 1): \(currStage.distance)m - \(currStage.targetSize)cm") {
                         ForEach(0 ..< currStage.numberOfEnds, id: \.self) { endIndex in
-                            EndCell(stage: currStage, endIndex: endIndex, isSelected: selectedStageIndex == stageIndex && selectedEndIndex == endIndex)
-                                .onTapGesture {
-                                    onEndSelect(stageIndex: stageIndex, endIndex: endIndex)
-                                }
+                            let isSelected = selectedStageIndex == stageIndex && selectedEndIndex == endIndex
+                            EndCell(stage: currStage, endIndex: endIndex, isSelected: isSelected) {
+                                onEndSelect(stageIndex: stageIndex, endIndex: endIndex)
+                            }
                         }
                         if currStage.numberOfEnds > 1 {
-                            TotalCell(stage: currStage, isSelected: selectedStageIndex == stageIndex && selectedEndIndex == currStage.numberOfEnds)
-                                .onTapGesture {
-                                    onEndSelect(stageIndex: stageIndex, endIndex: currStage.numberOfEnds)
-                                }
+                            let isSelected = selectedStageIndex == stageIndex && selectedEndIndex == currStage.numberOfEnds
+                            TotalCell(stage: currStage, isSelected: isSelected) {
+                                onEndSelect(stageIndex: stageIndex, endIndex: currStage.numberOfEnds)
+                            }
                         }
                     }
                 }
@@ -230,10 +230,14 @@ struct KeyValueCell: View {
     let value: String
     
     var body: some View {
-        HStack {
-            Text(key)
-            Spacer()
-            Text(value)
+        ListCell(onTap: nil) {
+            HStack {
+                Text(key)
+                Spacer()
+                Text(value)
+            }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 4)
         }
     }
 }
@@ -242,6 +246,7 @@ struct EndCell: View {
     let stage: Stage
     let endIndex: Int
     let isSelected: Bool
+    let onRowTap: (() -> Void)?
     let arrowValueSize = 28.0
 
     var arrowIDs: (start: Int, end: Int) {
@@ -249,66 +254,69 @@ struct EndCell: View {
     }
 
     var body: some View {
-        HStack {
-            Text("\(endIndex + 1)")
-                .frame(width: 34, height: 34)
-                .background(.black)
-                .foregroundColor(.white)
-                .cornerRadius(6)
-                .padding(.trailing, 8)
+        ListCell(onTap: onRowTap) {
+            HStack {
+                Text("\(endIndex + 1)")
+                    .frame(width: 34, height: 34)
+                    .background(.black)
+                    .foregroundColor(.white)
+                    .cornerRadius(6)
+                    .padding(.trailing, 8)
 
-            ForEach(stage.arrowHoles[arrowIDs.start ..< arrowIDs.end]) { arrowHole in
-                if arrowHole.value >= 0 {
-                    let isX = !stage.xPlusOne && arrowHole.value > stage.targetFaceType.numberOfRings
-                    ZStack {
-                        Text(isX ? "X" : "\(arrowHole.value)")
-                            .frame(width: arrowValueSize, height: arrowValueSize)
-                            .background(stage.targetFaceType.ringColors(value: arrowHole.value))
-                            .foregroundColor(stage.targetFaceType.valueTextColor(value: arrowHole.value))
-                            .cornerRadius(20)
-                        Circle()
-                            .stroke(.black, lineWidth: 2)
-                            .frame(width: arrowValueSize, height: arrowValueSize)
+                ForEach(stage.arrowHoles[arrowIDs.start ..< arrowIDs.end]) { arrowHole in
+                    if arrowHole.value >= 0 {
+                        let isX = !stage.xPlusOne && arrowHole.value > stage.targetFaceType.numberOfRings
+                        ZStack {
+                            Text(isX ? "X" : "\(arrowHole.value)")
+                                .frame(width: arrowValueSize, height: arrowValueSize)
+                                .background(stage.targetFaceType.ringColors(value: arrowHole.value))
+                                .foregroundColor(stage.targetFaceType.valueTextColor(value: arrowHole.value))
+                                .cornerRadius(20)
+                            Circle()
+                                .stroke(.black, lineWidth: 2)
+                                .frame(width: arrowValueSize, height: arrowValueSize)
+                        }
                     }
                 }
-            }
 
-            Spacer()
-            Text("\(stage.score(endID: endIndex))")
-                .foregroundColor(isSelected ? .black : .white)
-                .padding(.trailing, 4)
+                Spacer()
+                Text("\(stage.score(endID: endIndex))")
+                    .foregroundColor(isSelected ? .black : .white)
+                    .padding(.trailing, 4)
+            }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 4)
+            .background(isSelected ? .green : Color.clear)
+    //        .overlay(
+    //            RoundedRectangle(cornerRadius: 8)
+    //                .stroke(isSelected ? Color.blue : Color.clear, lineWidth: 2)
+    //        )
         }
-        .padding(2)
-        .contentShape(Rectangle())
-        .background(isSelected ? .green : Color.clear)
-        .cornerRadius(6)
-//        .overlay(
-//            RoundedRectangle(cornerRadius: 8)
-//                .stroke(isSelected ? Color.blue : Color.clear, lineWidth: 2)
-//        )
     }
 }
 
 struct TotalCell: View {
     let stage: Stage
     let isSelected: Bool
-    
+    let onRowTap: (() -> Void)?
+
     var body: some View {
-        HStack {
-            Text("Total")
-                .padding(.horizontal, 10)
-                .frame(height: 34)
-                .background(.black)
-                .foregroundColor(.white)
-                .cornerRadius(6)
-            Spacer()
-            Text("\(stage.totalScore)")
-                .foregroundColor(isSelected ? .black : .white)
-                .padding(.trailing, 4)
+        ListCell(onTap: onRowTap) {
+            HStack {
+                Text("Total")
+                    .padding(.horizontal, 10)
+                    .frame(height: 34)
+                    .background(.black)
+                    .foregroundColor(.white)
+                    .cornerRadius(6)
+                Spacer()
+                Text("\(stage.totalScore)")
+                    .foregroundColor(isSelected ? .black : .white)
+                    .padding(.trailing, 4)
+            }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 4)
+            .background(isSelected ? .green : Color.clear)
         }
-        .padding(2)
-        .contentShape(Rectangle())
-        .background(isSelected ? .green : Color.clear)
-        .cornerRadius(6)
     }
 }
