@@ -23,7 +23,8 @@ struct RoundsScreen: View {
                     RoundCell(round: round) {
                         navManager.push(route: .roundEditor(round: round))
                     }
-                }.onDelete { offsets in
+                }
+                .onDelete { offsets in
                     storeModel.rounds.remove(atOffsets: offsets)
                 }
             }
@@ -79,17 +80,15 @@ struct RoundsScreen: View {
 struct RoundCell: View {
     var round: Round
     var onRowTap: (() -> Void)?
-
+    
     var body: some View {
-        Button {
-            onRowTap?()
-        } label: {
+        ListCell(onTap: onRowTap) {
             HStack {
                 Rectangle()
                     .fill(!round.isFinished ? Color.green : Color.clear)
                     .frame(width: 8)
                     .padding(.trailing, 6)
-
+                
                 VStack(alignment: .leading) {
                     Text("\(round.name)")
                         .foregroundColor(.orange)
@@ -107,7 +106,5 @@ struct RoundCell: View {
             }
             .frame(height: 60)
         }
-        .listRowInsets(EdgeInsets())
-        .foregroundColor(.white)
     }
 }
