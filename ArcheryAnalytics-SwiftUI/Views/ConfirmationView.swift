@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ConfirmationView: View {
+    var title: String
     var confirmMessage: String
     var cancelMessage: String
     var onConfirmTap: () -> Void
@@ -15,7 +16,16 @@ struct ConfirmationView: View {
 
     var body: some View {
         VStack {
+            Text(title)
+                .font(.title2)
             Button(confirmMessage, action: onConfirmTap)
+                .padding(.vertical, 8)
+                .padding(.horizontal, 48)
+                .background(.blue)
+                .foregroundColor(.white)
+                .cornerRadius(20)
+                .font(.title3)
+                .padding(.bottom)
             Button(cancelMessage, action: onCancelTap)
         }
         .presentationDetents([.fraction(0.3), .medium, .large])
@@ -24,15 +34,16 @@ struct ConfirmationView: View {
 }
 
 extension View {
-    func confirmationSheet(isPresented: Binding<Bool>, confirmMessage: String, cancelMessage: String, onConfirmTap: @escaping () -> Void, onCancelTap: @escaping () -> Void) -> some View {
+    func confirmationSheet(isPresented: Binding<Bool>, title: String, confirmMessage: String, cancelMessage: String, onConfirmTap: @escaping () -> Void, onCancelTap: @escaping () -> Void) -> some View {
         self.sheet(isPresented: isPresented) {
-            ConfirmationView(confirmMessage: confirmMessage, cancelMessage: cancelMessage, onConfirmTap: onConfirmTap, onCancelTap: onCancelTap)
+            ConfirmationView(title: title, confirmMessage: confirmMessage, cancelMessage: cancelMessage, onConfirmTap: onConfirmTap, onCancelTap: onCancelTap)
         }
     }
 }
 
 #Preview {
-    return ConfirmationView(confirmMessage: "Continue",
+    return ConfirmationView(title: "Are you sure?",
+                            confirmMessage: "Continue",
                             cancelMessage: "Cancel",
                             onConfirmTap: {},
                             onCancelTap: {})

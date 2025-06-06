@@ -10,8 +10,10 @@ import SwiftUI
 struct MenuScreen: View {
     @EnvironmentObject private var storeModel: StoreModel
     @EnvironmentObject private var navManager: NavManager
+    
+    @State private var showConfirmation = false
 
-    @State private var dummyRefresh: Bool = false
+//    @State private var dummyRefresh: Bool = false
 
     private func newData(jsonFileName: String) {
         storeModel.resetData(jsonFileName: jsonFileName)
@@ -25,25 +27,34 @@ struct MenuScreen: View {
         
     var body: some View {
         List {
-            Section("Data") {
-                FileCell(title: "New Data", enabled: !storeModel.doesFileExist(fileName: "Default")) {
-                    newData(jsonFileName: "Default")
+            Section("Device Data") {
+                FileCell(title: "New Default.json", enabled: true) {
+                    showConfirmation = true
                 }
-                FileCell(title: "Saved Data", enabled: storeModel.doesFileExist(fileName: "Default")) {
+                FileCell(title: "Load Default.json", enabled: storeModel.doesFileExist(fileName: "Default")) {
                     loadData(jsonFileName: "Default", fromBundle: false)
                 }
             }
 
-            Section("Debug") {
-                FileCell(title: "Sample", enabled: true) {
+            Section("Bundle Data") {
+                FileCell(title: "Load Sample.json", enabled: true) {
                     loadData(jsonFileName: "Sample", fromBundle: true)
                 }
             }
         }
         .navigationTitle("Menu")
         .onAppear {
-            dummyRefresh.toggle()
+//            dummyRefresh.toggle()
         }
+        .confirmationSheet(isPresented: $showConfirmation, title: "Are you sure?", confirmMessage: "Reset Data", cancelMessage: "Cancel",
+            onConfirmTap: {
+                newData(jsonFileName: "Default")
+                showConfirmation = false
+            },
+            onCancelTap: {
+                showConfirmation = false
+            }
+        )
     }
 }
 
