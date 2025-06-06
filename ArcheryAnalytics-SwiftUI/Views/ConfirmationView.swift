@@ -33,14 +33,6 @@ struct ConfirmationView: View {
     }
 }
 
-extension View {
-    func confirmationSheet(isPresented: Binding<Bool>, title: String, confirmMessage: String, cancelMessage: String, onConfirmTap: @escaping () -> Void, onCancelTap: @escaping () -> Void) -> some View {
-        self.sheet(isPresented: isPresented) {
-            ConfirmationView(title: title, confirmMessage: confirmMessage, cancelMessage: cancelMessage, onConfirmTap: onConfirmTap, onCancelTap: onCancelTap)
-        }
-    }
-}
-
 #Preview {
     return ConfirmationView(title: "Are you sure?",
                             confirmMessage: "Continue",

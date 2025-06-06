@@ -197,11 +197,11 @@ struct RoundEditorScreen: View {
         }
         .onDisappear {
             storeModel.updateRound(round: round)
-            storeModel.saveData(onSuccess: { message in
-                alertManager.showToast(message: message, spinner: true)
-            }, onFail: { message in
-                alertManager.showToast(message: message, spinner: true)
-            })
+            storeModel.saveData {
+                alertManager.showToast(message: $0, spinner: true)
+            } onFail: {
+                alertManager.showToast(message: $0, spinner: true)
+            }
         }
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {

@@ -12,8 +12,6 @@ struct MenuScreen: View {
     @EnvironmentObject private var navManager: NavManager
     @EnvironmentObject private var alertManager: AlertManager
     
-    @State private var showConfirmation = false
-
 //    @State private var dummyRefresh: Bool = false
 
     private func newData(jsonFileName: String) {
@@ -30,7 +28,12 @@ struct MenuScreen: View {
         List {
             Section("Device Data") {
                 FileCell(title: "New Default.json", enabled: true) {
-                    showConfirmation = true
+                    alertManager.showConfirmation(confirmationTitle: "Are you sure?",
+                                                  confirmMessage: "Reset Data",
+                                                  cancelMessage: "Cancel",
+                                                  onConfirmTap: {
+                        newData(jsonFileName: "Default")
+                    })
                 }
                 FileCell(title: "Load Default.json", enabled: storeModel.doesFileExist(fileName: "Default")) {
                     loadData(jsonFileName: "Default", fromBundle: false)
@@ -49,15 +52,6 @@ struct MenuScreen: View {
         .onAppear {
 //            dummyRefresh.toggle()
         }
-        .confirmationSheet(isPresented: $showConfirmation, title: "Are you sure?", confirmMessage: "Reset Data", cancelMessage: "Cancel",
-            onConfirmTap: {
-                newData(jsonFileName: "Default")
-                showConfirmation = false
-            },
-            onCancelTap: {
-                showConfirmation = false
-            }
-        )
     }
 }
 

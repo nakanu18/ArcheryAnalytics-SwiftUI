@@ -117,7 +117,7 @@ class StoreModel: ObservableObject, Codable {
         return FileManager.default.fileExists(atPath: url.path)
     }
 
-    func saveData(onSuccess: (_ message: String) -> Void = {_ in }, onFail: (_ message: String) -> Void = {message in }) {
+    func saveData(onSuccess: (String) -> Void = { _ in }, onFail: (String) -> Void = { _ in }) {
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted
 

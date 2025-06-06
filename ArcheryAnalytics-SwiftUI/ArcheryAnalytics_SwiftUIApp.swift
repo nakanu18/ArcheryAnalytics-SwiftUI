@@ -28,10 +28,11 @@ struct ArcheryAnalytics_SwiftUIApp: App {
                             }
                         }
                         .onReceive(NotificationCenter.default.publisher(for: UIApplication.didEnterBackgroundNotification)) { _ in
-                            print("didEnterBackgroundNotification")
+                            print("- App: didEnterBackgroundNotification")
                             storeModel.saveData()
                         }                    
                 }
+                alertManager.confirmationSheet
                 alertManager.toastOverlay
             }
             .preferredColorScheme(.dark)
