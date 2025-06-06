@@ -9,6 +9,7 @@ import SwiftUI
 
 struct RoundEditorScreen: View {
     @EnvironmentObject private var storeModel: StoreModel
+    @EnvironmentObject private var alertManager: AlertManager
     @State var round: Round
     @State private var showTargetView = false
     @State private var selectedStageIndex = 0
@@ -196,7 +197,11 @@ struct RoundEditorScreen: View {
         }
         .onDisappear {
             storeModel.updateRound(round: round)
-            storeModel.saveData()
+            storeModel.saveData(onSuccess: { message in
+                alertManager.showToast(message: message, spinner: true)
+            }, onFail: { message in
+                alertManager.showToast(message: message, spinner: true)
+            })
         }
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {

@@ -10,6 +10,7 @@ import SwiftUI
 struct MenuScreen: View {
     @EnvironmentObject private var storeModel: StoreModel
     @EnvironmentObject private var navManager: NavManager
+    @EnvironmentObject private var alertManager: AlertManager
     
     @State private var showConfirmation = false
 
@@ -36,11 +37,13 @@ struct MenuScreen: View {
                 }
             }
 
+            #if DEBUG
             Section("Bundle Data") {
                 FileCell(title: "Load Sample.json", enabled: true) {
                     loadData(jsonFileName: "Sample", fromBundle: true)
                 }
             }
+            #endif
         }
         .navigationTitle("Menu")
         .onAppear {

@@ -11,6 +11,7 @@ import SwiftUI
 struct ArcheryAnalytics_SwiftUIApp: App {
     @ObservedObject private var storeModel = StoreModel.mockEmpty
     @ObservedObject private var navManager = NavManager()
+    @ObservedObject private var alertManager = AlertManager()
 
     var body: some Scene {
         WindowGroup {
@@ -31,11 +32,12 @@ struct ArcheryAnalytics_SwiftUIApp: App {
                             storeModel.saveData()
                         }                    
                 }
-                ToastView(message: $storeModel.toastMessage, showSpinner: true)
+                alertManager.toastOverlay
             }
             .preferredColorScheme(.dark)
             .environmentObject(storeModel)
             .environmentObject(navManager)
+            .environmentObject(alertManager)
         }
     }
 }

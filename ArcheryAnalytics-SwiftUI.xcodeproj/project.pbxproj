@@ -16,6 +16,7 @@
 		B6B7645A2DE96375002F51CB /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B764592DE96373002F51CB /* Color+Extension.swift */; };
 		B6B7645C2DE988F5002F51CB /* Comparable+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B7645B2DE988EE002F51CB /* Comparable+Extension.swift */; };
 		B6B7645E2DF0AB56002F51CB /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B7645D2DF0AB56002F51CB /* ListCell.swift */; };
+		B6B764602DF2A229002F51CB /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B7645F2DF2A229002F51CB /* AlertManager.swift */; };
 		FA2A81822CE7DA2E008A4C08 /* NavManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2A81812CE7DA2E008A4C08 /* NavManager.swift */; };
 		FA78F25E2C361D5300A4ABA5 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA78F25D2C361D5300A4ABA5 /* Models.swift */; };
 		FAA521B12B369C6B00B52E95 /* MenuScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA521B02B369C6B00B52E95 /* MenuScreen.swift */; };
@@ -41,6 +42,7 @@
 		B6B764592DE96373002F51CB /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
 		B6B7645B2DE988EE002F51CB /* Comparable+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Comparable+Extension.swift"; sourceTree = "<group>"; };
 		B6B7645D2DF0AB56002F51CB /* ListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
+		B6B7645F2DF2A229002F51CB /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
 		FA2A81812CE7DA2E008A4C08 /* NavManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavManager.swift; sourceTree = "<group>"; };
 		FA78F25D2C361D5300A4ABA5 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		FAA521B02B369C6B00B52E95 /* MenuScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScreen.swift; sourceTree = "<group>"; };
@@ -76,12 +78,13 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
-		FA2A81802CE7DA08008A4C08 /* Services */ = {
+		FA2A81802CE7DA08008A4C08 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
 				FA2A81812CE7DA2E008A4C08 /* NavManager.swift */,
+				B6B7645F2DF2A229002F51CB /* AlertManager.swift */,
 			);
-			path = Services;
+			path = Managers;
 			sourceTree = "<group>";
 		};
 		FAA521AF2B36997000B52E95 /* Screens */ = {
@@ -114,7 +117,7 @@
 			isa = PBXGroup;
 			children = (
 				FAEC07D62B142AF200841E80 /* ArcheryAnalytics_SwiftUIApp.swift */,
-				FA2A81802CE7DA08008A4C08 /* Services */,
+				FA2A81802CE7DA08008A4C08 /* Managers */,
 				FAEC07E42B142B0200841E80 /* Models */,
 				FAA521AF2B36997000B52E95 /* Screens */,
 				FAEC07E72B142EEC00841E80 /* Views */,
@@ -260,6 +263,7 @@
 				FAEC07E62B142B0B00841E80 /* StoreModel.swift in Sources */,
 				B64CCDB62DE0285300C71919 /* StoreModel+Versioning.swift in Sources */,
 				B6B764562DE7B870002F51CB /* ConfirmationView.swift in Sources */,
+				B6B764602DF2A229002F51CB /* AlertManager.swift in Sources */,
 				B6B7645A2DE96375002F51CB /* Color+Extension.swift in Sources */,
 				FA78F25E2C361D5300A4ABA5 /* Models.swift in Sources */,
 				FACB2AD42B3D178F0085B1FF /* DateFormatter+Extension.swift in Sources */,

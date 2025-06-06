@@ -22,7 +22,6 @@ extension StoreModel {
         v2Model.version = 2
         v2Model.saveDate = saveDate
         v2Model.fileName = fileName
-        v2Model.toastMessage = toastMessage
         v2Model.rounds = rounds.map { v1Round in
             var round = Round()
             

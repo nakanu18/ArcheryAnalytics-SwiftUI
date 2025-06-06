@@ -17,7 +17,6 @@ class StoreModel: ObservableObject, Codable {
     @Published var saveDate = Date()
     @Published var fileName = "Default"
     @Published var rounds: [Round] = []
-    @Published var toastMessage: String? = nil
 
     static var mockEmpty: StoreModel {
         let mockRound = Round.mockEmptyRound
@@ -106,7 +105,6 @@ class StoreModel: ObservableObject, Codable {
             saveDate = decodedStoreModel.saveDate
             fileName = decodedStoreModel.fileName
             rounds = decodedStoreModel.rounds
-            toastMessage = decodedStoreModel.toastMessage
         } catch {
             print("StoreModel: ERROR loading JSON from \(loadingSource) - \(jsonFileName), \(error)")
             resetData(jsonFileName: jsonFileName)
@@ -119,7 +117,7 @@ class StoreModel: ObservableObject, Codable {
         return FileManager.default.fileExists(atPath: url.path)
     }
 
-    func saveData() {
+    func saveData(onSuccess: (_ message: String) -> Void = {_ in }, onFail: (_ message: String) -> Void = {message in }) {
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted
 
@@ -127,7 +125,7 @@ class StoreModel: ObservableObject, Codable {
 
         do {
             print("- StoreModel: Saving JSON - \(fileName)")
-            toastMessage = "Saving to \(fileName).json"
+            onSuccess("Saving to \(fileName).json")
 
             let data = try encoder.encode(self)
 
@@ -140,7 +138,7 @@ class StoreModel: ObservableObject, Codable {
             try data.write(to: url)
         } catch {
             print("- StoreModel: ERROR saving JSON file - \(error)")
-            toastMessage = "Saving Failed ..."
+            onFail("Saving Failed ...")
         }
     }
 
