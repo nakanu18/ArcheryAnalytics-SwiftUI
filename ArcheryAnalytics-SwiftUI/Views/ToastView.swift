@@ -23,12 +23,15 @@ struct ToastView: View {
                             ProgressView()
                                 .tint(.black)
                                 .scaleEffect(1.5)
-                                .padding(.leading, 15)
+                                .padding(.horizontal, 15)
                         }
-                        Text(message)
-                            .padding()
-                            .foregroundColor(.black)
+                        if message != "" {
+                            Text(message)
+                                .padding()
+                                .foregroundColor(.black)
+                        }
                     }
+                    .frame(height: 50)
                     .background(Color.white.opacity(0.75))
                     .cornerRadius(10)
                     .shadow(radius: 10)

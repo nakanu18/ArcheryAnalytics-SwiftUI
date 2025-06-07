@@ -12,23 +12,29 @@ struct RoundsScreen: View {
     @EnvironmentObject private var navManager: NavManager
     @EnvironmentObject private var alertManager: AlertManager
     @State private var showNewRoundSheet = false
+    
+    private func saveDataToMainFile(showMessage: Bool) {
+        storeModel.saveData(newFileName: StoreModel.mainFileName) {
+            alertManager.showToast(message: showMessage ? $0 : "", spinner: true)
+        } onFail: {
+            alertManager.showToast(message: showMessage ? $0 : "", spinner: true)
+        }
+    }
 
     var body: some View {
         List {
             Section("Info") {
                 KeyValueCell(key: "File Name", value: "\(storeModel.fileName)")
                 KeyValueCell(key: "Total Rounds", value: "\(storeModel.rounds.count)")
-                ButtonCell(title: "Save to \(StoreModel.mainFileName) file") {
-                    alertManager.showConfirmation(confirmationTitle: "Are you sure?",
-                                                  confirmMessage: "Overwrite Existing Data",
-                                                  cancelMessage: "Cancel",
-                                                  onConfirmTap: {
-                        storeModel.saveData(newFileName: StoreModel.mainFileName) {
-                            alertManager.showToast(message: $0, spinner: true)
-                        } onFail: {
-                            alertManager.showToast(message: $0, spinner: true)
-                        }
-                    })
+                if storeModel.fileName != StoreModel.mainFileName {
+                    ButtonCell(title: "Save to \(StoreModel.mainFileName) file") {
+                        alertManager.showConfirmation(confirmationTitle: "Are you sure?",
+                                                      confirmMessage: "Overwrite Existing Data",
+                                                      cancelMessage: "Cancel",
+                                                      onConfirmTap: {
+                            saveDataToMainFile(showMessage: true)
+                        })
+                    }
                 }
             }
 
@@ -41,6 +47,11 @@ struct RoundsScreen: View {
                 .onDelete { offsets in
                     storeModel.rounds.remove(atOffsets: offsets)
                 }
+            }
+        }
+        .onAppear() {
+            if storeModel.fileName == StoreModel.mainFileName {
+                saveDataToMainFile(showMessage: false)
             }
         }
         .navigationTitle("Rounds")
