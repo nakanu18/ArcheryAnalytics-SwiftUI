@@ -18,12 +18,12 @@ struct RoundsScreen: View {
             Section("Info") {
                 KeyValueCell(key: "File Name", value: "\(storeModel.fileName)")
                 KeyValueCell(key: "Total Rounds", value: "\(storeModel.rounds.count)")
-                ButtonCell(title: "Save to Default.json") {
+                ButtonCell(title: "Save to \(StoreModel.mainFileName) file") {
                     alertManager.showConfirmation(confirmationTitle: "Are you sure?",
-                                                  confirmMessage: "Overwrite Data",
+                                                  confirmMessage: "Overwrite Existing Data",
                                                   cancelMessage: "Cancel",
                                                   onConfirmTap: {
-                        storeModel.saveData(newFileName: "Default") {
+                        storeModel.saveData(newFileName: StoreModel.mainFileName) {
                             alertManager.showToast(message: $0, spinner: true)
                         } onFail: {
                             alertManager.showToast(message: $0, spinner: true)

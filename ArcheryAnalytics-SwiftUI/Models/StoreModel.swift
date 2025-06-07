@@ -15,8 +15,12 @@ class StoreModel: ObservableObject, Codable {
     // TODO: change to private(set)
     @Published var version = 1
     @Published var saveDate = Date()
-    @Published var fileName = "Default"
+    @Published var fileName = mainFileName
     @Published var rounds: [Round] = []
+    
+    static var mainFileName: String {
+        return "Main"
+    }
 
     static var mockEmpty: StoreModel {
         let mockRound = Round.mockEmptyRound
@@ -117,7 +121,7 @@ class StoreModel: ObservableObject, Codable {
         return FileManager.default.fileExists(atPath: url.path)
     }
 
-    func saveData(newFileName: String = "Default", onSuccess: (String) -> Void = { _ in }, onFail: (String) -> Void = { _ in }) {
+    func saveData(newFileName: String = mainFileName, onSuccess: (String) -> Void = { _ in }, onFail: (String) -> Void = { _ in }) {
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted
 

@@ -27,22 +27,22 @@ struct MenuScreen: View {
     var body: some View {
         List {
             Section("Device Data") {
-                FileCell(title: "New Default.json", enabled: true) {
+                FileCell(title: "New \(StoreModel.mainFileName)", enabled: true) {
                     alertManager.showConfirmation(confirmationTitle: "Are you sure?",
                                                   confirmMessage: "Reset Data",
                                                   cancelMessage: "Cancel",
                                                   onConfirmTap: {
-                        newData(jsonFileName: "Default")
+                        newData(jsonFileName: StoreModel.mainFileName)
                     })
                 }
-                FileCell(title: "Load Default.json", enabled: storeModel.doesFileExist(fileName: "Default")) {
-                    loadData(jsonFileName: "Default", fromBundle: false)
+                FileCell(title: "Load \(StoreModel.mainFileName)", enabled: storeModel.doesFileExist(fileName: StoreModel.mainFileName)) {
+                    loadData(jsonFileName: StoreModel.mainFileName, fromBundle: false)
                 }
             }
 
             #if DEBUG
             Section("Bundle Data") {
-                FileCell(title: "Load Sample.json", enabled: true) {
+                FileCell(title: "Load Sample", enabled: true) {
                     loadData(jsonFileName: "Sample", fromBundle: true)
                 }
             }
