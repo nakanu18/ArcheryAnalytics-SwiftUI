@@ -18,14 +18,7 @@ struct ConfirmationView: View {
         VStack {
             Text(title)
                 .font(.title2)
-            Button(confirmMessage, action: onConfirmTap)
-                .padding(.vertical, 8)
-                .padding(.horizontal, 48)
-                .background(.blue)
-                .foregroundColor(.white)
-                .cornerRadius(20)
-                .font(.title3)
-                .padding(.bottom)
+            PrimaryButton(title: confirmMessage, onTap: onConfirmTap)
             Button(cancelMessage, action: onCancelTap)
         }
         .presentationDetents([.fraction(0.3), .medium, .large])

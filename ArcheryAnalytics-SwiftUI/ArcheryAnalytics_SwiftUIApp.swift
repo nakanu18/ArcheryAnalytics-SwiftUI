@@ -27,10 +27,10 @@ struct ArcheryAnalytics_SwiftUIApp: App {
                                 RoundEditorScreen(round: round)
                             }
                         }
-                        .onReceive(NotificationCenter.default.publisher(for: UIApplication.didEnterBackgroundNotification)) { _ in
-                            print("- App: didEnterBackgroundNotification")
-                            storeModel.saveData()
-                        }
+//                        .onReceive(NotificationCenter.default.publisher(for: UIApplication.didEnterBackgroundNotification)) { _ in
+//                            print("- App: didEnterBackgroundNotification")
+//                            storeModel.saveData()
+//                        }
                 }
                 alertManager.confirmationSheet
                 alertManager.toastOverlay
