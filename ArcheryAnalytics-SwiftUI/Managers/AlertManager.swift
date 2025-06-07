@@ -34,7 +34,6 @@ class AlertManager: ObservableObject {
     }
         
     //
-    //
     // MARK: - Confirmation
     //
     

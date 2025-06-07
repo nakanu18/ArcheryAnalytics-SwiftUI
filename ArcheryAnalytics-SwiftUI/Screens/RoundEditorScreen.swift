@@ -197,11 +197,6 @@ struct RoundEditorScreen: View {
         }
         .onDisappear {
             storeModel.updateRound(round: round)
-            storeModel.saveData {
-                alertManager.showToast(message: $0, spinner: true)
-            } onFail: {
-                alertManager.showToast(message: $0, spinner: true)
-            }
         }
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
@@ -225,27 +220,12 @@ struct RoundEditorScreen: View {
     return NavigationStack(path: $navManager.path) {
         RoundEditorScreen(round: storeModel.rounds[0])
             .navigationBarTitleDisplayMode(.inline) // TODO: temp fix for big space on RoundEditorScreen
-    }.preferredColorScheme(.dark)
-        .environmentObject(storeModel)
-        .environmentObject(navManager)
+    }
+    .preferredColorScheme(.dark)
+    .environmentObject(storeModel)
+    .environmentObject(navManager)
 }
 
-struct KeyValueCell: View {
-    let key: String
-    let value: String
-    
-    var body: some View {
-        ListCell(onTap: nil) {
-            HStack {
-                Text(key)
-                Spacer()
-                Text(value)
-            }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 4)
-        }
-    }
-}
 
 struct EndCell: View {
     let stage: Stage

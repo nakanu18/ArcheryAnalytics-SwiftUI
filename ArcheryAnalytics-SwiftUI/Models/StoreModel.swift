@@ -117,10 +117,11 @@ class StoreModel: ObservableObject, Codable {
         return FileManager.default.fileExists(atPath: url.path)
     }
 
-    func saveData(onSuccess: (String) -> Void = { _ in }, onFail: (String) -> Void = { _ in }) {
+    func saveData(newFileName: String = "Default", onSuccess: (String) -> Void = { _ in }, onFail: (String) -> Void = { _ in }) {
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted
 
+        fileName = newFileName
         saveDate = Date()
 
         do {

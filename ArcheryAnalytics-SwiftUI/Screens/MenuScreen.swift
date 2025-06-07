@@ -62,9 +62,10 @@ struct MenuScreen: View {
     return NavigationStack(path: $navManager.path) {
         MenuScreen()
             .navigationBarTitleDisplayMode(.inline) // TODO: temp fix for big space on RoundEditorScreen
-    }.preferredColorScheme(.dark)
-        .environmentObject(storeModel)
-        .environmentObject(navManager)
+    }
+    .preferredColorScheme(.dark)
+    .environmentObject(storeModel)
+    .environmentObject(navManager)
 }
 
 struct FileCell: View {
@@ -73,19 +74,16 @@ struct FileCell: View {
     let onTap: () -> Void
 
     var body: some View {
-        HStack {
-            Text("\(title)")
-                .foregroundColor(enabled ? .primary : .gray)
-            Spacer()
-            Image(systemName: "chevron.right")
-                .foregroundColor(enabled ? .blue: .gray)
-        }
-        .contentShape(Rectangle()) // Make the entire HStack tappable
-        .opacity(enabled ? 1 : 0.5)
-        .onTapGesture {
-            if enabled {
-                onTap()
+        ListCell(onTap: onTap) {
+            HStack {
+                Text("\(title)")
+                    .foregroundColor(enabled ? .primary : .gray)
+                Spacer()
+                Image(systemName: "chevron.right")
+                    .foregroundColor(enabled ? .blue: .gray)
             }
+            .padding(.horizontal, 12)
+            .opacity(enabled ? 1 : 0.5)
         }
     }
 }

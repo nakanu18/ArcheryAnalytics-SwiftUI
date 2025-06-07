@@ -10,12 +10,26 @@ import SwiftUI
 struct RoundsScreen: View {
     @EnvironmentObject private var storeModel: StoreModel
     @EnvironmentObject private var navManager: NavManager
+    @EnvironmentObject private var alertManager: AlertManager
     @State private var showNewRoundSheet = false
 
     var body: some View {
         List {
             Section("Info") {
-                Text("Total Rounds: \(storeModel.rounds.count)")
+                KeyValueCell(key: "File Name", value: "\(storeModel.fileName)")
+                KeyValueCell(key: "Total Rounds", value: "\(storeModel.rounds.count)")
+                ButtonCell(title: "Save to Default.json") {
+                    alertManager.showConfirmation(confirmationTitle: "Are you sure?",
+                                                  confirmMessage: "Overwrite Data",
+                                                  cancelMessage: "Cancel",
+                                                  onConfirmTap: {
+                        storeModel.saveData(newFileName: "Default") {
+                            alertManager.showToast(message: $0, spinner: true)
+                        } onFail: {
+                            alertManager.showToast(message: $0, spinner: true)
+                        }
+                    })
+                }
             }
 
             Section("Rounds") {
@@ -68,6 +82,7 @@ struct RoundsScreen: View {
 #Preview {
     let storeModel = StoreModel.mock
     @ObservedObject var navManager = NavManager()
+    @ObservedObject var alertManager = AlertManager()
 
     return NavigationStack(path: $navManager.path) {
         RoundsScreen()
@@ -76,6 +91,7 @@ struct RoundsScreen: View {
     .preferredColorScheme(.dark)
     .environmentObject(storeModel)
     .environmentObject(navManager)
+    .environmentObject(alertManager)
 }
 
 struct RoundCell: View {
@@ -87,9 +103,8 @@ struct RoundCell: View {
             HStack {
                 Rectangle()
                     .fill(!round.isFinished ? Color.green : Color.clear)
-                    .frame(width: 8)
+                    .frame(width: 6)
                     .padding(.trailing, 6)
-                
                 VStack(alignment: .leading) {
                     Text("\(round.name)")
                         .foregroundColor(.orange)

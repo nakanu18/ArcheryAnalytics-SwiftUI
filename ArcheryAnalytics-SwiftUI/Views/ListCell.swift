@@ -28,7 +28,7 @@ struct ListCell<Content: View>: View {
     }) {
         Text("hi")
     }
-    .background(Color.blue)
+    .background(Color.secondary)
 }
 
 struct ListCellStyle: ButtonStyle {

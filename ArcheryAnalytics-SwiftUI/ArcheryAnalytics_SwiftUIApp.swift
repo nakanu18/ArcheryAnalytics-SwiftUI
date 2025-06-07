@@ -30,7 +30,7 @@ struct ArcheryAnalytics_SwiftUIApp: App {
                         .onReceive(NotificationCenter.default.publisher(for: UIApplication.didEnterBackgroundNotification)) { _ in
                             print("- App: didEnterBackgroundNotification")
                             storeModel.saveData()
-                        }                    
+                        }
                 }
                 alertManager.confirmationSheet
                 alertManager.toastOverlay
