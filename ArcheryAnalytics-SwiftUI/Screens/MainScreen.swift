@@ -1,5 +1,5 @@
 //
-//  MenuScreen.swift
+//  MainScreen.swift
 //  ArcheryAnalytics-SwiftUI
 //
 //  Created by Alex de Vera on 12/22/23.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct MenuScreen: View {
+struct MainScreen: View {
     @EnvironmentObject private var storeModel: StoreModel
     @EnvironmentObject private var navManager: NavManager
     @EnvironmentObject private var alertManager: AlertManager
@@ -60,7 +60,7 @@ struct MenuScreen: View {
     @ObservedObject var navManager = NavManager()
 
     return NavigationStack(path: $navManager.path) {
-        MenuScreen()
+        MainScreen()
             .navigationBarTitleDisplayMode(.inline) // TODO: temp fix for big space on RoundEditorScreen
     }
     .preferredColorScheme(.dark)

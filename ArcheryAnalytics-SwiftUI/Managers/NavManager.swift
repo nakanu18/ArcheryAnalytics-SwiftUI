@@ -38,4 +38,14 @@ class NavManager: ObservableObject {
         print("- NavManager: popping to root")
         path.removeLast(path.count)
     }
+    
+    @ViewBuilder
+    func destination(route: Route) -> some View {
+        switch route {
+        case .rounds:
+            RoundsScreen()
+        case .roundEditor(let round):
+            RoundEditorScreen(round: round)
+        }
+    }
 }

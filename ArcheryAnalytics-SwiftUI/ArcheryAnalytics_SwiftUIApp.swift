@@ -17,20 +17,11 @@ struct ArcheryAnalytics_SwiftUIApp: App {
         WindowGroup {
             ZStack {
                 NavigationStack(path: $navManager.path) {
-                    MenuScreen()
+                    MainScreen()
                         .navigationBarTitleDisplayMode(.inline)
                         .navigationDestination(for: Route.self) { route in
-                            switch route {
-                            case .rounds:
-                                RoundsScreen()
-                            case .roundEditor(let round):
-                                RoundEditorScreen(round: round)
-                            }
+                            navManager.destination(route: route)
                         }
-//                        .onReceive(NotificationCenter.default.publisher(for: UIApplication.didEnterBackgroundNotification)) { _ in
-//                            print("- App: didEnterBackgroundNotification")
-//                            storeModel.saveData()
-//                        }
                 }
                 alertManager.confirmationSheet
                 alertManager.toastOverlay
