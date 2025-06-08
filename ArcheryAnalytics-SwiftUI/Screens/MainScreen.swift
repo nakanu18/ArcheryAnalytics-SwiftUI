@@ -16,12 +16,12 @@ struct MainScreen: View {
 
     private func newData(jsonFileName: String) {
         storeModel.resetData(jsonFileName: jsonFileName)
-        navManager.push(route: .rounds)
+        navManager.push(route: .home)
     }
 
     private func loadData(jsonFileName: String, fromBundle: Bool) {
         storeModel.loadData(jsonFileName: jsonFileName, fromBundle: fromBundle)
-        navManager.push(route: .rounds)
+        navManager.push(route: .home)
     }
         
     var body: some View {
