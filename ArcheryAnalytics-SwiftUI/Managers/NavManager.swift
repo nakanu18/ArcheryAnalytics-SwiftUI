@@ -25,22 +25,62 @@ enum Tab: Hashable {
 }
 
 class NavManager: ObservableObject {
-    @Published var path = NavigationPath()
+    @Published var roundsPath = NavigationPath()
+    @Published var fineTuningPath = NavigationPath()
+    @Published var settingsPath = NavigationPath()
     @Published var selectedTab: Tab = .rounds
 
+    var currentPath: NavigationPath {
+        switch selectedTab {
+            case .rounds:
+            return roundsPath
+        case .fineTuning:
+            return fineTuningPath
+        case .settings:
+            return settingsPath
+        }
+    }
+    
     func push(route: Route) {
         print("- NavManager: navigating to \(route.description)")
-        path.append(route)
+        switch selectedTab {
+        case .rounds:
+            roundsPath.append(route)
+        case .fineTuning:
+            fineTuningPath.append(route)
+        case .settings:
+            settingsPath.append(route)
+        }
     }
 
     func pop() {
         print("- NavManager: popping current route")
-        path.removeLast()
+        switch selectedTab {
+        case .rounds:
+            if !roundsPath.isEmpty {
+                roundsPath.removeLast()
+            }
+        case .fineTuning:
+            if !fineTuningPath.isEmpty {
+                fineTuningPath.removeLast()
+            }
+        case .settings:
+            if !settingsPath.isEmpty {
+                settingsPath.removeLast()
+            }
+        }
     }
 
     func popToRoot() {
         print("- NavManager: popping to root")
-        path.removeLast(path.count)
+        switch selectedTab {
+        case .rounds:
+            roundsPath = NavigationPath()
+        case .fineTuning:
+            fineTuningPath = NavigationPath()
+        case .settings:
+            settingsPath = NavigationPath()
+        }
     }
     
     @ViewBuilder

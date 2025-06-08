@@ -133,17 +133,27 @@ class StoreModel: ObservableObject, Codable {
             onSuccess("Saving to \(fileName).json")
 
             let data = try encoder.encode(self)
-
-            if let jsonString = String(data: data, encoding: .utf8) {
-//                print(jsonString)
-            }
-
             let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
             let url = documentsDirectory.appendingPathComponent("\(fileName).json")
             try data.write(to: url)
         } catch {
             print("- StoreModel: ERROR saving JSON file - \(error)")
             onFail("Saving Failed ...")
+        }
+    }
+    
+    func printData() {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
+        
+        do {
+            let data = try encoder.encode(self)
+
+            if let jsonString = String(data: data, encoding: .utf8) {
+                    print(jsonString)
+            }
+        } catch {
+            
         }
     }
 

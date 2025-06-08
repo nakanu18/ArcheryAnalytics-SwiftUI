@@ -27,8 +27,13 @@ struct RoundsScreen: View {
             Section("Info") {
                 KeyValueCell(key: "File Name", value: "\(storeModel.fileName)")
                 KeyValueCell(key: "Total Rounds", value: "\(storeModel.rounds.count)")
+                #if DEBUG
+                ButtonCell(title: "Print Data") {
+                    storeModel.printData()
+                }
+                #endif
                 if storeModel.fileName != StoreModel.mainFileName {
-                    ButtonCell(title: "Save to \(StoreModel.mainFileName) file") {
+                    ButtonCell(title: "Overwrite to \(StoreModel.mainFileName) file") {
                         alertManager.showConfirmation(confirmationTitle: "Are you sure?",
                                                       confirmMessage: "Overwrite Existing Data",
                                                       cancelMessage: "Cancel",
@@ -36,9 +41,6 @@ struct RoundsScreen: View {
                             saveDataToMainFile(showMessage: true)
                         })
                     }
-                }
-                ButtonCell(title: "New Round") {
-                    showNewRoundSheet = true
                 }
             }
 
@@ -103,9 +105,8 @@ struct RoundsScreen: View {
     @ObservedObject var navManager = NavManager()
     @ObservedObject var alertManager = AlertManager()
 
-    return NavigationStack(path: $navManager.path) {
+    return NavigationStack(path: $navManager.roundsPath) {
         RoundsScreen()
-            .navigationBarTitleDisplayMode(.inline)  // TODO: temp fix for big space on RoundEditorScreen
     }
     .preferredColorScheme(.dark)
     .environmentObject(storeModel)

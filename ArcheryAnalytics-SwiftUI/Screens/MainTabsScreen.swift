@@ -12,22 +12,38 @@ struct MainTabsScreen: View {
     
     var body: some View {
         TabView(selection: $navManager.selectedTab) {
-            RoundsScreen()
-                .tabItem {
-                    Label("Rounds", systemImage: "target")
-                }
-                .tag(Tab.rounds)
-            Text("Coming Soon - Fine Tuning")
-                .tabItem {
-                    Label("Fine Tuning", systemImage: "tuningfork")
-                }
-                .tag(Tab.fineTuning)
-            SettingsScreen()
-                .tabItem {
-                    Label("Settings", systemImage: "gear")
-                }
-                .tag(Tab.settings)
-        }
+            NavigationStack(path: $navManager.roundsPath) {
+                RoundsScreen()
+                    .navigationDestination(for: Route.self) { route in
+                        navManager.destination(route: route)
+                    }
+            }
+            .tabItem {
+                Label("Rounds", systemImage: "target")
+            }
+            .tag(Tab.rounds)
 
+            NavigationStack(path: $navManager.fineTuningPath) {
+                Text("Coming Soon - Fine Tuning")
+                    .navigationDestination(for: Route.self) { route in
+                        navManager.destination(route: route)
+                    }
+            }
+            .tabItem {
+                Label("Fine Tuning", systemImage: "tuningfork")
+            }
+            .tag(Tab.fineTuning)
+
+            NavigationStack(path: $navManager.settingsPath) {
+                SettingsScreen()
+                    .navigationDestination(for: Route.self) { route in
+                        navManager.destination(route: route)
+                    }
+            }
+            .tabItem {
+                Label("Settings", systemImage: "gear")
+            }
+            .tag(Tab.settings)
+        }
     }
 }

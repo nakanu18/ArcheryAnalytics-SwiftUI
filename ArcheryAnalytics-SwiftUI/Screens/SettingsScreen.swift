@@ -59,9 +59,8 @@ struct SettingsScreen: View {
     let storeModel = StoreModel.mockEmpty
     @ObservedObject var navManager = NavManager()
 
-    return NavigationStack(path: $navManager.path) {
+    return NavigationStack(path: $navManager.settingsPath) {
         SettingsScreen()
-            .navigationBarTitleDisplayMode(.inline) // TODO: temp fix for big space on RoundEditorScreen
     }
     .preferredColorScheme(.dark)
     .environmentObject(storeModel)
