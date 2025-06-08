@@ -12,7 +12,8 @@ struct RoundsScreen: View {
     @EnvironmentObject private var navManager: NavManager
     @EnvironmentObject private var alertManager: AlertManager
     @State private var showNewRoundSheet = false
-    
+    @State private var hasAppearedOnce = false
+
     private func saveDataToMainFile(showMessage: Bool) {
         storeModel.saveData(newFileName: StoreModel.mainFileName) {
             alertManager.showToast(message: showMessage ? $0 : "", spinner: true)
@@ -36,6 +37,9 @@ struct RoundsScreen: View {
                         })
                     }
                 }
+                ButtonCell(title: "New Round") {
+                    showNewRoundSheet = true
+                }
             }
 
             Section("Rounds") {
@@ -50,8 +54,12 @@ struct RoundsScreen: View {
             }
         }
         .onAppear() {
-            if storeModel.fileName == StoreModel.mainFileName {
+            if hasAppearedOnce && storeModel.fileName == StoreModel.mainFileName {
                 saveDataToMainFile(showMessage: false)
+            }
+            
+            if !hasAppearedOnce {
+                hasAppearedOnce = true
             }
         }
         .navigationTitle("Rounds")

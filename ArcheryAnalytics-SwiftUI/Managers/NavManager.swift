@@ -8,21 +8,25 @@
 import SwiftUI
 
 enum Route: Codable, Hashable {
-    case home
     case roundEditor(round: Round)
     
     var description: String {
         switch self {
-        case .home:
-            return "Home"
         case .roundEditor(let round):
             return "RoundEditor: \(round.id)"
         }
     }
 }
 
+enum Tab: Hashable {
+    case rounds
+    case fineTuning
+    case settings
+}
+
 class NavManager: ObservableObject {
     @Published var path = NavigationPath()
+    @Published var selectedTab: Tab = .rounds
 
     func push(route: Route) {
         print("- NavManager: navigating to \(route.description)")
@@ -42,17 +46,6 @@ class NavManager: ObservableObject {
     @ViewBuilder
     func destination(route: Route) -> some View {
         switch route {
-        case .home:
-            TabView {
-                RoundsScreen()
-                    .tabItem {
-                        Label("Rounds", systemImage: "target")
-                    }
-                Text("Coming Soon - Fine Tuning")
-                    .tabItem {
-                        Label("Fine Tuning", systemImage: "tuningfork")
-                    }
-            }
         case .roundEditor(let round):
             RoundEditorScreen(round: round)
         }

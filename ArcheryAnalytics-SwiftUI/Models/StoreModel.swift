@@ -135,7 +135,7 @@ class StoreModel: ObservableObject, Codable {
             let data = try encoder.encode(self)
 
             if let jsonString = String(data: data, encoding: .utf8) {
-                print(jsonString)
+//                print(jsonString)
             }
 
             let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!

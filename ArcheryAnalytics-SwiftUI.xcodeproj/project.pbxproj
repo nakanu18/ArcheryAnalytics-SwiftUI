@@ -11,6 +11,7 @@
 		B63B8B832DE43AFA0071A658 /* CGFloat+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63B8B822DE43AFA0071A658 /* CGFloat+Extension.swift */; };
 		B64CCDB02DD9BBED00C71919 /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B64CCDAF2DD9BBED00C71919 /* ToastView.swift */; };
 		B64CCDB62DE0285300C71919 /* StoreModel+Versioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = B64CCDB52DE0284400C71919 /* StoreModel+Versioning.swift */; };
+		B69BD7362DF5444F00A80F3C /* MainTabsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69BD7352DF5444F00A80F3C /* MainTabsScreen.swift */; };
 		B6B764562DE7B870002F51CB /* ConfirmationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B764552DE7B870002F51CB /* ConfirmationView.swift */; };
 		B6B764582DE93E29002F51CB /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B764572DE93E29002F51CB /* Enums.swift */; };
 		B6B7645A2DE96375002F51CB /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B764592DE96373002F51CB /* Color+Extension.swift */; };
@@ -22,7 +23,7 @@
 		B6B764662DF4830F002F51CB /* PrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B764652DF4830F002F51CB /* PrimaryButton.swift */; };
 		FA2A81822CE7DA2E008A4C08 /* NavManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2A81812CE7DA2E008A4C08 /* NavManager.swift */; };
 		FA78F25E2C361D5300A4ABA5 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA78F25D2C361D5300A4ABA5 /* Models.swift */; };
-		FAA521B12B369C6B00B52E95 /* MainScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA521B02B369C6B00B52E95 /* MainScreen.swift */; };
+		FAA521B12B369C6B00B52E95 /* SettingsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA521B02B369C6B00B52E95 /* SettingsScreen.swift */; };
 		FACB2AD42B3D178F0085B1FF /* DateFormatter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FACB2AD32B3D178F0085B1FF /* DateFormatter+Extension.swift */; };
 		FAEC07D72B142AF200841E80 /* ArcheryAnalytics_SwiftUIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEC07D62B142AF200841E80 /* ArcheryAnalytics_SwiftUIApp.swift */; };
 		FAEC07D92B142AF200841E80 /* RoundsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEC07D82B142AF200841E80 /* RoundsScreen.swift */; };
@@ -40,6 +41,7 @@
 		B63B8B822DE43AFA0071A658 /* CGFloat+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGFloat+Extension.swift"; sourceTree = "<group>"; };
 		B64CCDAF2DD9BBED00C71919 /* ToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
 		B64CCDB52DE0284400C71919 /* StoreModel+Versioning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StoreModel+Versioning.swift"; sourceTree = "<group>"; };
+		B69BD7352DF5444F00A80F3C /* MainTabsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabsScreen.swift; sourceTree = "<group>"; };
 		B6B764552DE7B870002F51CB /* ConfirmationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationView.swift; sourceTree = "<group>"; };
 		B6B764572DE93E29002F51CB /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
 		B6B764592DE96373002F51CB /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
@@ -51,7 +53,7 @@
 		B6B764652DF4830F002F51CB /* PrimaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButton.swift; sourceTree = "<group>"; };
 		FA2A81812CE7DA2E008A4C08 /* NavManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavManager.swift; sourceTree = "<group>"; };
 		FA78F25D2C361D5300A4ABA5 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
-		FAA521B02B369C6B00B52E95 /* MainScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreen.swift; sourceTree = "<group>"; };
+		FAA521B02B369C6B00B52E95 /* SettingsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsScreen.swift; sourceTree = "<group>"; };
 		FACB2AD32B3D178F0085B1FF /* DateFormatter+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extension.swift"; sourceTree = "<group>"; };
 		FAEC07D32B142AF200841E80 /* ArcheryAnalytics-SwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ArcheryAnalytics-SwiftUI.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAEC07D62B142AF200841E80 /* ArcheryAnalytics_SwiftUIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArcheryAnalytics_SwiftUIApp.swift; sourceTree = "<group>"; };
@@ -96,7 +98,8 @@
 		FAA521AF2B36997000B52E95 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
-				FAA521B02B369C6B00B52E95 /* MainScreen.swift */,
+				B69BD7352DF5444F00A80F3C /* MainTabsScreen.swift */,
+				FAA521B02B369C6B00B52E95 /* SettingsScreen.swift */,
 				FAEC07D82B142AF200841E80 /* RoundsScreen.swift */,
 				FAEC07E82B14398B00841E80 /* RoundEditorScreen.swift */,
 			);
@@ -261,7 +264,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FAEC07D92B142AF200841E80 /* RoundsScreen.swift in Sources */,
-				FAA521B12B369C6B00B52E95 /* MainScreen.swift in Sources */,
+				FAA521B12B369C6B00B52E95 /* SettingsScreen.swift in Sources */,
 				FAEC07E92B14398C00841E80 /* RoundEditorScreen.swift in Sources */,
 				FAFF4FAD2B1AE8E000FB1D33 /* CGPoint+Extension.swift in Sources */,
 				B6B7645E2DF0AB56002F51CB /* ListCell.swift in Sources */,
@@ -273,6 +276,7 @@
 				B64CCDB62DE0285300C71919 /* StoreModel+Versioning.swift in Sources */,
 				B6B764562DE7B870002F51CB /* ConfirmationView.swift in Sources */,
 				B6B764602DF2A229002F51CB /* AlertManager.swift in Sources */,
+				B69BD7362DF5444F00A80F3C /* MainTabsScreen.swift in Sources */,
 				B6B764622DF3E65D002F51CB /* KeyValueCell.swift in Sources */,
 				B6B7645A2DE96375002F51CB /* Color+Extension.swift in Sources */,
 				FA78F25E2C361D5300A4ABA5 /* Models.swift in Sources */,

@@ -17,10 +17,13 @@ struct ArcheryAnalytics_SwiftUIApp: App {
         WindowGroup {
             ZStack {
                 NavigationStack(path: $navManager.path) {
-                    MainScreen()
+                    MainTabsScreen()
                         .navigationBarTitleDisplayMode(.inline)
                         .navigationDestination(for: Route.self) { route in
                             navManager.destination(route: route)
+                        }
+                        .onAppear() {
+                            storeModel.loadData(jsonFileName: StoreModel.mainFileName, fromBundle: false)
                         }
                 }
                 alertManager.confirmationSheet

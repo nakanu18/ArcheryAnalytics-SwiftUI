@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct MainScreen: View {
+struct SettingsScreen: View {
     @EnvironmentObject private var storeModel: StoreModel
     @EnvironmentObject private var navManager: NavManager
     @EnvironmentObject private var alertManager: AlertManager
@@ -16,12 +16,12 @@ struct MainScreen: View {
 
     private func newData(jsonFileName: String) {
         storeModel.resetData(jsonFileName: jsonFileName)
-        navManager.push(route: .home)
+        navManager.selectedTab = .rounds
     }
 
     private func loadData(jsonFileName: String, fromBundle: Bool) {
         storeModel.loadData(jsonFileName: jsonFileName, fromBundle: fromBundle)
-        navManager.push(route: .home)
+        navManager.selectedTab = .rounds
     }
         
     var body: some View {
@@ -60,7 +60,7 @@ struct MainScreen: View {
     @ObservedObject var navManager = NavManager()
 
     return NavigationStack(path: $navManager.path) {
-        MainScreen()
+        SettingsScreen()
             .navigationBarTitleDisplayMode(.inline) // TODO: temp fix for big space on RoundEditorScreen
     }
     .preferredColorScheme(.dark)
