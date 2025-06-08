@@ -209,6 +209,7 @@ struct RoundEditorScreen: View {
                 .disabled(!showTargetView)
             }
         }
+        .toolbar(.hidden, for: .tabBar) // Explicitly hide tab bar
         .animation(.easeInOut, value: showTargetView)
     }
 }

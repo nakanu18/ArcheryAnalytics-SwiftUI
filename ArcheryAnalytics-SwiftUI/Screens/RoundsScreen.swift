@@ -67,8 +67,10 @@ struct RoundsScreen: View {
         .navigationTitle("Rounds")
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
-                Button("+") {
+                Button {
                     showNewRoundSheet = true
+                } label: {
+                    Image(systemName: "plus.circle")
                 }
                 .padding(.trailing, 16)
             }
