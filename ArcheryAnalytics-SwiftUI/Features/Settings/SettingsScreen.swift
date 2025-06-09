@@ -21,7 +21,14 @@ struct SettingsScreen: View {
 
     private func loadData(jsonFileName: String, fromBundle: Bool) {
         storeModel.loadData(jsonFileName: jsonFileName, fromBundle: fromBundle)
-        navManager.selectedTab = .rounds
+    }
+    
+    private func saveDataToMainFile(showMessage: Bool) {
+        storeModel.saveData(newFileName: StoreModel.mainFileName) {
+            alertManager.showToast(message: showMessage ? $0 : "", spinner: true)
+        } onFail: {
+            alertManager.showToast(message: showMessage ? $0 : "", spinner: true)
+        }
     }
         
     var body: some View {
@@ -35,18 +42,29 @@ struct SettingsScreen: View {
                         newData(jsonFileName: StoreModel.mainFileName)
                     })
                 }
-                FileCell(title: "Load \(StoreModel.mainFileName)", enabled: storeModel.doesFileExist(fileName: StoreModel.mainFileName)) {
-                    loadData(jsonFileName: StoreModel.mainFileName, fromBundle: false)
-                }
             }
 
             #if DEBUG
             Section("Bundle Data") {
                 FileCell(title: "Load Backup", enabled: true) {
-                    loadData(jsonFileName: "Backup", fromBundle: true)
+                    alertManager.showConfirmation(confirmationTitle: "Are you sure?",
+                                                  confirmMessage: "Overwrite Existing Data",
+                                                  cancelMessage: "Cancel",
+                                                  onConfirmTap: {
+                        loadData(jsonFileName: "Backup", fromBundle: true)
+                        saveDataToMainFile(showMessage: true)
+                        navManager.selectedTab = .rounds
+                    })
                 }
                 FileCell(title: "Load Sample", enabled: true) {
-                    loadData(jsonFileName: "Sample", fromBundle: true)
+                    alertManager.showConfirmation(confirmationTitle: "Are you sure?",
+                                                  confirmMessage: "Overwrite Existing Data",
+                                                  cancelMessage: "Cancel",
+                                                  onConfirmTap: {
+                        loadData(jsonFileName: "Sample", fromBundle: true)
+                        saveDataToMainFile(showMessage: true)
+                        navManager.selectedTab = .rounds
+                    })
                 }
             }
             #endif
