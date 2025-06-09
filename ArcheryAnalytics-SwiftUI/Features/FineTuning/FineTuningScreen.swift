@@ -8,6 +8,11 @@
 import SwiftUI
 
 struct FineTuningScreen: View {
+    @EnvironmentObject private var storeModel: StoreModel
+    @EnvironmentObject private var navManager: NavManager
+    @EnvironmentObject private var alertManager: AlertManager
+    @State private var showNewRoundSheet = false
+
     var body: some View {
         List {
             Section("Info") {
@@ -29,7 +34,17 @@ struct FineTuningScreen: View {
                 .padding(.trailing, 16)
             }
         }
-        
+        .sheet(isPresented: $showNewRoundSheet) {
+            VStack(spacing: 20) {
+                Button("Tuning") {
+                    let newRound = storeModel.createNewRound(roundType: .vegasRound)
+                    navManager.push(route: .roundEditor(round: newRound))
+                    showNewRoundSheet = false
+                }
+            }
+            .presentationDetents([.fraction(0.3), .medium, .large])
+            .presentationDragIndicator(.visible)
+        }
     }
 }
 

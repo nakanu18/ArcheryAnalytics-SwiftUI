@@ -64,30 +64,27 @@ struct RoundsScreen: View {
                 .padding(.trailing, 16)
             }
         }
-        .sheet(
-            isPresented: $showNewRoundSheet,
-            content: {
-                VStack(spacing: 20) {
-                    Button("WA 18m Round - 300") {
-                        let newRound = storeModel.createNewRound(roundType: .vegasRound)
-                        navManager.push(route: .roundEditor(round: newRound))
-                        showNewRoundSheet = false
-                    }
-                    Button("WA 50m Round - 360") {
-                        let newRound = storeModel.createNewRound(roundType: .outdoorRound(distance: 50))
-                        navManager.push(route: .roundEditor(round: newRound))
-                        showNewRoundSheet = false
-                    }
-                    Button("Field Round - 360") {
-                        let newRound = storeModel.createNewRound(roundType: .fieldRoundFlat)
-                        navManager.push(route: .roundEditor(round: newRound))
-                        showNewRoundSheet = false
-                    }
+        .sheet(isPresented: $showNewRoundSheet) {
+            VStack(spacing: 20) {
+                Button("WA 18m Round - 300") {
+                    let newRound = storeModel.createNewRound(roundType: .vegasRound)
+                    navManager.push(route: .roundEditor(round: newRound))
+                    showNewRoundSheet = false
                 }
-                .presentationDetents([.fraction(0.3), .medium, .large])
-                .presentationDragIndicator(.visible)
+                Button("WA 50m Round - 360") {
+                    let newRound = storeModel.createNewRound(roundType: .outdoorRound(distance: 50))
+                    navManager.push(route: .roundEditor(round: newRound))
+                    showNewRoundSheet = false
+                }
+                Button("Field Round - 360") {
+                    let newRound = storeModel.createNewRound(roundType: .fieldRoundFlat)
+                    navManager.push(route: .roundEditor(round: newRound))
+                    showNewRoundSheet = false
+                }
             }
-        )
+            .presentationDetents([.fraction(0.3), .medium, .large])
+            .presentationDragIndicator(.visible)
+        }
     }
 }
 
