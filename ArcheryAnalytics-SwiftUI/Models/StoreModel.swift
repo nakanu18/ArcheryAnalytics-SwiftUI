@@ -9,7 +9,7 @@ import Foundation
 
 class StoreModel: ObservableObject, Codable {
     enum CodingKeys: String, CodingKey {
-        case version, saveDate, fileName, rounds
+        case version, saveDate, fileName, rounds, fineTuningRounds
     }
 
     // TODO: change to private(set)
@@ -17,6 +17,7 @@ class StoreModel: ObservableObject, Codable {
     @Published var saveDate = Date()
     @Published var fileName = mainFileName
     @Published var rounds: [Round] = []
+    @Published var fineTuningRounds: [Round] = []
     
     static var mainFileName: String {
         return "Main"
@@ -52,18 +53,17 @@ class StoreModel: ObservableObject, Codable {
     
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        let dateString = try container.decode(String.self, forKey: .saveDate)
 
-        version = try container.decodeIfPresent(Int.self, forKey: .version) ?? 1
-        
+        let dateString = try container.decodeIfPresent(String.self, forKey: .saveDate) ?? StoreModel.dateFormatter.string(from: Date())
         if let date = StoreModel.dateFormatter.date(from: dateString) {
             saveDate = date
         } else {
             throw DecodingError.dataCorruptedError(forKey: .saveDate, in: container, debugDescription: "Date string does not match expected format")
         }
-
-        fileName = try container.decode(String.self, forKey: .fileName)
-        rounds = try container.decode([Round].self, forKey: .rounds)
+        version = try container.decodeIfPresent(Int.self, forKey: .version) ?? 1
+        fileName = try container.decodeIfPresent(String.self, forKey: .fileName) ?? "Unknown"
+        rounds = try container.decodeIfPresent([Round].self, forKey: .rounds) ?? []
+        fineTuningRounds = try container.decodeIfPresent([Round].self, forKey: .fineTuningRounds) ?? []
     }
 
     func encode(to encoder: Encoder) throws {
@@ -168,30 +168,8 @@ class StoreModel: ObservableObject, Codable {
 
     func createNewRound(roundType: RoundType) -> Round {
         var newRound = Round()
-
-        switch roundType {
-            case .vegasRound:
-                newRound.name = roundType.name
-                newRound.stages.append(Stage(targetFaceType: .gold, targetSize: 40, arrowSize: 0.5, distance: 18, numberOfEnds: 10, numberOfArrowsPerEnd: 3))
-            case .outdoorRound(let distance):
-                newRound.name = roundType.name
-                newRound.stages.append(Stage(targetFaceType: .gold, targetSize: 122, arrowSize: 0.5, distance: distance, numberOfEnds: 6, numberOfArrowsPerEnd: 6))
-            case .fieldRoundFlat:
-                newRound.name = roundType.name
-                newRound.stages.append(Stage(targetFaceType: .fitaField, targetSize: 60, arrowSize: 0.5, distance: 25, numberOfEnds: 1, numberOfArrowsPerEnd: 4, xPlusOne: true))
-                newRound.stages.append(Stage(targetFaceType: .fitaField, targetSize: 60, arrowSize: 0.5, distance: 30, numberOfEnds: 1, numberOfArrowsPerEnd: 4, xPlusOne: true))
-                newRound.stages.append(Stage(targetFaceType: .fitaField, targetSize: 60, arrowSize: 0.5, distance: 35, numberOfEnds: 1, numberOfArrowsPerEnd: 4, xPlusOne: true))
-
-                newRound.stages.append(Stage(targetFaceType: .fitaField, targetSize: 80, arrowSize: 0.5, distance: 40, numberOfEnds: 1, numberOfArrowsPerEnd: 4, xPlusOne: true))
-                newRound.stages.append(Stage(targetFaceType: .fitaField, targetSize: 80, arrowSize: 0.5, distance: 45, numberOfEnds: 1, numberOfArrowsPerEnd: 4, xPlusOne: true))
-                newRound.stages.append(Stage(targetFaceType: .fitaField, targetSize: 80, arrowSize: 0.5, distance: 50, numberOfEnds: 1, numberOfArrowsPerEnd: 4, xPlusOne: true))
-
-                newRound.stages.append(Stage(targetFaceType: .fitaField, targetSize: 20, arrowSize: 0.5, distance:  5, numberOfEnds: 1, numberOfArrowsPerEnd: 3, xPlusOne: true))
-                newRound.stages.append(Stage(targetFaceType: .fitaField, targetSize: 20, arrowSize: 0.5, distance: 10, numberOfEnds: 1, numberOfArrowsPerEnd: 3, xPlusOne: true))
-
-                newRound.stages.append(Stage(targetFaceType: .fitaField, targetSize: 40, arrowSize: 0.5, distance: 15, numberOfEnds: 1, numberOfArrowsPerEnd: 3, xPlusOne: true))
-                newRound.stages.append(Stage(targetFaceType: .fitaField, targetSize: 40, arrowSize: 0.5, distance: 20, numberOfEnds: 1, numberOfArrowsPerEnd: 3, xPlusOne: true))
-        }
+        newRound.name = roundType.name
+        newRound.stages = roundType.stages
 
         print("- StoreModel: createNewRound: \(newRound.name)")
         rounds.insert(newRound, at: 0)

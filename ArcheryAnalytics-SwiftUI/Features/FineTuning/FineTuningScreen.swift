@@ -16,11 +16,18 @@ struct FineTuningScreen: View {
     var body: some View {
         List {
             Section("Info") {
-                
+                KeyValueCell(key: "Number of Tests", value: "\(storeModel.fineTuningRounds.count)")
             }
             
             Section("Tests") {
-                
+                ForEach(storeModel.fineTuningRounds) { round in
+                    RoundCell(round: round) {
+                        
+                    }
+                }
+                .onDelete { offsets in
+                    storeModel.fineTuningRounds.remove(atOffsets: offsets)
+                }
             }
         }
         .navigationTitle("Fine Tuning")
@@ -36,8 +43,8 @@ struct FineTuningScreen: View {
         }
         .sheet(isPresented: $showNewRoundSheet) {
             VStack(spacing: 20) {
-                Button("Tuning") {
-                    let newRound = storeModel.createNewRound(roundType: .vegasRound)
+                Button("Fine Tuning 50m") {
+                    let newRound = storeModel.createNewRound(roundType: .fineTuning(distance: 50))
                     navManager.push(route: .roundEditor(round: newRound))
                     showNewRoundSheet = false
                 }

@@ -12,16 +12,47 @@ enum RoundType {
     case vegasRound
     case outdoorRound(distance: Int)
     case fieldRoundFlat
+    case fineTuning(distance: Int)
     
     var name: String {
         switch self {
-            case .vegasRound:
-                return "Vegas"
-            case .outdoorRound(distance: let distance):
-                return "Outdoors \(distance)m"
-            case .fieldRoundFlat:
-                return "Field (Flat)"
+        case .vegasRound:
+            return "Vegas"
+        case .outdoorRound(distance: let distance):
+            return "Outdoors \(distance)m"
+        case .fieldRoundFlat:
+            return "Field (Flat)"
+        case .fineTuning(distance: let distance):
+            return "Fine Tuning \(distance)m"
         }
+    }
+    
+    var stages: [Stage] {
+        var stages: [Stage] = []
+        
+        switch self {
+        case .vegasRound:
+            stages.append(Stage(targetFaceType: .gold, targetSize: 40, arrowSize: 0.5, distance: 18, numberOfEnds: 10, numberOfArrowsPerEnd: 3))
+        case .outdoorRound(let distance):
+            stages.append(Stage(targetFaceType: .gold, targetSize: 122, arrowSize: 0.5, distance: distance, numberOfEnds: 6, numberOfArrowsPerEnd: 6))
+        case .fieldRoundFlat:
+            stages.append(Stage(targetFaceType: .fitaField, targetSize: 60, arrowSize: 0.5, distance: 25, numberOfEnds: 1, numberOfArrowsPerEnd: 4, xPlusOne: true))
+            stages.append(Stage(targetFaceType: .fitaField, targetSize: 60, arrowSize: 0.5, distance: 30, numberOfEnds: 1, numberOfArrowsPerEnd: 4, xPlusOne: true))
+            stages.append(Stage(targetFaceType: .fitaField, targetSize: 60, arrowSize: 0.5, distance: 35, numberOfEnds: 1, numberOfArrowsPerEnd: 4, xPlusOne: true))
+
+            stages.append(Stage(targetFaceType: .fitaField, targetSize: 80, arrowSize: 0.5, distance: 40, numberOfEnds: 1, numberOfArrowsPerEnd: 4, xPlusOne: true))
+            stages.append(Stage(targetFaceType: .fitaField, targetSize: 80, arrowSize: 0.5, distance: 45, numberOfEnds: 1, numberOfArrowsPerEnd: 4, xPlusOne: true))
+            stages.append(Stage(targetFaceType: .fitaField, targetSize: 80, arrowSize: 0.5, distance: 50, numberOfEnds: 1, numberOfArrowsPerEnd: 4, xPlusOne: true))
+
+            stages.append(Stage(targetFaceType: .fitaField, targetSize: 20, arrowSize: 0.5, distance:  5, numberOfEnds: 1, numberOfArrowsPerEnd: 3, xPlusOne: true))
+            stages.append(Stage(targetFaceType: .fitaField, targetSize: 20, arrowSize: 0.5, distance: 10, numberOfEnds: 1, numberOfArrowsPerEnd: 3, xPlusOne: true))
+
+            stages.append(Stage(targetFaceType: .fitaField, targetSize: 40, arrowSize: 0.5, distance: 15, numberOfEnds: 1, numberOfArrowsPerEnd: 3, xPlusOne: true))
+            stages.append(Stage(targetFaceType: .fitaField, targetSize: 40, arrowSize: 0.5, distance: 20, numberOfEnds: 1, numberOfArrowsPerEnd: 3, xPlusOne: true))
+        case .fineTuning(let distance):
+            stages.append(Stage(targetFaceType: .gold, targetSize: 122, arrowSize: 0.5, distance: distance, numberOfEnds: 6, numberOfArrowsPerEnd: 6))
+        }
+        return stages
     }
 }
 
