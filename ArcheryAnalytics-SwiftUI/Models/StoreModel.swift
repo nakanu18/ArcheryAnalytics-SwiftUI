@@ -82,7 +82,6 @@ class StoreModel: ObservableObject, Codable {
 
     func loadData(jsonFileName: String, fromBundle: Bool) {
         let decoder = JSONDecoder()
-
         let loadingSource = fromBundle ? "Xcode" : "Documents"
 
         do {
@@ -162,9 +161,9 @@ class StoreModel: ObservableObject, Codable {
     //
 
     func resetData(jsonFileName: String) {
+        print("- StoreModel: resetData")
         fileName = jsonFileName
         rounds = []
-        print("- StoreModel: resetData")
     }
 
     func createNewRound(roundType: RoundType) -> Round {
@@ -194,8 +193,8 @@ class StoreModel: ObservableObject, Codable {
                 newRound.stages.append(Stage(targetFaceType: .fitaField, targetSize: 40, arrowSize: 0.5, distance: 20, numberOfEnds: 1, numberOfArrowsPerEnd: 3, xPlusOne: true))
         }
 
-        rounds.insert(newRound, at: 0)
         print("- StoreModel: createNewRound: \(newRound.name)")
+        rounds.insert(newRound, at: 0)
         return newRound
     }
 

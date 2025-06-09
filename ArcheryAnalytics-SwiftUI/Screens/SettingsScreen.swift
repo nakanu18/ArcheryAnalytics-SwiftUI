@@ -42,6 +42,9 @@ struct SettingsScreen: View {
 
             #if DEBUG
             Section("Bundle Data") {
+                FileCell(title: "Load Backup", enabled: true) {
+                    loadData(jsonFileName: "Backup", fromBundle: true)
+                }
                 FileCell(title: "Load Sample", enabled: true) {
                     loadData(jsonFileName: "Sample", fromBundle: true)
                 }

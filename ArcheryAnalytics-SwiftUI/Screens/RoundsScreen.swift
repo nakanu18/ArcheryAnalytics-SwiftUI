@@ -12,7 +12,6 @@ struct RoundsScreen: View {
     @EnvironmentObject private var navManager: NavManager
     @EnvironmentObject private var alertManager: AlertManager
     @State private var showNewRoundSheet = false
-    @State private var hasAppearedOnce = false
 
     private func saveDataToMainFile(showMessage: Bool) {
         storeModel.saveData(newFileName: StoreModel.mainFileName) {
@@ -53,15 +52,6 @@ struct RoundsScreen: View {
                 .onDelete { offsets in
                     storeModel.rounds.remove(atOffsets: offsets)
                 }
-            }
-        }
-        .onAppear() {
-            if hasAppearedOnce && storeModel.fileName == StoreModel.mainFileName {
-                saveDataToMainFile(showMessage: false)
-            }
-            
-            if !hasAppearedOnce {
-                hasAppearedOnce = true
             }
         }
         .navigationTitle("Rounds")
