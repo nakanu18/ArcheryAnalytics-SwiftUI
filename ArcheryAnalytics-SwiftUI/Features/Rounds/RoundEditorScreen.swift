@@ -197,7 +197,7 @@ struct RoundEditorScreen: View {
         }
         .onDisappear {
             storeModel.updateRound(round: round)
-            storeModel.saveData(newFileName: StoreModel.mainFileName) { _ in 
+            storeModel.saveData(newFileName: StoreModel.mainFileName) { _ in
                 alertManager.showToast(message: "", spinner: true)
             } onFail: { _ in
                 alertManager.showToast(message: "", spinner: true)

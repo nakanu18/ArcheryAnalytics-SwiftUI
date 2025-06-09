@@ -24,7 +24,7 @@ struct MainTabsScreen: View {
             .tag(Tab.rounds)
 
             NavigationStack(path: $navManager.fineTuningPath) {
-                Text("Coming Soon - Fine Tuning")
+                FineTuningScreen()
                     .navigationDestination(for: Route.self) { route in
                         navManager.destination(route: route)
                     }

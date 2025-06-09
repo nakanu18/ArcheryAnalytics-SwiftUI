@@ -25,7 +25,6 @@ struct RoundsScreen: View {
         List {
             Section("Info") {
                 KeyValueCell(key: "File Name", value: "\(storeModel.fileName)")
-                KeyValueCell(key: "Total Rounds", value: "\(storeModel.rounds.count)")
                 #if DEBUG
                 ButtonCell(title: "Print Data") {
                     storeModel.printData()
