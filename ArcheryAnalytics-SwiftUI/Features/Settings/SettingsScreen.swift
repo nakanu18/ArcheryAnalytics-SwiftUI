@@ -44,7 +44,7 @@ struct SettingsScreen: View {
                 }
             }
 
-            #if DEBUG
+#if DEBUG
             Section("Bundle Data") {
                 FileCell(title: "Load Backup", enabled: true) {
                     alertManager.showConfirmation(confirmationTitle: "Are you sure?",
@@ -67,7 +67,8 @@ struct SettingsScreen: View {
                     })
                 }
             }
-            #endif
+            .foregroundColor(.orange)
+#endif
         }
         .navigationTitle("Menu")
         .onAppear {

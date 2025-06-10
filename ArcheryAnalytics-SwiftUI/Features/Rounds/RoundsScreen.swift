@@ -25,11 +25,6 @@ struct RoundsScreen: View {
         List {
             Section("Info") {
                 KeyValueCell(key: "File Name", value: "\(storeModel.fileName)")
-                #if DEBUG
-                ButtonCell(title: "Print Data") {
-                    storeModel.printData()
-                }
-                #endif
                 if storeModel.fileName != StoreModel.mainFileName {
                     ButtonCell(title: "Overwrite to \(StoreModel.mainFileName) file") {
                         alertManager.showConfirmation(confirmationTitle: "Are you sure?",
@@ -55,6 +50,17 @@ struct RoundsScreen: View {
         }
         .navigationTitle("Rounds")
         .toolbar {
+#if DEBUG
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    storeModel.printData()
+                } label: {
+                    Image(systemName: "printer")
+                }
+                .padding(.trailing, 16)
+                .foregroundColor(.orange)
+            }
+#endif
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
                     showNewRoundSheet = true

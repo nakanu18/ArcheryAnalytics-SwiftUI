@@ -135,6 +135,16 @@
 			path = Settings;
 			sourceTree = "<group>";
 		};
+		B6E3D9572DF8B9730015F54C /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				B6B764632DF3EE72002F51CB /* ButtonCell.swift */,
+				B6B764612DF3E65D002F51CB /* KeyValueCell.swift */,
+				B6B7645D2DF0AB56002F51CB /* ListCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
 		FA2A81802CE7DA08008A4C08 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
@@ -199,10 +209,8 @@
 		FAEC07E72B142EEC00841E80 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				B6B764632DF3EE72002F51CB /* ButtonCell.swift */,
+				B6E3D9572DF8B9730015F54C /* Cells */,
 				B6B764552DE7B870002F51CB /* ConfirmationView.swift */,
-				B6B764612DF3E65D002F51CB /* KeyValueCell.swift */,
-				B6B7645D2DF0AB56002F51CB /* ListCell.swift */,
 				FAFF4FA82B146D8D00FB1D33 /* TargetDetectorView.swift */,
 				B64CCDAF2DD9BBED00C71919 /* ToastView.swift */,
 				B6B764652DF4830F002F51CB /* PrimaryButton.swift */,

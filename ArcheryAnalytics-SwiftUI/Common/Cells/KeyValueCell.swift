@@ -26,6 +26,10 @@ struct KeyValueCell: View {
 }
 
 #Preview {
-    KeyValueCell(key: "Key", value: "Value")
-        .background(Color.secondary)
+    List {
+        Section("Section") {
+            KeyValueCell(key: "Key", value: "Value")
+        }
+    }
+    .preferredColorScheme(.dark)
 }

@@ -23,12 +23,17 @@ struct ListCell<Content: View>: View {
 }
 
 #Preview {
-    ListCell(onTap: {
-        print("tapped")
-    }) {
-        Text("hi")
+    List {
+        Section("Section")
+        {
+            ListCell(onTap: {
+                print("tapped")
+            }) {
+                Text("hi")
+            }
+        }
     }
-    .background(Color.secondary)
+    .preferredColorScheme(.dark)
 }
 
 struct ListCellStyle: ButtonStyle {

@@ -25,7 +25,11 @@ struct ButtonCell: View {
 }
 
 #Preview {
-    ButtonCell(title: "Title") {
+    List {
+        Section("Section") {
+            ButtonCell(title: "Title") {
+            }
+        }
     }
-    .background(Color.black)
+    .preferredColorScheme(.dark)
 }
