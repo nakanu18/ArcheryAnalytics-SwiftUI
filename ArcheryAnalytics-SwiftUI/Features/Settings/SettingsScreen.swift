@@ -67,7 +67,7 @@ struct SettingsScreen: View {
                     })
                 }
             }
-            .foregroundColor(.orange)
+            .foregroundColor(.dvDebug)
 #endif
         }
         .navigationTitle("Menu")

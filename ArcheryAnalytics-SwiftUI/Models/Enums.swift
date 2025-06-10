@@ -81,11 +81,11 @@ enum TargetFaceType: String, Codable {
         // green ring is for misses
         switch self {
         case .gold:
-            colors = [.darkGreen, .white, .white, .black, .black, .blue, .blue, .red, .red, .yellow, .yellow]
+            colors = [.dvGreen, .white, .white, .black, .black, .blue, .blue, .red, .red, .yellow, .yellow]
         case .blue:
-            colors = [.darkGreen, .blue, .blue, .blue, .blue, .white]
+            colors = [.dvGreen, .blue, .blue, .blue, .blue, .white]
         case .fitaField:
-            colors = [.darkGreen, .customTeal, .customTeal, .customTeal, .customTeal, .yellow]
+            colors = [.dvGreen, .dvTeal, .dvTeal, .dvTeal, .dvTeal, .yellow]
         }
         return colors[value.clamped(to: 0...colors.count - 1)]
     }

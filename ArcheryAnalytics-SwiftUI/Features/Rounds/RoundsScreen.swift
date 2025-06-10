@@ -58,7 +58,7 @@ struct RoundsScreen: View {
                     Image(systemName: "printer")
                 }
                 .padding(.trailing, 16)
-                .foregroundColor(.orange)
+                .foregroundColor(.dvDebug)
             }
 #endif
             ToolbarItem(placement: .topBarTrailing) {
