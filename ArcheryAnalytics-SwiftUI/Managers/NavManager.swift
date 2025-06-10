@@ -32,7 +32,7 @@ class NavManager: ObservableObject {
 
     var currentPath: NavigationPath {
         switch selectedTab {
-            case .rounds:
+        case .rounds:
             return roundsPath
         case .fineTuning:
             return fineTuningPath
