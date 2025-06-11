@@ -33,7 +33,6 @@ struct RoundEditorScreen: View {
     }
     
     private func onEndSelect(stageIndex: Int, endIndex: Int) {
-        showTargetView = true
         selectedStageIndex = stageIndex
         selectedEndIndex = endIndex
         resetGroupAnalyzer()
@@ -99,7 +98,6 @@ struct RoundEditorScreen: View {
             if !round.isFinished {
                 selectedEndIndex = round.stages[0].firstUnfinishedEndID
                 isLocked = false
-                showTargetView = true
             }
             resetGroupAnalyzer()
         }
@@ -111,14 +109,24 @@ struct RoundEditorScreen: View {
                 alertManager.showToast(message: "", spinner: true)
             }
         }
+        .onChange(of: selectedEndIndex) { oldValue, newValue in
+            if selectedEndIndex >= 0 {
+                DispatchQueue.main.async {
+                    showTargetView = true
+                }
+            }
+        }
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
-                Button("Target View") {
+                Button {
                     showTargetView = !showTargetView
                     if !showTargetView {
                         selectedEndIndex = -1
                     }
+                } label: {
+                    Image(systemName: "target")
                 }
+                .padding(.trailing, 16)
                 .disabled(!showTargetView)
             }
         }

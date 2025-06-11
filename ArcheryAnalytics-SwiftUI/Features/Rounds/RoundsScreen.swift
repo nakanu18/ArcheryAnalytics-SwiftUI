@@ -57,7 +57,6 @@ struct RoundsScreen: View {
                 } label: {
                     Image(systemName: "printer")
                 }
-                .padding(.trailing, 16)
                 .foregroundColor(.dvDebug)
             }
 #endif
