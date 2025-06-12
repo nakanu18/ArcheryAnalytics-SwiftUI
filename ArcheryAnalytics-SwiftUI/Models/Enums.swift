@@ -50,7 +50,8 @@ enum RoundType {
             stages.append(Stage(targetFaceType: .fitaField, targetSize: 40, arrowSize: 0.5, distance: 15, numberOfEnds: 1, numberOfArrowsPerEnd: 3, xPlusOne: true))
             stages.append(Stage(targetFaceType: .fitaField, targetSize: 40, arrowSize: 0.5, distance: 20, numberOfEnds: 1, numberOfArrowsPerEnd: 3, xPlusOne: true))
         case .fineTuning(let distance):
-            stages.append(Stage(targetFaceType: .gold, targetSize: 122, arrowSize: 0.5, distance: distance, numberOfEnds: 6, numberOfArrowsPerEnd: 6))
+            stages.append(Stage(targetFaceType: .gold, targetSize: 122, arrowSize: 0.5, distance: distance, numberOfEnds: 2, numberOfArrowsPerEnd: 6))
+            stages.append(Stage(targetFaceType: .gold, targetSize: 122, arrowSize: 0.5, distance: distance, numberOfEnds: 2, numberOfArrowsPerEnd: 6))
         }
         return stages
     }

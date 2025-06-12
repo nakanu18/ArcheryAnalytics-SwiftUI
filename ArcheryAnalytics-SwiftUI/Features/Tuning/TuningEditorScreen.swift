@@ -1,13 +1,13 @@
 //
-//  RoundEditorScreen.swift
+//  TuningEditorScreen.swift
 //  ArcheryAnalytics-SwiftUI
 //
-//  Created by Alex de Vera on 11/26/23.
+//  Created by Alex de Vera on 6/11/25.
 //
 
 import SwiftUI
 
-struct RoundEditorScreen: View {
+struct TuningEditorScreen: View {
     @EnvironmentObject private var storeModel: StoreModel
     @EnvironmentObject private var alertManager: AlertManager
     @State var round: Round
@@ -103,7 +103,7 @@ struct RoundEditorScreen: View {
             resetGroupAnalyzer()
         }
         .onDisappear {
-            storeModel.updateRound(round: round)
+            storeModel.updateTuningRound(round: round)
             storeModel.saveData(newFileName: StoreModel.mainFileName) { _ in
                 alertManager.showToast(message: "", spinner: true)
             } onFail: { _ in
@@ -117,7 +117,7 @@ struct RoundEditorScreen: View {
                 }
             }
         }
-        .navigationTitle("Round Editor")
+        .navigationTitle("Tuning Editor")
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
@@ -134,15 +134,14 @@ struct RoundEditorScreen: View {
         }
         .toolbar(.hidden, for: .tabBar) // Explicitly hide tab bar
         .animation(.easeInOut, value: showTargetView)
-    }
-}
+    }}
 
 #Preview {
     let storeModel = StoreModel.mockEmpty
     @ObservedObject var navManager = NavManager()
 
     return NavigationStack(path: $navManager.roundsPath) {
-        RoundEditorScreen(round: storeModel.rounds[0])
+        TuningEditorScreen(round: storeModel.rounds[0])
     }
     .preferredColorScheme(.dark)
     .environmentObject(storeModel)

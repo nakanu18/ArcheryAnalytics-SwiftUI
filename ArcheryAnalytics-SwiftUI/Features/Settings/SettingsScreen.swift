@@ -70,7 +70,7 @@ struct SettingsScreen: View {
             .foregroundColor(.dvDebug)
 #endif
         }
-        .navigationTitle("Menu")
+        .navigationTitle("Settings")
         .onAppear {
 //            dummyRefresh.toggle()
         }

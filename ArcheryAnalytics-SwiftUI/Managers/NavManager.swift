@@ -9,11 +9,14 @@ import SwiftUI
 
 enum Route: Codable, Hashable {
     case roundEditor(round: Round)
+    case tuningEditor(round: Round)
     
     var description: String {
         switch self {
         case .roundEditor(let round):
             return "RoundEditor: \(round.id)"
+        case .tuningEditor(let round):
+            return "TuningEditor: \(round.id)"
         }
     }
 }
@@ -88,6 +91,8 @@ class NavManager: ObservableObject {
         switch route {
         case .roundEditor(let round):
             RoundEditorScreen(round: round)
+        case .tuningEditor(let round):
+            TuningEditorScreen(round: round)
         }
     }
 }

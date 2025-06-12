@@ -22,7 +22,7 @@ struct TuningScreen: View {
             Section("Tests") {
                 ForEach(storeModel.tuningRounds) { round in
                     RoundCell(round: round) {
-                        
+                        navManager.push(route: .tuningEditor(round: round))
                     }
                 }
                 .onDelete { offsets in
@@ -44,7 +44,7 @@ struct TuningScreen: View {
         .sheet(isPresented: $showNewRoundSheet) {
             VStack(spacing: 20) {
                 Button("Fine Tuning 50m") {
-                    let newRound = storeModel.createNewRound(roundType: .fineTuning(distance: 50))
+                    let newRound = storeModel.createNewTuningRound(roundType: .fineTuning(distance: 50))
                     navManager.push(route: .roundEditor(round: newRound))
                     showNewRoundSheet = false
                 }

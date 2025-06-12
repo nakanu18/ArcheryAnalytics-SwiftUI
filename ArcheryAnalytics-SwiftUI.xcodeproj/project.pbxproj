@@ -26,6 +26,7 @@
 		B6E3D9522DF7E0D10015F54C /* EndCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E3D9512DF7E0D10015F54C /* EndCell.swift */; };
 		B6E3D9542DF7E0E10015F54C /* TotalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E3D9532DF7E0E10015F54C /* TotalCell.swift */; };
 		B6E3D9562DF7E3310015F54C /* TargetControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E3D9552DF7E3310015F54C /* TargetControlView.swift */; };
+		B6EA65832DFA82D8005393AA /* TuningEditorScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6EA65822DFA82D8005393AA /* TuningEditorScreen.swift */; };
 		FA2A81822CE7DA2E008A4C08 /* NavManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2A81812CE7DA2E008A4C08 /* NavManager.swift */; };
 		FA78F25E2C361D5300A4ABA5 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA78F25D2C361D5300A4ABA5 /* Models.swift */; };
 		FAA521B12B369C6B00B52E95 /* SettingsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA521B02B369C6B00B52E95 /* SettingsScreen.swift */; };
@@ -61,6 +62,7 @@
 		B6E3D9512DF7E0D10015F54C /* EndCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndCell.swift; sourceTree = "<group>"; };
 		B6E3D9532DF7E0E10015F54C /* TotalCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalCell.swift; sourceTree = "<group>"; };
 		B6E3D9552DF7E3310015F54C /* TargetControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetControlView.swift; sourceTree = "<group>"; };
+		B6EA65822DFA82D8005393AA /* TuningEditorScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TuningEditorScreen.swift; sourceTree = "<group>"; };
 		FA2A81812CE7DA2E008A4C08 /* NavManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavManager.swift; sourceTree = "<group>"; };
 		FA78F25D2C361D5300A4ABA5 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		FAA521B02B369C6B00B52E95 /* SettingsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsScreen.swift; sourceTree = "<group>"; };
@@ -124,6 +126,7 @@
 			isa = PBXGroup;
 			children = (
 				B6CEA8542DF678E8007ABEFD /* TuningScreen.swift */,
+				B6EA65822DFA82D8005393AA /* TuningEditorScreen.swift */,
 			);
 			path = Tuning;
 			sourceTree = "<group>";
@@ -330,6 +333,7 @@
 				B69BD7362DF5444F00A80F3C /* MainTabsScreen.swift in Sources */,
 				B6B764622DF3E65D002F51CB /* KeyValueCell.swift in Sources */,
 				B6B7645A2DE96375002F51CB /* StyleGuide.swift in Sources */,
+				B6EA65832DFA82D8005393AA /* TuningEditorScreen.swift in Sources */,
 				FA78F25E2C361D5300A4ABA5 /* Models.swift in Sources */,
 				FACB2AD42B3D178F0085B1FF /* DateFormatter+Extension.swift in Sources */,
 				B63B8B832DE43AFA0071A658 /* CGFloat+Extension.swift in Sources */,
