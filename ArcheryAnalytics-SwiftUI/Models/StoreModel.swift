@@ -9,7 +9,7 @@ import Foundation
 
 class StoreModel: ObservableObject, Codable {
     enum CodingKeys: String, CodingKey {
-        case version, saveDate, fileName, rounds, fineTuningRounds
+        case version, saveDate, fileName, rounds, tuningRounds
     }
 
     // TODO: change to private(set)
@@ -17,7 +17,7 @@ class StoreModel: ObservableObject, Codable {
     @Published var saveDate = Date()
     @Published var fileName = mainFileName
     @Published var rounds: [Round] = []
-    @Published var fineTuningRounds: [Round] = []
+    @Published var tuningRounds: [Round] = []
     
     static var mainFileName: String {
         return "Main"
@@ -63,7 +63,7 @@ class StoreModel: ObservableObject, Codable {
         version = try container.decodeIfPresent(Int.self, forKey: .version) ?? 1
         fileName = try container.decodeIfPresent(String.self, forKey: .fileName) ?? "Unknown"
         rounds = try container.decodeIfPresent([Round].self, forKey: .rounds) ?? []
-        fineTuningRounds = try container.decodeIfPresent([Round].self, forKey: .fineTuningRounds) ?? []
+        tuningRounds = try container.decodeIfPresent([Round].self, forKey: .tuningRounds) ?? []
     }
 
     func encode(to encoder: Encoder) throws {

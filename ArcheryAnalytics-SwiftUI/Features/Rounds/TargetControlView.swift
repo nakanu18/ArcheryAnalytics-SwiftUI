@@ -95,6 +95,5 @@ struct TargetControlView: View {
             renderTarget()
             renderButtons()
         }
-        .transition(.move(edge: .bottom))
     }
 }

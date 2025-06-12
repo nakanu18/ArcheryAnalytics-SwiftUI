@@ -23,16 +23,16 @@ struct MainTabsScreen: View {
             }
             .tag(Tab.rounds)
 
-            NavigationStack(path: $navManager.fineTuningPath) {
-                FineTuningScreen()
+            NavigationStack(path: $navManager.tuningPath) {
+                TuningScreen()
                     .navigationDestination(for: Route.self) { route in
                         navManager.destination(route: route)
                     }
             }
             .tabItem {
-                Label("Fine Tuning", systemImage: "tuningfork")
+                Label("Tuning", systemImage: "tuningfork")
             }
-            .tag(Tab.fineTuning)
+            .tag(Tab.tuning)
 
             NavigationStack(path: $navManager.settingsPath) {
                 SettingsScreen()

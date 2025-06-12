@@ -92,6 +92,7 @@ struct RoundEditorScreen: View {
                                   onArrowHoleScored: onArrowHoleScored,
                                   onRemoveLastArrow: onRemoveLastArrow,
                                   onNextEnd: onNextEnd)
+                    .transition(.move(edge: .bottom))
             }
         }
         .onAppear {

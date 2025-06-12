@@ -20,13 +20,13 @@ enum Route: Codable, Hashable {
 
 enum Tab: Hashable {
     case rounds
-    case fineTuning
+    case tuning
     case settings
 }
 
 class NavManager: ObservableObject {
     @Published var roundsPath = NavigationPath()
-    @Published var fineTuningPath = NavigationPath()
+    @Published var tuningPath = NavigationPath()
     @Published var settingsPath = NavigationPath()
     @Published var selectedTab: Tab = .rounds
 
@@ -34,8 +34,8 @@ class NavManager: ObservableObject {
         switch selectedTab {
         case .rounds:
             return roundsPath
-        case .fineTuning:
-            return fineTuningPath
+        case .tuning:
+            return tuningPath
         case .settings:
             return settingsPath
         }
@@ -46,8 +46,8 @@ class NavManager: ObservableObject {
         switch selectedTab {
         case .rounds:
             roundsPath.append(route)
-        case .fineTuning:
-            fineTuningPath.append(route)
+        case .tuning:
+            tuningPath.append(route)
         case .settings:
             settingsPath.append(route)
         }
@@ -60,9 +60,9 @@ class NavManager: ObservableObject {
             if !roundsPath.isEmpty {
                 roundsPath.removeLast()
             }
-        case .fineTuning:
-            if !fineTuningPath.isEmpty {
-                fineTuningPath.removeLast()
+        case .tuning:
+            if !tuningPath.isEmpty {
+                tuningPath.removeLast()
             }
         case .settings:
             if !settingsPath.isEmpty {
@@ -76,8 +76,8 @@ class NavManager: ObservableObject {
         switch selectedTab {
         case .rounds:
             roundsPath = NavigationPath()
-        case .fineTuning:
-            fineTuningPath = NavigationPath()
+        case .tuning:
+            tuningPath = NavigationPath()
         case .settings:
             settingsPath = NavigationPath()
         }

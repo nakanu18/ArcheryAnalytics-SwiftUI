@@ -22,7 +22,7 @@
 		B6B764642DF3EE72002F51CB /* ButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B764632DF3EE72002F51CB /* ButtonCell.swift */; };
 		B6B764662DF4830F002F51CB /* PrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B764652DF4830F002F51CB /* PrimaryButton.swift */; };
 		B6CEA8532DF66F7E007ABEFD /* Backup.json in Resources */ = {isa = PBXBuildFile; fileRef = B6CEA8522DF66F7E007ABEFD /* Backup.json */; };
-		B6CEA8552DF678E8007ABEFD /* FineTuningScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CEA8542DF678E8007ABEFD /* FineTuningScreen.swift */; };
+		B6CEA8552DF678E8007ABEFD /* TuningScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CEA8542DF678E8007ABEFD /* TuningScreen.swift */; };
 		B6E3D9522DF7E0D10015F54C /* EndCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E3D9512DF7E0D10015F54C /* EndCell.swift */; };
 		B6E3D9542DF7E0E10015F54C /* TotalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E3D9532DF7E0E10015F54C /* TotalCell.swift */; };
 		B6E3D9562DF7E3310015F54C /* TargetControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E3D9552DF7E3310015F54C /* TargetControlView.swift */; };
@@ -57,7 +57,7 @@
 		B6B764632DF3EE72002F51CB /* ButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonCell.swift; sourceTree = "<group>"; };
 		B6B764652DF4830F002F51CB /* PrimaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButton.swift; sourceTree = "<group>"; };
 		B6CEA8522DF66F7E007ABEFD /* Backup.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Backup.json; sourceTree = "<group>"; };
-		B6CEA8542DF678E8007ABEFD /* FineTuningScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FineTuningScreen.swift; sourceTree = "<group>"; };
+		B6CEA8542DF678E8007ABEFD /* TuningScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TuningScreen.swift; sourceTree = "<group>"; };
 		B6E3D9512DF7E0D10015F54C /* EndCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndCell.swift; sourceTree = "<group>"; };
 		B6E3D9532DF7E0E10015F54C /* TotalCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalCell.swift; sourceTree = "<group>"; };
 		B6E3D9552DF7E3310015F54C /* TargetControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetControlView.swift; sourceTree = "<group>"; };
@@ -102,7 +102,7 @@
 			children = (
 				B69BD7352DF5444F00A80F3C /* MainTabsScreen.swift */,
 				B6CEA8572DF67AE4007ABEFD /* Rounds */,
-				B6CEA8582DF67AEC007ABEFD /* FineTuning */,
+				B6CEA8582DF67AEC007ABEFD /* Tuning */,
 				B6CEA8592DF67AF5007ABEFD /* Settings */,
 			);
 			path = Features;
@@ -120,12 +120,12 @@
 			path = Rounds;
 			sourceTree = "<group>";
 		};
-		B6CEA8582DF67AEC007ABEFD /* FineTuning */ = {
+		B6CEA8582DF67AEC007ABEFD /* Tuning */ = {
 			isa = PBXGroup;
 			children = (
-				B6CEA8542DF678E8007ABEFD /* FineTuningScreen.swift */,
+				B6CEA8542DF678E8007ABEFD /* TuningScreen.swift */,
 			);
-			path = FineTuning;
+			path = Tuning;
 			sourceTree = "<group>";
 		};
 		B6CEA8592DF67AF5007ABEFD /* Settings */ = {
@@ -325,7 +325,7 @@
 				B64CCDB62DE0285300C71919 /* StoreModel+Versioning.swift in Sources */,
 				B6B764562DE7B870002F51CB /* ConfirmationView.swift in Sources */,
 				B6E3D9562DF7E3310015F54C /* TargetControlView.swift in Sources */,
-				B6CEA8552DF678E8007ABEFD /* FineTuningScreen.swift in Sources */,
+				B6CEA8552DF678E8007ABEFD /* TuningScreen.swift in Sources */,
 				B6B764602DF2A229002F51CB /* AlertManager.swift in Sources */,
 				B69BD7362DF5444F00A80F3C /* MainTabsScreen.swift in Sources */,
 				B6B764622DF3E65D002F51CB /* KeyValueCell.swift in Sources */,

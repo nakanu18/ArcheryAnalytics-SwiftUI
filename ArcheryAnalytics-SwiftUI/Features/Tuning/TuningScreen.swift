@@ -1,5 +1,5 @@
 //
-//  FineTuningScreen.swift
+//  TuningScreen.swift
 //  ArcheryAnalytics-SwiftUI
 //
 //  Created by Alex de Vera on 6/8/25.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct FineTuningScreen: View {
+struct TuningScreen: View {
     @EnvironmentObject private var storeModel: StoreModel
     @EnvironmentObject private var navManager: NavManager
     @EnvironmentObject private var alertManager: AlertManager
@@ -16,21 +16,21 @@ struct FineTuningScreen: View {
     var body: some View {
         List {
             Section("Info") {
-                KeyValueCell(key: "Number of Tests", value: "\(storeModel.fineTuningRounds.count)")
+                KeyValueCell(key: "Number of Tests", value: "\(storeModel.tuningRounds.count)")
             }
             
             Section("Tests") {
-                ForEach(storeModel.fineTuningRounds) { round in
+                ForEach(storeModel.tuningRounds) { round in
                     RoundCell(round: round) {
                         
                     }
                 }
                 .onDelete { offsets in
-                    storeModel.fineTuningRounds.remove(atOffsets: offsets)
+                    storeModel.tuningRounds.remove(atOffsets: offsets)
                 }
             }
         }
-        .navigationTitle("Fine Tuning")
+        .navigationTitle("Tuning")
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
@@ -60,8 +60,8 @@ struct FineTuningScreen: View {
     @ObservedObject var navManager = NavManager()
     @ObservedObject var alertManager = AlertManager()
 
-    return NavigationStack(path: $navManager.fineTuningPath) {
-        FineTuningScreen()
+    return NavigationStack(path: $navManager.tuningPath) {
+        TuningScreen()
     }
     .preferredColorScheme(.dark)
     .environmentObject(storeModel)
