@@ -97,6 +97,15 @@ struct Round: Identifiable, Codable, Equatable, Hashable {
         round.stages[0].arrowHoles.append(ArrowHole(point: CGPoint(x: -1.5736080782149695, y: -5.303263481456058), value: 8))
         return round
     }
+    
+    static var mockEmptyTuningRound: Round {
+        var round = Round();
+        round.name = "Mock Empty Tuning Round"
+        round.stages.append(Stage(targetFaceType: .gold, targetSize: 122, arrowSize: 0.25, distance: 50, numberOfEnds: 2, numberOfArrowsPerEnd: 6))
+        round.stages.append(Stage(targetFaceType: .gold, targetSize: 122, arrowSize: 0.25, distance: 50, numberOfEnds: 2, numberOfArrowsPerEnd: 6))
+
+        return round
+    }
 }
 
 // 0.540cm -> 0.214" - VAP

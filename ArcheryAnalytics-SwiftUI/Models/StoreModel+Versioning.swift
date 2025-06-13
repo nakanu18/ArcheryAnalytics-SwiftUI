@@ -17,7 +17,7 @@ extension StoreModel {
         
         print("  V1 detected - converting to V2")
         
-        let v2Model = StoreModel(rounds: [])
+        let v2Model = StoreModel(rounds: [], tuningRounds: [])
         
         v2Model.version = 2
         v2Model.saveDate = saveDate

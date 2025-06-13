@@ -141,7 +141,7 @@ struct TuningEditorScreen: View {
     @ObservedObject var navManager = NavManager()
 
     return NavigationStack(path: $navManager.roundsPath) {
-        TuningEditorScreen(round: storeModel.rounds[0])
+        TuningEditorScreen(round: storeModel.tuningRounds[0])
     }
     .preferredColorScheme(.dark)
     .environmentObject(storeModel)

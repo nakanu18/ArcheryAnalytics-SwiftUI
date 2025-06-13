@@ -24,17 +24,18 @@ class StoreModel: ObservableObject, Codable {
     }
     
     static var mockEmpty: StoreModel {
-        let mockRound = Round.mockEmptyRound
-        return StoreModel(rounds: [mockRound])
+        return StoreModel(rounds: [Round.mockEmptyRound],
+                          tuningRounds: [Round.mockEmptyTuningRound])
     }
     
     static var mockFull: StoreModel {
-        let mockRound = Round.mockFullRound
-        return StoreModel(rounds: [mockRound])
+        return StoreModel(rounds: [Round.mockFullRound],
+                          tuningRounds: [Round.mockEmptyTuningRound])
     }
     
     static var mock: StoreModel {
-        return StoreModel(rounds: [Round.mockEmptyRound, Round.mockFullRound])
+        return StoreModel(rounds: [Round.mockEmptyRound, Round.mockFullRound],
+                          tuningRounds: [Round.mockEmptyTuningRound])
     }
     
     private static let dateFormatter: DateFormatter = {
@@ -43,8 +44,9 @@ class StoreModel: ObservableObject, Codable {
         return formatter
     }()
     
-    init(rounds: [Round]) {
+    init(rounds: [Round], tuningRounds: [Round]) {
         self.rounds = rounds
+        self.tuningRounds = tuningRounds
     }
     
     //

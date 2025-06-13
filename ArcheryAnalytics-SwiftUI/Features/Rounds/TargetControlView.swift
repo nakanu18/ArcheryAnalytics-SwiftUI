@@ -71,29 +71,55 @@ struct TargetControlView: View {
     
     private func renderButtons() -> some View {
         HStack {
-            Button("Re-center") {
+            Spacer()
+            IconButton(caption: "Center", icon: "paperplane") {
                 scale = 1.0
                 offset = .zero
             }
             Spacer()
-            Button("Delete Last", action: onRemoveLastArrow)
-                .disabled(isLocked)
+            IconButton(caption: "Delete", icon: "delete.left", onTap: onRemoveLastArrow)
             Spacer()
-            if !isLocked {
-                selectedStage.isFinished
-                    ? Button("Lock") { isLocked = true }
-                    : Button("Next End", action: onNextEnd)
-            } else {
-                Button("Unlock") { isLocked = false }
+            Group {
+                if !isLocked {
+                    if selectedStage.isFinished {
+                        IconButton(caption: "Lock", icon: "lock") {
+                            isLocked = true
+                        }
+                    } else {
+                        IconButton(caption: "Next End", icon: "arrowshape.forward", onTap: onNextEnd)
+                    }
+                } else {
+                    IconButton(caption: "Unlock", icon: "lock.open") {
+                        isLocked = false
+                    }
+                }
             }
+            Spacer()
+
         }
-        .padding(.horizontal)
     }
     
     var body: some View {
         VStack {
             renderTarget()
             renderButtons()
+        }
+    }
+}
+
+struct IconButton: View {
+    var caption: String
+    var icon: String
+    var onTap: () -> Void
+    
+    var body: some View {
+        Button(action: onTap) {
+            VStack(spacing: 4) {
+                Image(systemName: icon)
+                    .font(.system(size: 20))
+                Text(caption)
+                    .font(.caption)
+            }
         }
     }
 }
