@@ -78,18 +78,19 @@ struct TargetControlView: View {
             }
             Spacer()
             IconButton(caption: "Delete", icon: "delete.left", onTap: onRemoveLastArrow)
+                .disabled(isLocked)
             Spacer()
             Group {
                 if !isLocked {
                     if selectedStage.isFinished {
-                        IconButton(caption: "Lock", icon: "lock") {
+                        IconButton(caption: "Lock", icon: "lock.open") {
                             isLocked = true
                         }
                     } else {
                         IconButton(caption: "Next End", icon: "arrowshape.forward", onTap: onNextEnd)
                     }
                 } else {
-                    IconButton(caption: "Unlock", icon: "lock.open") {
+                    IconButton(caption: "Unlock", icon: "lock") {
                         isLocked = false
                     }
                 }

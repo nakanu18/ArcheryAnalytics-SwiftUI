@@ -33,10 +33,8 @@ struct TuningScreen: View {
         .navigationTitle("Tuning")
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
-                Button {
+                IconButton(icon: "plus.circle") {
                     showNewRoundSheet = true
-                } label: {
-                    Image(systemName: "plus.circle")
                 }
                 .padding(.trailing, 16)
             }

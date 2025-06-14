@@ -9,7 +9,7 @@ import SwiftUI
 
 
 struct IconButton: View {
-    var caption: String
+    var caption: String?
     var icon: String
     var onTap: () -> Void
     
@@ -17,11 +17,14 @@ struct IconButton: View {
         Button(action: onTap) {
             VStack(spacing: 4) {
                 Image(systemName: icon)
-                    .font(.system(size: 20))
-                Text(caption)
-                    .font(.caption)
+                    .font(.system(size: 18))
+                if let caption = caption {
+                    Text(caption)
+                        .font(.caption)
+                }
             }
         }
+        .frame(width: 50, height: 44)
     }
 }
 
@@ -29,4 +32,5 @@ struct IconButton: View {
     IconButton(caption: "Lock", icon: "lock") {
         print("onTap")
     }
+    .background(.black)
 }

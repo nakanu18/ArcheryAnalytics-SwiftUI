@@ -52,19 +52,15 @@ struct RoundsScreen: View {
         .toolbar {
 #if DEBUG
             ToolbarItem(placement: .topBarTrailing) {
-                Button {
-                    storeModel.printData()
-                } label: {
-                    Image(systemName: "printer")
+                IconButton(icon: "printer") {
+                    showNewRoundSheet = true
                 }
                 .foregroundColor(.dvDebug)
             }
 #endif
             ToolbarItem(placement: .topBarTrailing) {
-                Button {
+                IconButton(icon: "plus.circle") {
                     showNewRoundSheet = true
-                } label: {
-                    Image(systemName: "plus.circle")
                 }
                 .padding(.trailing, 16)
             }
