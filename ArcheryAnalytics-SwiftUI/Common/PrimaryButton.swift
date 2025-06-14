@@ -26,6 +26,6 @@ struct PrimaryButton: View {
 
 #Preview {
     PrimaryButton(title: "Title", color: .red) {
-        print(123)
+        print("onTap")
     }
 }

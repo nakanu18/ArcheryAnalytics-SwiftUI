@@ -30,6 +30,9 @@ struct ConfirmationView: View {
     return ConfirmationView(title: "Are you sure?",
                             confirmMessage: "Continue",
                             cancelMessage: "Cancel",
-                            onConfirmTap: {},
-                            onCancelTap: {})
+                            onConfirmTap: {
+        print("onConfirmTap")
+    }, onCancelTap: {
+        print("onCancelTap")
+    })
 }

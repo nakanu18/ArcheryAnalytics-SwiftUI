@@ -95,7 +95,10 @@ struct TargetDetectorView: View {
         GroupAnalyzer(arrowHoles: arrowHoles)
     }
 
-    return TargetDetectorView(targetFaceType: .gold, arrowHoles: arrowHoles, targetWidth: 40, groupAnalyzer: groupAnalyzer) { arrowHole in
+    return TargetDetectorView(targetFaceType: .gold,
+                              arrowHoles: arrowHoles,
+                              targetWidth: 40,
+                              groupAnalyzer: groupAnalyzer) { arrowHole in
         arrowHoles.append(arrowHole)
     }
 }
