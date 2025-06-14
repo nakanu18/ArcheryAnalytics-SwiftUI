@@ -120,13 +120,11 @@ struct RoundEditorScreen: View {
         .navigationTitle("Round Editor")
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
-                Button {
+                IconButton(icon: "dot.circle.viewfinder") {
                     showTargetView = !showTargetView
                     if !showTargetView {
                         selectedEndIndex = -1
                     }
-                } label: {
-                    Image(systemName: "target")
                 }
                 .padding(.trailing, 16)
                 .disabled(!showTargetView)
